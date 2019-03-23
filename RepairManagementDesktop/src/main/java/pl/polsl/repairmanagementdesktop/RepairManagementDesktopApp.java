@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
-public class RepairManagmentApplication extends Application {
+public class RepairManagementDesktopApp extends Application {
 
     private ConfigurableApplicationContext springContext;
     private Parent rootNode;
@@ -18,7 +18,7 @@ public class RepairManagmentApplication extends Application {
 
     @Override
     public void init() throws Exception {
-        springContext = SpringApplication.run(RepairManagmentApplication.class);
+        springContext = SpringApplication.run(RepairManagementDesktopApp.class);
         fxmlLoader = new FXMLLoader();
         fxmlLoader.setControllerFactory(springContext::getBean);
     }
@@ -30,12 +30,13 @@ public class RepairManagmentApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        fxmlLoader.setLocation(getClass().getResource("/main.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/loginScreen.fxml"));
         rootNode = fxmlLoader.load();
 
         primaryStage.setTitle("Repair Management System");
-        Scene scene = new Scene(rootNode, 800, 600);
+        Scene scene = new Scene(rootNode);
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
