@@ -1,4 +1,8 @@
-package pl.polsl.repairmanagementdesktop.model;
+package pl.polsl.repairmanagementdesktop.model.activity;
+
+import pl.polsl.repairmanagementdesktop.model.activitytype.ActivityTypeDTO;
+import pl.polsl.repairmanagementdesktop.model.personnel.PersonnelDTO;
+import pl.polsl.repairmanagementdesktop.model.request.RequestDTO;
 
 import java.sql.Timestamp;
 

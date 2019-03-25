@@ -9,10 +9,11 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.client.RestTemplate;
 import pl.polsl.repairmanagementdesktop.AuthenticationManager;
 
 import javafx.event.ActionEvent;
+import pl.polsl.repairmanagementdesktop.model.client.ClientRestClient;
+
 import java.io.IOException;
 
 @Controller
@@ -27,21 +28,21 @@ public class LoginScreenController {
     @FXML
     private Label messageLabel;
 
+    @Autowired
+    ClientRestClient clientRestClient;
 
-    private final RestTemplate client;// = new RestClient();
+   // private final RestTemplate client;// = new RestClient();
     private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public LoginScreenController(RestTemplate client, AuthenticationManager authenticationManager) {
-        this.client = client;
+    public LoginScreenController(AuthenticationManager authenticationManager) {
+       // this.client = client;
         this.authenticationManager = authenticationManager;
     }
 
     @FXML
     private void loginButtonClicked(ActionEvent event) throws IOException {
 
-//        List<AddressDTO> addresses = Arrays.asList(client.getForObject("/address", AddressDTO[].class));
-//        label.setText(addresses.get(0).toString());
 
         switch (authenticationManager.authorizeForRole(usernameField.getText(), passwordField.getText())){
             case FAILED:{
@@ -58,6 +59,7 @@ public class LoginScreenController {
                 Stage window = (Stage) ((Node)event.getSource() ).getScene().getWindow();
 
                 window.setScene(nextScene);
+                window.setResizable(true);
                 window.show();
                 break;
             }

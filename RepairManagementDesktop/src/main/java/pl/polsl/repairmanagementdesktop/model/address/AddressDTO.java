@@ -1,4 +1,4 @@
-package pl.polsl.repairmanagementdesktop.model;
+package pl.polsl.repairmanagementdesktop.model.address;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
