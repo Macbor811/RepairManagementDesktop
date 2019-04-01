@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import pl.polsl.repairmanagementdesktop.AuthenticationManager;
 
 import javafx.event.ActionEvent;
-import pl.polsl.repairmanagementdesktop.model.client.ClientRestClient;
+import pl.polsl.repairmanagementdesktop.Loader;
 
 import java.io.IOException;
 
@@ -28,16 +28,13 @@ public class LoginScreenController {
     @FXML
     private Label messageLabel;
 
-    @Autowired
-    ClientRestClient clientRestClient;
-
-   // private final RestTemplate client;// = new RestClient();
     private final AuthenticationManager authenticationManager;
+    private final Loader fxmlLoader;
 
-    @Autowired
-    public LoginScreenController(AuthenticationManager authenticationManager) {
-       // this.client = client;
+    public LoginScreenController(AuthenticationManager authenticationManager, Loader fxmlLoader) {
+       // this.customer = customer;
         this.authenticationManager = authenticationManager;
+        this.fxmlLoader = fxmlLoader;
     }
 
     @FXML
@@ -53,7 +50,7 @@ public class LoginScreenController {
                 break;
             }
             case MANAGER:{
-                Parent managerMainScreen = FXMLLoader.load(getClass().getResource("/managerMainScreen.fxml"));
+                Parent managerMainScreen = fxmlLoader.load("/managerMainScreen.fxml");
                 Scene nextScene = new Scene(managerMainScreen);
 
                 Stage window = (Stage) ((Node)event.getSource() ).getScene().getWindow();

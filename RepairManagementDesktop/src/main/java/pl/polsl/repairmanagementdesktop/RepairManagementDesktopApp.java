@@ -8,19 +8,26 @@ import javafx.stage.Stage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
 
 @SpringBootApplication
 public class RepairManagementDesktopApp extends Application {
 
     private ConfigurableApplicationContext springContext;
     private Parent rootNode;
-    private FXMLLoader fxmlLoader;
+    private FXMLLoader fxmlLoader = new FXMLLoader();
 
     @Override
     public void init() throws Exception {
         springContext = SpringApplication.run(RepairManagementDesktopApp.class);
-        fxmlLoader = new FXMLLoader();
         fxmlLoader.setControllerFactory(springContext::getBean);
+    }
+
+    @Bean
+    @Scope("prototype")
+    public FXMLLoader getFxmlLoader() {
+        return fxmlLoader;
     }
 
     public static void main(String[] args) {

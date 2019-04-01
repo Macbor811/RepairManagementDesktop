@@ -3,26 +3,66 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Pagination?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.ManagerMainScreenController">
    <children>
       <TabPane layoutX="14.0" layoutY="36.0" prefHeight="553.0" prefWidth="774.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="30.0">
         <tabs>
-          <Tab text="Clients">
+          <Tab text="Requests">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="10.0" layoutY="44.0" prefHeight="432.0" prefWidth="780.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="44.0">
+                           <columns>
+                              <TableColumn prefWidth="75.0" text="Id" />
+                              <TableColumn prefWidth="97.0" text="Registered date" />
+                              <TableColumn prefWidth="61.0" text="Status" />
+                              <TableColumn prefWidth="99.0" text="Finalized date" />
+                              <TableColumn prefWidth="61.0" text="Result" />
+                              <TableColumn prefWidth="187.0" text="Client" />
+                           </columns>
+                        </TableView>
+                        <ToolBar layoutX="14.0" layoutY="10.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <items>
+                              <Button mnemonicParsing="false" text="Show" />
+                              <Button mnemonicParsing="false" text="Update" />
+                              <Button fx:id="addRequestButton" mnemonicParsing="false" onAction="#addClientButtonClicked" text="Create" />
+                              <Pane prefHeight="30.0" prefWidth="271.0" />
+                              <MenuButton mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Navigate to:">
+                                <items>
+                                  <MenuItem mnemonicParsing="false" text="Action 1" />
+                                  <MenuItem mnemonicParsing="false" text="Action 2" />
+                                </items>
+                              </MenuButton>
+                              <Button mnemonicParsing="false" text="Manage activities" />
+                              <Button mnemonicParsing="false" text="Finalize" />
+                              <Button mnemonicParsing="false" text="Cancel" />
+                           </items>
+                        </ToolBar>
+                        <Pagination layoutX="157.0" layoutY="461.0" maxPageIndicatorCount="2" prefHeight="51.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+          </Tab>
+          <Tab text="Customers">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="10.0" layoutY="44.0" prefHeight="487.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="44.0">
+                        <TableView fx:id="customersTableView" layoutX="10.0" layoutY="44.0" prefHeight="432.0" prefWidth="780.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="44.0">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="First name" />
-                            <TableColumn prefWidth="75.0" text="Last name" />
+                              <TableColumn fx:id="customerIdColumn" prefWidth="61.0" text="Id" />
+                            <TableColumn fx:id="customerFNameColumn" prefWidth="75.0" text="First name" />
+                            <TableColumn fx:id="customerLNameColumn" prefWidth="75.0" text="Last name" />
                               <TableColumn prefWidth="75.0" text="Phone" />
                               <TableColumn prefWidth="75.0" text="City" />
                               <TableColumn prefWidth="75.0" text="Street" />
@@ -30,23 +70,35 @@
                               <TableColumn prefWidth="61.0" text="Number" />
                           </columns>
                         </TableView>
-                      <AnchorPane layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
                         <ToolBar layoutX="14.0" layoutY="10.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <items>
-                            <Button mnemonicParsing="false" text="Filter" />
-                              <Button fx:id="addClientButton" mnemonicParsing="false" onAction="#addClientButtonClicked" text="Create" />
+                           <items>
+                              <Button fx:id="showCustomersButton" mnemonicParsing="false" onAction="#showCustomersButtonClicked" text="Show" />
                               <Button mnemonicParsing="false" text="Update" />
-                          </items>
+                              <Button fx:id="addClientButton1" mnemonicParsing="false" onAction="#addClientButtonClicked" text="Create" />
+                           </items>
                         </ToolBar>
+                        <Pagination layoutX="157.0" layoutY="461.0" maxPageIndicatorCount="2" prefHeight="51.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Requests">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </Tab>
+            <Tab text="Items">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="10.0" layoutY="44.0" prefHeight="432.0" prefWidth="780.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="44.0" />
+                        <ToolBar layoutX="14.0" layoutY="10.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <items>
+                              <Button mnemonicParsing="false" text="Show" />
+                              <Button mnemonicParsing="false" text="Update" />
+                              <Button fx:id="addClientButton11" mnemonicParsing="false" onAction="#addClientButtonClicked" text="Create" />
+                           </items>
+                        </ToolBar>
+                        <Pagination layoutX="157.0" layoutY="461.0" maxPageIndicatorCount="2" prefHeight="51.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
         </tabs>
       </TabPane>
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="794.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

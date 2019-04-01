@@ -17,8 +17,7 @@ public class AddressDTO {
 
     }
 
-    public AddressDTO(Integer id, String postCode, String city, String street, Integer number) {
-        this.id = id;
+    public AddressDTO(String postCode, String city, String street, Integer number) {
         this.postCode = postCode;
         this.city = city;
         this.street = street;
