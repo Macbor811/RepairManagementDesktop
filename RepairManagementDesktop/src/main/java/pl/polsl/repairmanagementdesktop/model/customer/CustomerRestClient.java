@@ -24,8 +24,8 @@ public class CustomerRestClient {
     }
 
 
-     public void save(CustomerDTO client){
-         HttpEntity<CustomerDTO> request = new HttpEntity<>(client);
+     public void save(CustomerDTO customerDTO){
+         HttpEntity<CustomerDTO> request = new HttpEntity<>(customerDTO);
          restTemplate.postForObject(BASE_URI, request, CustomerDTO.class);
      }
 

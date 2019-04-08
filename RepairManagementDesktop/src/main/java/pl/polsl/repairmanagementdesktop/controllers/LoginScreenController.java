@@ -32,7 +32,6 @@ public class LoginScreenController {
     private final Loader fxmlLoader;
 
     public LoginScreenController(AuthenticationManager authenticationManager, Loader fxmlLoader) {
-       // this.customer = customer;
         this.authenticationManager = authenticationManager;
         this.fxmlLoader = fxmlLoader;
     }

@@ -11,9 +11,9 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="609.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="609.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.AddCustomerScreenController">
    <children>
-      <Label layoutX="35.0" layoutY="40.0" text="Add client data">
+      <Label layoutX="35.0" layoutY="40.0" text="Enter customer data">
          <font>
             <Font size="15.0" />
          </font>
@@ -32,17 +32,17 @@
             <Label alignment="CENTER" contentDisplay="CENTER" text="First name:" textAlignment="CENTER" GridPane.halignment="RIGHT" />
             <Label text="Last name:" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
             <Label text="Phone number:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-            <TextField prefHeight="25.0" prefWidth="213.0" scaleShape="false" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+            <TextField fx:id="firstNameTextField" prefHeight="25.0" prefWidth="213.0" scaleShape="false" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
             </TextField>
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="lastNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
             </TextField>
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <TextField fx:id="phoneNumTextField" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
@@ -70,30 +70,31 @@
             <Label alignment="CENTER" contentDisplay="CENTER" text="Postal code:" textAlignment="CENTER" GridPane.halignment="RIGHT" />
             <Label text="City:" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
             <Label text="Street:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-            <TextField prefHeight="25.0" prefWidth="213.0" scaleShape="false" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+            <TextField fx:id="postCodeTextField" prefHeight="25.0" prefWidth="213.0" scaleShape="false" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
             </TextField>
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="cityTextField" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
             </TextField>
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <TextField fx:id="streetTextField" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
             </TextField>
             <Label text="Number:" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-            <TextField prefHeight="25.0" prefWidth="92.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <TextField fx:id="numberTextField" prefHeight="25.0" prefWidth="92.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="10.0" right="180.0" />
                </GridPane.margin>
             </TextField>
          </children>
       </GridPane>
-      <Button layoutX="389.0" layoutY="563.0" mnemonicParsing="false" text="Add" />
+      <Button fx:id="addCustomerButton" layoutX="389.0" layoutY="563.0" mnemonicParsing="false" onAction="#addCustomerButtonClicked" text="Add" />
       <Button layoutX="34.0" layoutY="563.0" mnemonicParsing="false" text="Cancel" />
+      <Label fx:id="messageLabel" layoutX="216.0" layoutY="555.0" />
    </children>
 </Pane>

@@ -66,6 +66,15 @@ public class CustomerDTO {
         this.address = address;
     }
 
+//////////////Getters for TableView reflection////////////////////////////////
+    public String getStreet() { return this.address.getStreet(); }
+
+    public String getCity() { return address.getCity(); }
+
+    public String getPostCode() { return address.getPostCode(); }
+
+    public String getNumber() { return address.getNumber(); }
+//////////////////////////////////////////////////////////////////
     public Collection<ItemDTO> getItems() {
         return items;
     }
@@ -89,6 +98,16 @@ public class CustomerDTO {
     @Override
     public int hashCode() {
         return Objects.hash(firstName, lastName, phoneNumber, address);
+    }
+
+    @Override
+    public String toString() {
+        return "CustomerDTO{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", street=" +
+                '}';
     }
 }
 

@@ -7,11 +7,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Controller;
+import pl.polsl.repairmanagementdesktop.Loader;
+import pl.polsl.repairmanagementdesktop.TableColumnFactory;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerDTO;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerRestClient;
 
@@ -31,30 +34,43 @@ public class ManagerMainScreenController {
     private Button showCustomersButton;
 
     private final CustomerRestClient customerRC;
+    private final Loader fxmlLoader;
 
-    public ManagerMainScreenController(CustomerRestClient customerRC) {
+    public ManagerMainScreenController(CustomerRestClient customerRC, Loader fxmlLoader) {
         this.customerRC = customerRC;
+        this.fxmlLoader = fxmlLoader;
     }
 
 
-    @FXML
-    public void initialize() {
 
+
+    private void initCustomerTable(){
         customersTableView.getColumns().clear();
 
-        TableColumn<CustomerDTO, Integer> idColumn = new TableColumn<>("ID");
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        TableColumn<CustomerDTO, Integer> idColumn = TableColumnFactory.createColumn("ID", "id");
+        TableColumn<CustomerDTO, String> nameColumn = TableColumnFactory.createColumn("First name", "firstName");
+        TableColumn<CustomerDTO, String>  surnameColumn = TableColumnFactory.createColumn("Last name", "lastName");
+        TableColumn<CustomerDTO, String>  phoneColumn = TableColumnFactory.createColumn("Phone", "phoneNumber");
+        TableColumn<CustomerDTO, String> streetColumn = TableColumnFactory.createColumn("Street", "street");
+        TableColumn<CustomerDTO, String> cityColumn = TableColumnFactory.createColumn("City", "city");
+        TableColumn<CustomerDTO, String> postCodeColumn = TableColumnFactory.createColumn("Postal code", "postCode");
+        TableColumn<CustomerDTO, String> numberColumn = TableColumnFactory.createColumn("Number", "number");
 
-        TableColumn<CustomerDTO, String> nameColumn = new TableColumn<>("First name");
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        customersTableView.getColumns().addAll(
+                idColumn,
+                nameColumn,
+                surnameColumn,
+                phoneColumn,
+                cityColumn,
+                streetColumn,
+                postCodeColumn,
+                numberColumn
+        );
+    }
 
-        TableColumn<CustomerDTO, String>  surnameColumn = new TableColumn<>("Last name");
-        surnameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-
-
-        customersTableView.getColumns().addAll(idColumn, nameColumn, surnameColumn);
-
-
+    @FXML
+    public void initialize() {
+        initCustomerTable();
 
     }
 
@@ -62,7 +78,7 @@ public class ManagerMainScreenController {
 
     @FXML
     private void addClientButtonClicked(ActionEvent event) throws IOException{
-        Parent managerMainScreen = FXMLLoader.load(getClass().getResource("/addCustomerScreen.fxml"));
+        Parent managerMainScreen = fxmlLoader.load("/addCustomerScreen.fxml");
         Scene nextScene = new Scene(managerMainScreen);
 
         Stage window = new Stage();

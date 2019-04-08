@@ -11,13 +11,13 @@ public class AddressDTO {
     private String postCode;
     private String city;
     private String street;
-    private Integer number;
+    private String number;
 
     public AddressDTO(){
 
     }
 
-    public AddressDTO(String postCode, String city, String street, Integer number) {
+    public AddressDTO(String postCode, String city, String street, String number) {
         this.postCode = postCode;
         this.city = city;
         this.street = street;
@@ -56,11 +56,11 @@ public class AddressDTO {
         this.street = street;
     }
 
-    public Integer getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(Integer number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
