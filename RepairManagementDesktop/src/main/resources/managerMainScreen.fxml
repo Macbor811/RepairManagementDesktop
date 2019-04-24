@@ -23,7 +23,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="925.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.ManagerMainScreenController">
+<AnchorPane prefHeight="693.0" prefWidth="1176.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.ManagerMainScreenController">
    <children>
       <TabPane layoutX="14.0" layoutY="36.0" prefHeight="553.0" prefWidth="774.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
         <tabs>
@@ -50,7 +50,7 @@
                         </ToolBar>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="531.0" prefWidth="931.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <TableView fx:id="customersTableView11" layoutX="245.0" layoutY="50.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="432.0" prefWidth="655.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="44.0">
+                              <TableView fx:id="customersTableView11" layoutX="245.0" layoutY="50.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="432.0" prefWidth="655.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="44.0">
                                  <columns>
                                     <TableColumn prefWidth="75.0" text="ID" />
                                     <TableColumn prefWidth="97.0" text="Registered date" />
@@ -66,6 +66,14 @@
                                     <Button fx:id="showCustomersButton11" mnemonicParsing="false" onAction="#showCustomersButtonClicked" text="Show" />
                                     <Button mnemonicParsing="false" text="Update" />
                                     <Button fx:id="addClientButton11" mnemonicParsing="false" onAction="#addClientButtonClicked" text="Create" />
+                                    <MenuButton mnemonicParsing="false" text="Navigate to">
+                                      <items>
+                                        <MenuItem mnemonicParsing="false" text="Client" />
+                                        <MenuItem mnemonicParsing="false" text="Item" />
+                                      </items>
+                                    </MenuButton>
+                                    <Button mnemonicParsing="false" text="Finalize" />
+                                    <Button mnemonicParsing="false" text="Cancel" />
                                  </items>
                               </ToolBar>
                               <Pagination layoutX="157.0" layoutY="461.0" maxPageIndicatorCount="2" prefHeight="51.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
@@ -109,6 +117,35 @@
                                                 <DatePicker prefHeight="25.0" prefWidth="233.0" promptText="Finalized date" GridPane.rowIndex="3" />
                                              </children>
                                           </GridPane>
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </ScrollPane>
+                              <ScrollPane layoutX="932.0" layoutY="44.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="432.0" prefWidth="241.0" AnchorPane.bottomAnchor="55.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="44.0">
+                                 <content>
+                                    <AnchorPane prefHeight="517.0" prefWidth="239.0">
+                                       <children>
+                                          <ToolBar layoutX="-1.0" layoutY="11.0" prefHeight="15.0" prefWidth="239.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <items>
+                                                <Label text="Activities">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                             </items>
+                                          </ToolBar>
+                                          <Button layoutX="14.0" layoutY="325.0" mnemonicParsing="false" text="Detailed view" />
+                                          <TableView layoutX="12.0" layoutY="39.0" prefHeight="240.0" prefWidth="221.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="40.0">
+                                            <columns>
+                                              <TableColumn prefWidth="27.0" text="#" />
+                                              <TableColumn minWidth="0.0" prefWidth="119.0" text="Description" />
+                                                <TableColumn prefWidth="61.0" text="Status" />
+                                            </columns>
+                                          </TableView>
+                                          <Button layoutX="14.0" layoutY="293.0" mnemonicParsing="false" text="Add" />
+                                          <Button layoutX="58.0" layoutY="293.0" mnemonicParsing="false" text="Update" />
+                                          <Button layoutX="120.0" layoutY="293.0" mnemonicParsing="false" text="Finalize" />
+                                          <Button layoutX="182.0" layoutY="293.0" mnemonicParsing="false" text="Cancel" />
                                        </children>
                                     </AnchorPane>
                                  </content>
