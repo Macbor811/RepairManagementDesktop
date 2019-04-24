@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="609.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.AddCustomerScreenController">
+   <children>
+      <Label layoutX="35.0" layoutY="40.0" text="Request registration">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Button fx:id="addCustomerButton" layoutX="389.0" layoutY="563.0" mnemonicParsing="false" onAction="#addCustomerButtonClicked" text="Add" />
+      <Button layoutX="34.0" layoutY="563.0" mnemonicParsing="false" text="Cancel" />
+      <Label fx:id="messageLabel" layoutX="216.0" layoutY="555.0" />
+      <TextArea layoutX="27.0" layoutY="131.0" prefHeight="157.0" prefWidth="407.0" wrapText="true" />
+      <Label layoutX="34.0" layoutY="103.0" text="Enter description" />
+      <Label layoutX="34.0" layoutY="318.0" text="Select responsible manager" />
+      <Label layoutX="35.0" layoutY="419.0" text="Select request subject" />
+   </children>
+</Pane>

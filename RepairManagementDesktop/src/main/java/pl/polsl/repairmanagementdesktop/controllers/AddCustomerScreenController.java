@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Controller;
+import pl.polsl.repairmanagementdesktop.NumericField;
 import pl.polsl.repairmanagementdesktop.model.address.AddressDTO;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerDTO;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerRestClient;
@@ -25,7 +26,7 @@ public class AddCustomerScreenController {
     @FXML
     private  TextField lastNameTextField;
     @FXML
-    private  TextField phoneNumTextField;
+    private TextField phoneNumTextField;
     @FXML
     private  TextField postCodeTextField;
     @FXML

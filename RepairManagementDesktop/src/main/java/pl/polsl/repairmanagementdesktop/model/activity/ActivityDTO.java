@@ -1,7 +1,7 @@
 package pl.polsl.repairmanagementdesktop.model.activity;
 
 import pl.polsl.repairmanagementdesktop.model.activitytype.ActivityTypeDTO;
-import pl.polsl.repairmanagementdesktop.model.personnel.PersonnelDTO;
+import pl.polsl.repairmanagementdesktop.model.employee.EmployeeDTO;
 import pl.polsl.repairmanagementdesktop.model.request.RequestDTO;
 
 import java.sql.Timestamp;
@@ -16,7 +16,7 @@ public class ActivityDTO {
     private Timestamp registerDate;
     private Timestamp endDate;
     private RequestDTO request;
-    private PersonnelDTO personnel;
+    private EmployeeDTO personnel;
     private ActivityTypeDTO activityType;
 
 
@@ -84,11 +84,11 @@ public class ActivityDTO {
         this.request = request;
     }
 
-    public PersonnelDTO getPersonnel() {
+    public EmployeeDTO getPersonnel() {
         return personnel;
     }
 
-    public void setPersonnel(PersonnelDTO personnel) {
+    public void setPersonnel(EmployeeDTO personnel) {
         this.personnel = personnel;
     }
 
