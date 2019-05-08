@@ -24,26 +24,26 @@ public class CustomerRestClient {
     }
 
 
-     public void save(CustomerDTO customerDTO){
-         HttpEntity<CustomerDTO> request = new HttpEntity<>(customerDTO);
-         restTemplate.postForObject(BASE_URI, request, CustomerDTO.class);
-     }
-
-
-     public List<CustomerDTO> findAll(){
-         return Arrays.asList(restTemplate.getForObject(BASE_URI, CustomerDTO[].class));
-     }
-
-     public Optional<CustomerDTO> findById(Integer id){
-        try {
-            return Optional.ofNullable(restTemplate.getForObject(BASE_URI + "/" + id, CustomerDTO.class));
-        } catch (HttpClientErrorException e) {
-            if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
-                return Optional.empty();
-            }
-            throw e;
-        }
-     }
+//     public void save(CustomerDTO customerDTO){
+//         HttpEntity<CustomerDTO> request = new HttpEntity<>(customerDTO);
+//         restTemplate.postForObject(BASE_URI, request, CustomerDTO.class);
+//     }
+//
+//
+//     public List<CustomerDTO> findAll(){
+//         return Arrays.asList(restTemplate.getForObject(BASE_URI, CustomerDTO[].class));
+//     }
+//
+//     public Optional<CustomerDTO> findById(Integer id){
+//        try {
+//            return Optional.ofNullable(restTemplate.getForObject(BASE_URI + "/" + id, CustomerDTO.class));
+//        } catch (HttpClientErrorException e) {
+//            if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+//                return Optional.empty();
+//            }
+//            throw e;
+//        }
+//     }
 
 
 

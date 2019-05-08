@@ -10,8 +10,6 @@ import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Controller;
 import pl.polsl.repairmanagementdesktop.NumericField;
-import pl.polsl.repairmanagementdesktop.model.address.AddressDTO;
-import pl.polsl.repairmanagementdesktop.model.customer.CustomerDTO;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerRestClient;
 
 import java.util.Arrays;
@@ -78,19 +76,19 @@ public class AddCustomerScreenController {
 
         if (fieldsList.stream().noneMatch(field -> field.getText().isEmpty())){
 
-            CustomerDTO customer = new CustomerDTO(
-                    firstNameTextField.getText(),
-                    lastNameTextField.getText(),
-                    phoneNumTextField.getText(),
-                    new AddressDTO(
-                            postCodeTextField.getText(),
-                            cityTextField.getText(),
-                            streetTextField.getText(),
-                            numberTextField.getText()
-                    )
-            );
-
-            customerRC.save(customer);
+//            CustomerDTO customer = new CustomerDTO(
+//                    firstNameTextField.getText(),
+//                    lastNameTextField.getText(),
+//                    phoneNumTextField.getText(),
+//                    new AddressDTO(
+//                            postCodeTextField.getText(),
+//                            cityTextField.getText(),
+//                            streetTextField.getText(),
+//                            numberTextField.getText()
+//                    )
+//            );
+//
+//            customerRC.save(customer);
 
             final Node source = (Node) event.getSource();
             final Stage stage = (Stage) source.getScene().getWindow();
