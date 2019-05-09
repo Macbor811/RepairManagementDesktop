@@ -2,5 +2,6 @@ spring:
     main:
       web:
       web-application-type: none
+      allow-bean-definition-overriding: true
 server:
   address: http://localhost:8080/

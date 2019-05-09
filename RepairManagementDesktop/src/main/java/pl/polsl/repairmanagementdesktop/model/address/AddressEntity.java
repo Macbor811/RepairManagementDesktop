@@ -4,13 +4,16 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeEntity;
 import uk.co.blackpepper.bowman.InlineAssociationDeserializer;
+import uk.co.blackpepper.bowman.annotation.RemoteResource;
+import uk.co.blackpepper.bowman.annotation.ResourceId;
 
+import java.net.URI;
 import java.util.Collection;
 import java.util.Objects;
 
-
+@RemoteResource("/addressEntity")
 public class AddressEntity {
-    private Integer id;
+    private URI id;
     private String postCode;
     private String city;
     private String street;
@@ -18,24 +21,22 @@ public class AddressEntity {
     private Collection<CustomerEntity> customers;
     private Collection<EmployeeEntity> employees;
 
-    public AddressEntity(String postCode, String city, String street, String number, Collection<CustomerEntity> customers, Collection<EmployeeEntity> employees) {
+    public AddressEntity(String postCode, String city, String street, String number) {
         this.postCode = postCode;
         this.city = city;
         this.street = street;
         this.number = number;
-        this.customers = customers;
-        this.employees = employees;
     }
 
     public AddressEntity(){
 
     }
 
-
-    public Integer getId() {
+    @ResourceId
+    public URI getId() {
         return id;
     }
-    public void setId(Integer id) {
+    public void setId(URI id) {
         this.id = id;
     }
 

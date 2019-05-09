@@ -5,13 +5,17 @@ import pl.polsl.repairmanagementdesktop.model.item.ItemEntity;
 import pl.polsl.repairmanagementdesktop.model.address.AddressEntity;
 import uk.co.blackpepper.bowman.InlineAssociationDeserializer;
 import uk.co.blackpepper.bowman.annotation.LinkedResource;
+import uk.co.blackpepper.bowman.annotation.RemoteResource;
+import uk.co.blackpepper.bowman.annotation.ResourceId;
 
+import java.net.URI;
 import java.util.Collection;
 import java.util.Objects;
 
 
+@RemoteResource("/customerEntity")
 public class CustomerEntity {
-    private Integer id;
+    private URI id;
     private String firstName;
     private String lastName;
     private String phoneNumber;
@@ -26,10 +30,11 @@ public class CustomerEntity {
         this.address = address;
     }
 
-    public Integer getId() {
+    @ResourceId
+    public URI getId() {
         return id;
     }
-    public void setId(Integer id) {
+    public void setId(URI id) {
         this.id = id;
     }
 

@@ -8,10 +8,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import pl.polsl.repairmanagementdesktop.NumericField;
+import pl.polsl.repairmanagementdesktop.model.address.AddressEntity;
+import pl.polsl.repairmanagementdesktop.model.address.AddressRestClient;
+import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerRestClient;
 
+import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.UnaryOperator;
@@ -41,9 +45,12 @@ public class AddCustomerScreenController {
     private List<TextField> fieldsList;
 
     private final CustomerRestClient customerRC;
+    private final AddressRestClient addressRC;
 
-    public AddCustomerScreenController(CustomerRestClient customerRC) {
+    @Autowired
+    public AddCustomerScreenController(CustomerRestClient customerRC, AddressRestClient addressRC) {
         this.customerRC = customerRC;
+        this.addressRC = addressRC;
     }
 
     @FXML
@@ -76,19 +83,25 @@ public class AddCustomerScreenController {
 
         if (fieldsList.stream().noneMatch(field -> field.getText().isEmpty())){
 
-//            CustomerDTO customer = new CustomerDTO(
-//                    firstNameTextField.getText(),
-//                    lastNameTextField.getText(),
-//                    phoneNumTextField.getText(),
-//                    new AddressDTO(
-//                            postCodeTextField.getText(),
-//                            cityTextField.getText(),
-//                            streetTextField.getText(),
-//                            numberTextField.getText()
-//                    )
-//            );
-//
-//            customerRC.save(customer);
+            AddressEntity address =  new AddressEntity(
+                    postCodeTextField.getText(),
+                    cityTextField.getText(),
+                    streetTextField.getText(),
+                    numberTextField.getText()
+            );
+
+            URI id = addressRC.save(address);
+
+            address = addressRC.find(id);
+
+            CustomerEntity customer = new CustomerEntity(
+                    firstNameTextField.getText(),
+                    lastNameTextField.getText(),
+                    phoneNumTextField.getText(),
+                    address
+            );
+
+            customerRC.save(customer);
 
             final Node source = (Node) event.getSource();
             final Stage stage = (Stage) source.getScene().getWindow();

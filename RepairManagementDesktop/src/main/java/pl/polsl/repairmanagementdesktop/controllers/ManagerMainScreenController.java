@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import org.springframework.stereotype.Controller;
 import pl.polsl.repairmanagementdesktop.Loader;
 import pl.polsl.repairmanagementdesktop.TableColumnFactory;
-import pl.polsl.repairmanagementdesktop.model.customer.CustomerDTO;
+import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerRestClient;
 
 import java.io.IOException;
@@ -25,7 +25,7 @@ public class ManagerMainScreenController {
 
 
     @FXML
-    private TableView<CustomerDTO> customersTableView;
+    private TableView<CustomerEntity> customersTableView;
 
     @FXML
     private Button addCustomerButton;
@@ -47,24 +47,24 @@ public class ManagerMainScreenController {
     private void initCustomerTable(){
         customersTableView.getColumns().clear();
 
-        TableColumn<CustomerDTO, Integer> idColumn = TableColumnFactory.createColumn("ID", "id");
-        TableColumn<CustomerDTO, String> nameColumn = TableColumnFactory.createColumn("First name", "firstName");
-        TableColumn<CustomerDTO, String>  surnameColumn = TableColumnFactory.createColumn("Last name", "lastName");
-        TableColumn<CustomerDTO, String>  phoneColumn = TableColumnFactory.createColumn("Phone", "phoneNumber");
-        TableColumn<CustomerDTO, String> streetColumn = TableColumnFactory.createColumn("Street", "street");
-        TableColumn<CustomerDTO, String> cityColumn = TableColumnFactory.createColumn("City", "city");
-        TableColumn<CustomerDTO, String> postCodeColumn = TableColumnFactory.createColumn("Postal code", "postCode");
-        TableColumn<CustomerDTO, String> numberColumn = TableColumnFactory.createColumn("Number", "number");
+        //TableColumn<CustomerEntity, Integer> idColumn = TableColumnFactory.createColumn("ID", "id");
+        TableColumn<CustomerEntity, String> nameColumn = TableColumnFactory.createColumn("First name", "firstName");
+        TableColumn<CustomerEntity, String>  surnameColumn = TableColumnFactory.createColumn("Last name", "lastName");
+        TableColumn<CustomerEntity, String>  phoneColumn = TableColumnFactory.createColumn("Phone", "phoneNumber");
+       // TableColumn<CustomerDTO, String> streetColumn = TableColumnFactory.createColumn("Street", "street");
+        //TableColumn<CustomerDTO, String> cityColumn = TableColumnFactory.createColumn("City", "city");
+        //TableColumn<CustomerDTO, String> postCodeColumn = TableColumnFactory.createColumn("Postal code", "postCode");
+        //TableColumn<CustomerDTO, String> numberColumn = TableColumnFactory.createColumn("Number", "number");
 
         customersTableView.getColumns().addAll(
-                idColumn,
+                //idColumn,
                 nameColumn,
                 surnameColumn,
-                phoneColumn,
-                cityColumn,
-                streetColumn,
-                postCodeColumn,
-                numberColumn
+                phoneColumn
+                //cityColumn,
+                //streetColumn,
+                //postCodeColumn,
+                //numberColumn
         );
     }
 
@@ -73,8 +73,6 @@ public class ManagerMainScreenController {
         initCustomerTable();
 
     }
-
-
 
     @FXML
     private void addClientButtonClicked(ActionEvent event) throws IOException{
@@ -91,7 +89,7 @@ public class ManagerMainScreenController {
     @FXML
     private void showCustomersButtonClicked(){
         customersTableView.getItems().clear();
-        for (CustomerDTO customer : customerRC.findAll()){
+        for (CustomerEntity customer : customerRC.findAll()){
             customersTableView.getItems().add(customer);
         }
     }
