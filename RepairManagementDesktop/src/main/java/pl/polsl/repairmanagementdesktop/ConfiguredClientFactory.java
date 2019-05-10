@@ -11,7 +11,7 @@ public class ConfiguredClientFactory {
 
     @Bean
     public ClientFactory configuredClient(@Value("${server.address}") String server) {
-        ClientFactory factory = Configuration.builder().setBaseUri(server).build().buildClientFactory();
+        ClientFactory factory = Configuration.builder().setBaseUri(server + "/api").build().buildClientFactory();
         return factory;
     }
 

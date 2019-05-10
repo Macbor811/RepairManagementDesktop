@@ -6,14 +6,17 @@ import pl.polsl.repairmanagementdesktop.model.activity.ActivityEntity;
 import pl.polsl.repairmanagementdesktop.model.address.AddressEntity;
 import uk.co.blackpepper.bowman.InlineAssociationDeserializer;
 import uk.co.blackpepper.bowman.annotation.LinkedResource;
+import uk.co.blackpepper.bowman.annotation.ResourceId;
 
+import java.net.URI;
 import java.util.Collection;
 import java.util.Objects;
 
 
 public class EmployeeEntity {
 
-    private Integer id;
+    private URI uri;
+
     private String firstName;
     private String lastName;
     private String phoneNumber;
@@ -35,11 +38,12 @@ public class EmployeeEntity {
         this.address = address;
     }
 
-    public Integer getId() {
-        return id;
+    @ResourceId
+    public URI getUri() {
+        return uri;
     }
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUri(URI uri) {
+        this.uri = uri;
     }
 
     public String getFirstName() {
@@ -108,25 +112,6 @@ public class EmployeeEntity {
         this.requests = requests;
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        EmployeeEntity that = (EmployeeEntity) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(firstName, that.firstName) &&
-                Objects.equals(lastName, that.lastName) &&
-                Objects.equals(phoneNumber, that.phoneNumber) &&
-                Objects.equals(role, that.role) &&
-                Objects.equals(username, that.username) &&
-                Objects.equals(password, that.password);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, lastName, phoneNumber, role, username, password);
-    }
 
 
 }

@@ -24,21 +24,21 @@ import java.util.function.UnaryOperator;
 public class AddCustomerScreenController {
 
     @FXML
-    private  TextField firstNameTextField;
+    private TextField firstNameTextField;
     @FXML
-    private  TextField lastNameTextField;
+    private TextField lastNameTextField;
     @FXML
     private TextField phoneNumTextField;
     @FXML
-    private  TextField postCodeTextField;
+    private TextField postCodeTextField;
     @FXML
-    private  TextField cityTextField;
+    private TextField cityTextField;
     @FXML
-    private  TextField streetTextField;
+    private TextField streetTextField;
     @FXML
-    private  TextField numberTextField;
+    private TextField numberTextField;
     @FXML
-    private  Button addCustomerButton;
+    private Button addCustomerButton;
     @FXML
     private Label messageLabel;
 

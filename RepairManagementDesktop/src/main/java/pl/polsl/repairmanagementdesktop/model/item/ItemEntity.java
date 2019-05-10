@@ -6,13 +6,16 @@ import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 import uk.co.blackpepper.bowman.InlineAssociationDeserializer;
 import uk.co.blackpepper.bowman.annotation.LinkedResource;
+import uk.co.blackpepper.bowman.annotation.ResourceId;
 
+import java.net.URI;
 import java.util.Collection;
 import java.util.Objects;
 
 
 public class ItemEntity {
-    private Integer id;
+    private URI uri;
+
     private String name;
     private ItemTypeEntity itemType;
     private CustomerEntity owner;
@@ -26,13 +29,13 @@ public class ItemEntity {
         this.owner = owner;
     }
 
-    public Integer getId() {
-        return id;
+    @ResourceId
+    public URI getUri() {
+        return uri;
     }
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUri(URI uri) {
+        this.uri = uri;
     }
-
 
     public String getName() {
         return name;
@@ -65,20 +68,6 @@ public class ItemEntity {
         this.requests = requests;
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ItemEntity that = (ItemEntity) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(name, that.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
 
 
 }

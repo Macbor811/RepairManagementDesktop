@@ -4,28 +4,31 @@ package pl.polsl.repairmanagementdesktop.model.activitytype;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityEntity;
 import uk.co.blackpepper.bowman.InlineAssociationDeserializer;
+import uk.co.blackpepper.bowman.annotation.RemoteResource;
+import uk.co.blackpepper.bowman.annotation.ResourceId;
 
+import java.net.URI;
 import java.util.Collection;
 import java.util.Objects;
 
 
 public class ActivityTypeEntity {
-    private Integer id;
+    private URI uri;
     private String type;
     private Collection<ActivityEntity> activities;
+
 
     public ActivityTypeEntity(String type) {
         this.type = type;
     }
 
-
-    public Integer getId() {
-        return id;
+    @ResourceId
+    public URI getUri() {
+        return uri;
     }
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUri(URI uri) {
+        this.uri = uri;
     }
-
 
     public String getType() {
         return type;
@@ -34,19 +37,6 @@ public class ActivityTypeEntity {
         this.type = type;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ActivityTypeEntity that = (ActivityTypeEntity) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(type, that.type);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, type);
-    }
 
     @JsonDeserialize(contentUsing = InlineAssociationDeserializer.class)
     public Collection<ActivityEntity> getActivities() {

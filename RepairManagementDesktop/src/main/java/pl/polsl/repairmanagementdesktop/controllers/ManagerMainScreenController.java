@@ -49,7 +49,7 @@ public class ManagerMainScreenController {
     private void initCustomerTable(){
         customersTableView.getColumns().clear();
 
-        //TableColumn<CustomerEntity, String> idColumn = TableColumnFactory.createColumn("ID", "uriString");
+        TableColumn<CustomerTableRow, String> idColumn = TableColumnFactory.createColumn("ID", "id");
         TableColumn<CustomerTableRow, String> nameColumn = TableColumnFactory.createColumn("First name", "firstName");
         TableColumn<CustomerTableRow, String>  surnameColumn = TableColumnFactory.createColumn("Last name", "lastName");
         TableColumn<CustomerTableRow, String>  phoneColumn = TableColumnFactory.createColumn("Phone", "phoneNumber");
@@ -59,7 +59,7 @@ public class ManagerMainScreenController {
         TableColumn<CustomerTableRow, String> numberColumn = TableColumnFactory.createColumn("Number", "number");
 
         customersTableView.getColumns().addAll(
-                //idColumn,
+                idColumn,
                 nameColumn,
                 surnameColumn,
                 phoneColumn,

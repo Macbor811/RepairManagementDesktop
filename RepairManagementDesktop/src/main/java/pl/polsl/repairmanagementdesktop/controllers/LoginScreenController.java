@@ -31,6 +31,7 @@ public class LoginScreenController {
     private final AuthenticationManager authenticationManager;
     private final Loader fxmlLoader;
 
+    @Autowired
     public LoginScreenController(AuthenticationManager authenticationManager, Loader fxmlLoader) {
         this.authenticationManager = authenticationManager;
         this.fxmlLoader = fxmlLoader;

@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 
-@RemoteResource("/customerEntities")
+@RemoteResource("/customer")
 public class CustomerEntity {
 
 

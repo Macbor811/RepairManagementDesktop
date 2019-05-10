@@ -11,9 +11,9 @@ import java.net.URI;
 import java.util.Collection;
 import java.util.Objects;
 
-@RemoteResource("/addressEntities")
+@RemoteResource("/address")
 public class AddressEntity {
-    private URI id;
+    private URI uri;
     private String postCode;
     private String city;
     private String street;
@@ -33,11 +33,11 @@ public class AddressEntity {
     }
 
     @ResourceId
-    public URI getId() {
-        return id;
+    public URI getUri() {
+        return uri;
     }
-    public void setId(URI id) {
-        this.id = id;
+    public void setUri(URI uri) {
+        this.uri = uri;
     }
 
     public String getPostCode() {
@@ -75,7 +75,7 @@ public class AddressEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AddressEntity that = (AddressEntity) o;
-        return Objects.equals(id, that.id) &&
+        return Objects.equals(uri, that.uri) &&
                 Objects.equals(postCode, that.postCode) &&
                 Objects.equals(city, that.city) &&
                 Objects.equals(street, that.street) &&
@@ -84,7 +84,7 @@ public class AddressEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, postCode, city, street, number);
+        return Objects.hash(uri, postCode, city, street, number);
     }
 
     @JsonDeserialize(contentUsing = InlineAssociationDeserializer.class)

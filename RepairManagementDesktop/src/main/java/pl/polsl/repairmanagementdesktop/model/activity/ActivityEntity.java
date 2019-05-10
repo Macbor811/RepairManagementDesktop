@@ -4,13 +4,17 @@ import pl.polsl.repairmanagementdesktop.model.activitytype.ActivityTypeEntity;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeEntity;
 import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
 import uk.co.blackpepper.bowman.annotation.LinkedResource;
+import uk.co.blackpepper.bowman.annotation.RemoteResource;
+import uk.co.blackpepper.bowman.annotation.ResourceId;
 
+import java.net.URI;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-
+@RemoteResource("/activity")
 public class ActivityEntity  {
-    private Integer id;
+    private URI uri;
+
     private Integer sequenceNum;
     private String description;
     private String result;
@@ -36,11 +40,12 @@ public class ActivityEntity  {
     }
 
 
-    public Integer getId() {
-        return id;
+    @ResourceId
+    public URI getUri() {
+        return uri;
     }
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUri(URI uri) {
+        this.uri = uri;
     }
 
     public Integer getSequenceNum() {
@@ -111,23 +116,5 @@ public class ActivityEntity  {
     }
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ActivityEntity that = (ActivityEntity) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(sequenceNum, that.sequenceNum) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(result, that.result) &&
-                Objects.equals(status, that.status) &&
-                Objects.equals(registerDate, that.registerDate) &&
-                Objects.equals(endDate, that.endDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, sequenceNum, description, result, status, registerDate, endDate);
-    }
 
 }

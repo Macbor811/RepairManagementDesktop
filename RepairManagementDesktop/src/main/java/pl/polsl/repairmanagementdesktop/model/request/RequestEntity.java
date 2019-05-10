@@ -6,14 +6,18 @@ import pl.polsl.repairmanagementdesktop.model.employee.EmployeeEntity;
 import pl.polsl.repairmanagementdesktop.model.item.ItemEntity;
 import uk.co.blackpepper.bowman.InlineAssociationDeserializer;
 import uk.co.blackpepper.bowman.annotation.LinkedResource;
+import uk.co.blackpepper.bowman.annotation.RemoteResource;
+import uk.co.blackpepper.bowman.annotation.ResourceId;
 
+import java.net.URI;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Objects;
 
-
+@RemoteResource("/request")
 public class RequestEntity {
-    private Integer id;
+
+    private  URI uri;
     private String description;
     private String result;
     private String status;
@@ -38,11 +42,12 @@ public class RequestEntity {
     public RequestEntity(){}
 
 
-    public Integer getId() {
-        return id;
+    @ResourceId
+    public URI getUri() {
+        return uri;
     }
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUri(URI uri) {
+        this.uri = uri;
     }
 
     public String getDescription() {
@@ -105,23 +110,7 @@ public class RequestEntity {
         this.manager = manager;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RequestEntity that = (RequestEntity) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(result, that.result) &&
-                Objects.equals(status, that.status) &&
-                Objects.equals(registerDate, that.registerDate) &&
-                Objects.equals(endDate, that.endDate);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, description, result, status, registerDate, endDate);
-    }
 
 
 }

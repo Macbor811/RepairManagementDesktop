@@ -33,7 +33,7 @@ public class CustomerRestClient {
      }
 
      public CustomerEntity findById(Integer id){
-        return client.get()
+        return client.get();
      }
 
 
