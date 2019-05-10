@@ -8,12 +8,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import pl.polsl.repairmanagementdesktop.NumericField;
-import pl.polsl.repairmanagementdesktop.model.address.AddressDTO;
-import pl.polsl.repairmanagementdesktop.model.customer.CustomerDTO;
+import pl.polsl.repairmanagementdesktop.model.address.AddressEntity;
+import pl.polsl.repairmanagementdesktop.model.address.AddressRestClient;
+import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerRestClient;
 
+import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.UnaryOperator;
@@ -22,30 +24,33 @@ import java.util.function.UnaryOperator;
 public class AddCustomerScreenController {
 
     @FXML
-    private  TextField firstNameTextField;
+    private TextField firstNameTextField;
     @FXML
-    private  TextField lastNameTextField;
+    private TextField lastNameTextField;
     @FXML
     private TextField phoneNumTextField;
     @FXML
-    private  TextField postCodeTextField;
+    private TextField postCodeTextField;
     @FXML
-    private  TextField cityTextField;
+    private TextField cityTextField;
     @FXML
-    private  TextField streetTextField;
+    private TextField streetTextField;
     @FXML
-    private  TextField numberTextField;
+    private TextField numberTextField;
     @FXML
-    private  Button addCustomerButton;
+    private Button addCustomerButton;
     @FXML
     private Label messageLabel;
 
     private List<TextField> fieldsList;
 
     private final CustomerRestClient customerRC;
+    private final AddressRestClient addressRC;
 
-    public AddCustomerScreenController(CustomerRestClient customerRC) {
+    @Autowired
+    public AddCustomerScreenController(CustomerRestClient customerRC, AddressRestClient addressRC) {
         this.customerRC = customerRC;
+        this.addressRC = addressRC;
     }
 
     @FXML
@@ -78,16 +83,22 @@ public class AddCustomerScreenController {
 
         if (fieldsList.stream().noneMatch(field -> field.getText().isEmpty())){
 
-            CustomerDTO customer = new CustomerDTO(
+            AddressEntity address =  new AddressEntity(
+                    postCodeTextField.getText(),
+                    cityTextField.getText(),
+                    streetTextField.getText(),
+                    numberTextField.getText()
+            );
+
+            URI id = addressRC.save(address);
+
+            address = addressRC.find(id);
+
+            CustomerEntity customer = new CustomerEntity(
                     firstNameTextField.getText(),
                     lastNameTextField.getText(),
                     phoneNumTextField.getText(),
-                    new AddressDTO(
-                            postCodeTextField.getText(),
-                            cityTextField.getText(),
-                            streetTextField.getText(),
-                            numberTextField.getText()
-                    )
+                    address
             );
 
             customerRC.save(customer);

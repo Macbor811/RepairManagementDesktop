@@ -16,6 +16,7 @@ repositories {
 
 
 dependencies {
+    compile "uk.co.blackpepper.bowman:bowman-client:0.6.1"
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

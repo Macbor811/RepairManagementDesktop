@@ -1,29 +1,34 @@
 package pl.polsl.repairmanagementdesktop.model.request;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import pl.polsl.repairmanagementdesktop.model.activity.ActivityEntity;
+import pl.polsl.repairmanagementdesktop.model.employee.EmployeeEntity;
+import pl.polsl.repairmanagementdesktop.model.item.ItemEntity;
+import uk.co.blackpepper.bowman.InlineAssociationDeserializer;
+import uk.co.blackpepper.bowman.annotation.LinkedResource;
+import uk.co.blackpepper.bowman.annotation.RemoteResource;
+import uk.co.blackpepper.bowman.annotation.ResourceId;
 
-import pl.polsl.repairmanagementdesktop.model.activity.ActivityDTO;
-import pl.polsl.repairmanagementdesktop.model.employee.EmployeeDTO;
-import pl.polsl.repairmanagementdesktop.model.item.ItemDTO;
-
+import java.net.URI;
 import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
-public class RequestDTO {
+@RemoteResource("/request")
+public class RequestEntity {
 
-    private Integer id;
+    private  URI uri;
     private String description;
     private String result;
     private String status;
     private Timestamp registerDate;
     private Timestamp endDate;
-    private Collection<ActivityDTO> activities;
-    private ItemDTO item;
-    private EmployeeDTO manager;
 
+    private Collection<ActivityEntity> activities;
+    private ItemEntity item;
+    private EmployeeEntity manager;
 
-    public RequestDTO(Integer id, String description, String result, String status, Timestamp registerDate, Timestamp endDate, Collection<ActivityDTO> activities, ItemDTO item, EmployeeDTO manager) {
-        this.id = id;
+    public RequestEntity(String description, String result, String status, Timestamp registerDate, Timestamp endDate, Collection<ActivityEntity> activities, ItemEntity item, EmployeeEntity manager) {
         this.description = description;
         this.result = result;
         this.status = status;
@@ -34,18 +39,20 @@ public class RequestDTO {
         this.manager = manager;
     }
 
-    public Integer getId() {
-        return id;
-    }
+    public RequestEntity(){}
 
-    public void setId(Integer id) {
-        this.id = id;
+
+    @ResourceId
+    public URI getUri() {
+        return uri;
+    }
+    public void setUri(URI uri) {
+        this.uri = uri;
     }
 
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
@@ -53,7 +60,6 @@ public class RequestDTO {
     public String getResult() {
         return result;
     }
-
     public void setResult(String result) {
         this.result = result;
     }
@@ -61,7 +67,6 @@ public class RequestDTO {
     public String getStatus() {
         return status;
     }
-
     public void setStatus(String status) {
         this.status = status;
     }
@@ -69,7 +74,6 @@ public class RequestDTO {
     public Timestamp getRegisterDate() {
         return registerDate;
     }
-
     public void setRegisterDate(Timestamp registerDate) {
         this.registerDate = registerDate;
     }
@@ -77,34 +81,36 @@ public class RequestDTO {
     public Timestamp getEndDate() {
         return endDate;
     }
-
     public void setEndDate(Timestamp endDate) {
         this.endDate = endDate;
     }
 
-    public Collection<ActivityDTO> getActivities() {
+
+    @JsonDeserialize(contentUsing = InlineAssociationDeserializer.class)
+    public Collection<ActivityEntity> getActivities() {
         return activities;
     }
-
-    public void setActivities(Collection<ActivityDTO> activities) {
+    public void setActivities(Collection<ActivityEntity> activities) {
         this.activities = activities;
     }
 
-    public ItemDTO getItem() {
+    @LinkedResource
+    public ItemEntity getItem() {
         return item;
     }
-
-    public void setItem(ItemDTO item) {
+    public void setItem(ItemEntity item) {
         this.item = item;
     }
 
-    public EmployeeDTO getManager() {
+    @LinkedResource
+    public EmployeeEntity getManager() {
         return manager;
     }
-
-    public void setManager(EmployeeDTO manager) {
+    public void setManager(EmployeeEntity manager) {
         this.manager = manager;
     }
+
+
 
 
 }
