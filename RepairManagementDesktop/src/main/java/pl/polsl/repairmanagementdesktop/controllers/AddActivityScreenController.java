@@ -14,17 +14,21 @@ import org.springframework.stereotype.Controller;
 public class AddActivityScreenController {
 
 	@FXML
-	private TextField workerTextField;
+	private Button selectWorkerButton;
 	@FXML
-	private TextField requestTextField;
-	@FXML
-	private TextField descriptionTextField;
+	private Button selectRequestButton;
 	@FXML
 	private Button addActivityButton;
 	@FXML
 	private Button cancelActivityButton;
 	@FXML
+	private Label currentWorkerSelectionLabel;
+	@FXML
+	private Label currentRequestSelectionLabel;
+	@FXML
 	private Label messageLabel;
-	
+	@FXML
+	private TextField descriptionTextField;	
+
 }
 
