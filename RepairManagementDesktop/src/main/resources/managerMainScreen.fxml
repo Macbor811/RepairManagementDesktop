@@ -23,139 +23,10 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="693.0" prefWidth="1176.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.ManagerMainScreenController">
+<AnchorPane prefHeight="693.0" prefWidth="1176.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.ManagerMainScreenController">
    <children>
       <TabPane layoutX="14.0" layoutY="36.0" prefHeight="553.0" prefWidth="774.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
         <tabs>
-          <Tab text="Requests">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <ToolBar layoutX="14.0" layoutY="10.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <items>
-                              <Button mnemonicParsing="false" text="Show" />
-                              <Button mnemonicParsing="false" text="Update" />
-                              <Button fx:id="addRequestButton" mnemonicParsing="false" onAction="#addClientButtonClicked" text="Create" />
-                              <Pane prefHeight="30.0" prefWidth="271.0" />
-                              <MenuButton mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Navigate to:">
-                                <items>
-                                  <MenuItem mnemonicParsing="false" text="Action 1" />
-                                  <MenuItem mnemonicParsing="false" text="Action 2" />
-                                </items>
-                              </MenuButton>
-                              <Button mnemonicParsing="false" text="Manage activities" />
-                              <Button mnemonicParsing="false" text="Finalize" />
-                              <Button mnemonicParsing="false" text="Cancel" />
-                           </items>
-                        </ToolBar>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="531.0" prefWidth="931.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <TableView fx:id="customersTableView11" layoutX="245.0" layoutY="50.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="432.0" prefWidth="655.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="44.0">
-                                 <columns>
-                                    <TableColumn prefWidth="75.0" text="ID" />
-                                    <TableColumn prefWidth="97.0" text="Registered date" />
-                                    <TableColumn prefWidth="61.0" text="Status" />
-                                    <TableColumn prefWidth="99.0" text="Finalized date" />
-                                    <TableColumn prefWidth="61.0" text="Result" />
-                                    <TableColumn prefWidth="142.0" text="Client" />
-                                    <TableColumn prefWidth="136.0" text="Item" />
-                                 </columns>
-                              </TableView>
-                              <ToolBar layoutX="14.0" layoutY="10.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <items>
-                                    <Button fx:id="showCustomersButton11" mnemonicParsing="false" onAction="#showCustomersButtonClicked" text="Show" />
-                                    <Button mnemonicParsing="false" text="Update" />
-                                    <Button fx:id="addClientButton11" mnemonicParsing="false" onAction="#addClientButtonClicked" text="Create" />
-                                    <MenuButton mnemonicParsing="false" text="Navigate to">
-                                      <items>
-                                        <MenuItem mnemonicParsing="false" text="Client" />
-                                        <MenuItem mnemonicParsing="false" text="Item" />
-                                      </items>
-                                    </MenuButton>
-                                    <Button mnemonicParsing="false" text="Finalize" />
-                                    <Button mnemonicParsing="false" text="Cancel" />
-                                 </items>
-                              </ToolBar>
-                              <Pagination layoutX="157.0" layoutY="461.0" maxPageIndicatorCount="2" prefHeight="51.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                              <ScrollPane layoutY="44.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="432.0" prefWidth="241.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="44.0">
-                                 <content>
-                                    <AnchorPane prefHeight="429.0" prefWidth="239.0">
-                                       <children>
-                                          <ToolBar layoutX="-1.0" layoutY="11.0" prefHeight="15.0" prefWidth="239.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                             <items>
-                                                <Label text="Filter">
-                                                   <font>
-                                                      <Font size="15.0" />
-                                                   </font>
-                                                </Label>
-                                             </items>
-                                          </ToolBar>
-                                          <GridPane layoutX="20.0" layoutY="55.0" prefHeight="334.0" prefWidth="199.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="40.0">
-                                             <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                             </columnConstraints>
-                                             <rowConstraints>
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                             </rowConstraints>
-                                             <children>
-                                                <TextField promptText="Status" GridPane.rowIndex="2" />
-                                                <TextField promptText="ID" />
-                                                <TextField prefHeight="25.0" prefWidth="0.0" promptText="Client" GridPane.rowIndex="4">
-                                                   <GridPane.margin>
-                                                      <Insets />
-                                                   </GridPane.margin>
-                                                </TextField>
-                                                <TextField promptText="Item" GridPane.rowIndex="5" />
-                                                <DatePicker prefHeight="25.0" prefWidth="312.0" promptText="Registered date" GridPane.rowIndex="1" />
-                                                <DatePicker prefHeight="25.0" prefWidth="233.0" promptText="Finalized date" GridPane.rowIndex="3" />
-                                             </children>
-                                          </GridPane>
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </ScrollPane>
-                              <ScrollPane layoutX="932.0" layoutY="44.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="432.0" prefWidth="241.0" AnchorPane.bottomAnchor="55.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="44.0">
-                                 <content>
-                                    <AnchorPane prefHeight="517.0" prefWidth="239.0">
-                                       <children>
-                                          <ToolBar layoutX="-1.0" layoutY="11.0" prefHeight="15.0" prefWidth="239.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                             <items>
-                                                <Label text="Activities">
-                                                   <font>
-                                                      <Font size="15.0" />
-                                                   </font>
-                                                </Label>
-                                             </items>
-                                          </ToolBar>
-                                          <Button layoutX="14.0" layoutY="325.0" mnemonicParsing="false" text="Detailed view" />
-                                          <TableView layoutX="12.0" layoutY="39.0" prefHeight="240.0" prefWidth="221.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="40.0">
-                                            <columns>
-                                              <TableColumn prefWidth="27.0" text="#" />
-                                              <TableColumn minWidth="0.0" prefWidth="119.0" text="Description" />
-                                                <TableColumn prefWidth="61.0" text="Status" />
-                                            </columns>
-                                          </TableView>
-                                          <Button layoutX="14.0" layoutY="293.0" mnemonicParsing="false" text="Add" />
-                                          <Button layoutX="58.0" layoutY="293.0" mnemonicParsing="false" text="Update" />
-                                          <Button layoutX="120.0" layoutY="293.0" mnemonicParsing="false" text="Finalize" />
-                                          <Button layoutX="182.0" layoutY="293.0" mnemonicParsing="false" text="Cancel" />
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </ScrollPane>
-                           </children>
-                        </AnchorPane>
-                     </children>
-                  </AnchorPane>
-               </content>
-          </Tab>
           <Tab text="Customers">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="531.0" prefWidth="931.0">
@@ -163,13 +34,13 @@
                         <TableView fx:id="customersTableView" layoutX="245.0" layoutY="50.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="432.0" prefWidth="655.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="44.0">
                           <columns>
                               <TableColumn fx:id="customerIdColumn" prefWidth="61.0" text="ID" />
-                            <TableColumn fx:id="customerFNameColumn" prefWidth="75.0" text="First name" />
-                            <TableColumn fx:id="customerLNameColumn" prefWidth="75.0" text="Last name" />
-                              <TableColumn prefWidth="75.0" text="Phone" />
-                              <TableColumn prefWidth="75.0" text="City" />
-                              <TableColumn prefWidth="75.0" text="Street" />
-                              <TableColumn prefWidth="75.0" text="Postal code" />
-                              <TableColumn prefWidth="61.0" text="Number" />
+                            <TableColumn fx:id="customerFNameColumn" prefWidth="92.0" text="First name" />
+                            <TableColumn fx:id="customerLNameColumn" prefWidth="87.0" text="Last name" />
+                              <TableColumn prefWidth="67.0" text="Phone" />
+                              <TableColumn prefWidth="68.0" text="City" />
+                              <TableColumn prefWidth="76.0" text="Street" />
+                              <TableColumn prefWidth="87.0" text="Postal code" />
+                              <TableColumn prefWidth="82.0" text="Number" />
                           </columns>
                         </TableView>
                         <ToolBar layoutX="14.0" layoutY="10.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -242,8 +113,9 @@
                               <TableView fx:id="customersTableView1" layoutX="245.0" layoutY="50.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="432.0" prefWidth="655.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="44.0">
                                  <columns>
                                     <TableColumn fx:id="customerIdColumn1" prefWidth="61.0" text="ID" />
-                                    <TableColumn fx:id="customerFNameColumn1" prefWidth="75.0" text="Name" />
-                                    <TableColumn fx:id="customerLNameColumn1" prefWidth="75.0" text="Type" />
+                                    <TableColumn fx:id="customerFNameColumn1" prefWidth="87.0" text="Name" />
+                                    <TableColumn fx:id="customerLNameColumn1" prefWidth="102.0" text="Type" />
+                                    <TableColumn fx:id="customerLNameColumn11" prefWidth="140.0" text="Client" />
                                  </columns>
                               </TableView>
                               <ToolBar layoutX="14.0" layoutY="10.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -285,6 +157,214 @@
                                                 <TextField promptText="Name" GridPane.rowIndex="1" />
                                                 <TextField promptText="Type" GridPane.rowIndex="2" />
                                                 <TextField promptText="ID" />
+                                                <TextField promptText="Client" GridPane.rowIndex="3" />
+                                             </children>
+                                          </GridPane>
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </ScrollPane>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+          <Tab text="Requests">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ToolBar layoutX="14.0" layoutY="10.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <items>
+                              <Button mnemonicParsing="false" text="Show" />
+                              <Button mnemonicParsing="false" text="Update" />
+                              <Button fx:id="addRequestButton" mnemonicParsing="false" onAction="#addClientButtonClicked" text="Create" />
+                              <Pane prefHeight="30.0" prefWidth="271.0" />
+                              <MenuButton mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Navigate to:">
+                                <items>
+                                  <MenuItem mnemonicParsing="false" text="Action 1" />
+                                  <MenuItem mnemonicParsing="false" text="Action 2" />
+                                </items>
+                              </MenuButton>
+                              <Button mnemonicParsing="false" text="Manage activities" />
+                              <Button mnemonicParsing="false" text="Finalize" />
+                              <Button mnemonicParsing="false" text="Cancel" />
+                           </items>
+                        </ToolBar>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="531.0" prefWidth="931.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TableView fx:id="customersTableView11" layoutX="245.0" layoutY="50.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="496.0" prefWidth="916.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="44.0">
+                                 <columns>
+                                    <TableColumn prefWidth="75.0" text="ID" />
+                                    <TableColumn prefWidth="97.0" text="Registered date" />
+                                    <TableColumn prefWidth="61.0" text="Status" />
+                                    <TableColumn prefWidth="99.0" text="Finalized date" />
+                                    <TableColumn prefWidth="85.0" text="Desription" />
+                                    <TableColumn prefWidth="85.0" text="Result" />
+                                    <TableColumn prefWidth="118.0" text="Client" />
+                                    <TableColumn prefWidth="136.0" text="Item" />
+                                 </columns>
+                              </TableView>
+                              <ToolBar layoutX="14.0" layoutY="10.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <items>
+                                    <Button fx:id="showCustomersButton11" mnemonicParsing="false" onAction="#showCustomersButtonClicked" text="Show" />
+                                    <Button mnemonicParsing="false" text="Update" />
+                                    <Button fx:id="addClientButton11" mnemonicParsing="false" onAction="#addClientButtonClicked" text="Create" />
+                                    <MenuButton mnemonicParsing="false" text="Navigate to">
+                                      <items>
+                                        <MenuItem mnemonicParsing="false" text="Client" />
+                                        <MenuItem mnemonicParsing="false" text="Item" />
+                                      </items>
+                                    </MenuButton>
+                                    <Button mnemonicParsing="false" text="Finalize" />
+                                    <Button mnemonicParsing="false" text="Cancel" />
+                                 </items>
+                              </ToolBar>
+                              <Pagination layoutX="157.0" layoutY="461.0" maxPageIndicatorCount="2" prefHeight="51.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                              <ScrollPane layoutY="44.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="432.0" prefWidth="241.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="44.0">
+                                 <content>
+                                    <AnchorPane prefHeight="429.0" prefWidth="239.0">
+                                       <children>
+                                          <ToolBar layoutX="-1.0" layoutY="11.0" prefHeight="15.0" prefWidth="239.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <items>
+                                                <Label text="Filter">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                             </items>
+                                          </ToolBar>
+                                          <GridPane layoutX="20.0" layoutY="55.0" prefHeight="334.0" prefWidth="199.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="40.0">
+                                             <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                             </columnConstraints>
+                                             <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                             </rowConstraints>
+                                             <children>
+                                                <TextField promptText="Status" GridPane.rowIndex="2" />
+                                                <TextField promptText="ID" />
+                                                <TextField prefHeight="25.0" prefWidth="0.0" promptText="Client" GridPane.rowIndex="5">
+                                                   <GridPane.margin>
+                                                      <Insets />
+                                                   </GridPane.margin>
+                                                </TextField>
+                                                <TextField promptText="Item" GridPane.rowIndex="6" />
+                                                <DatePicker prefHeight="25.0" prefWidth="312.0" promptText="Registered date" GridPane.rowIndex="1" />
+                                                <DatePicker prefHeight="25.0" prefWidth="233.0" promptText="Finalized date" GridPane.rowIndex="3" />
+                                                <TextField prefHeight="25.0" prefWidth="0.0" promptText="Desciption" GridPane.rowIndex="4" />
+                                             </children>
+                                          </GridPane>
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </ScrollPane>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+          </Tab>
+            <Tab text="Activities">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ToolBar layoutX="14.0" layoutY="10.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <items>
+                              <Button mnemonicParsing="false" text="Show" />
+                              <Button mnemonicParsing="false" text="Update" />
+                              <Button fx:id="addRequestButton1" mnemonicParsing="false" onAction="#addClientButtonClicked" text="Create" />
+                              <Pane prefHeight="30.0" prefWidth="271.0" />
+                              <MenuButton mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Navigate to:">
+                                 <items>
+                                    <MenuItem mnemonicParsing="false" text="Action 1" />
+                                    <MenuItem mnemonicParsing="false" text="Action 2" />
+                                 </items>
+                              </MenuButton>
+                              <Button mnemonicParsing="false" text="Manage activities" />
+                              <Button mnemonicParsing="false" text="Finalize" />
+                              <Button mnemonicParsing="false" text="Cancel" />
+                           </items>
+                        </ToolBar>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="531.0" prefWidth="931.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TableView fx:id="customersTableView111" layoutX="245.0" layoutY="50.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="525.0" prefWidth="915.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="44.0">
+                                 <columns>
+                                    <TableColumn prefWidth="42.0" text="ID" />
+                                    <TableColumn prefWidth="103.0" text="Registered date" />
+                                    <TableColumn prefWidth="50.0" text="Status" />
+                                    <TableColumn prefWidth="111.0" text="Finalized date" />
+                                    <TableColumn prefWidth="55.0" text="Seq. no" />
+                                    <TableColumn prefWidth="130.0" text="Desciption" />
+                                    <TableColumn minWidth="7.0" prefWidth="102.0" text="Result" />
+                                    <TableColumn prefWidth="102.0" text="Client" />
+                                    <TableColumn prefWidth="95.0" text="Item" />
+                                    <TableColumn prefWidth="100.0" text="Request" />
+                                 </columns>
+                              </TableView>
+                              <ToolBar layoutX="14.0" layoutY="10.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <items>
+                                    <Button fx:id="showCustomersButton111" mnemonicParsing="false" onAction="#showCustomersButtonClicked" text="Show" />
+                                    <Button mnemonicParsing="false" text="Update" />
+                                    <Button fx:id="addClientButton111" mnemonicParsing="false" onAction="#addClientButtonClicked" text="Create" />
+                                    <MenuButton mnemonicParsing="false" text="Navigate to">
+                                       <items>
+                                          <MenuItem mnemonicParsing="false" text="Client" />
+                                          <MenuItem mnemonicParsing="false" text="Item" />
+                                       </items>
+                                    </MenuButton>
+                                    <Button mnemonicParsing="false" text="Finalize" />
+                                    <Button mnemonicParsing="false" text="Cancel" />
+                                 </items>
+                              </ToolBar>
+                              <Pagination layoutX="157.0" layoutY="461.0" maxPageIndicatorCount="2" prefHeight="51.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                              <ScrollPane layoutY="44.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="432.0" prefWidth="241.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="44.0">
+                                 <content>
+                                    <AnchorPane prefHeight="429.0" prefWidth="239.0">
+                                       <children>
+                                          <ToolBar layoutX="-1.0" layoutY="11.0" prefHeight="15.0" prefWidth="239.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <items>
+                                                <Label text="Filter">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                             </items>
+                                          </ToolBar>
+                                          <GridPane layoutX="20.0" layoutY="55.0" prefHeight="334.0" prefWidth="199.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="40.0">
+                                             <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                             </columnConstraints>
+                                             <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                             </rowConstraints>
+                                             <children>
+                                                <TextField promptText="Status" GridPane.rowIndex="2" />
+                                                <TextField promptText="ID" />
+                                                <TextField prefHeight="25.0" prefWidth="0.0" promptText="Client" GridPane.rowIndex="5">
+                                                   <GridPane.margin>
+                                                      <Insets />
+                                                   </GridPane.margin>
+                                                </TextField>
+                                                <TextField promptText="Item" GridPane.rowIndex="6" />
+                                                <DatePicker prefHeight="25.0" prefWidth="312.0" promptText="Registered date" GridPane.rowIndex="1" />
+                                                <DatePicker prefHeight="25.0" prefWidth="233.0" promptText="Finalized date" GridPane.rowIndex="3" />
+                                                <TextField layoutX="10.0" layoutY="229.0" promptText="Request" GridPane.rowIndex="7" />
+                                                <TextField prefHeight="25.0" prefWidth="0.0" promptText="Desciption" GridPane.rowIndex="4" />
                                              </children>
                                           </GridPane>
                                        </children>
