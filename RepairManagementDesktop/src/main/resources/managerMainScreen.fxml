@@ -259,7 +259,7 @@
                                                 <TextField promptText="Item" GridPane.rowIndex="6" />
                                                 <DatePicker prefHeight="25.0" prefWidth="312.0" promptText="Registered date" GridPane.rowIndex="1" />
                                                 <DatePicker prefHeight="25.0" prefWidth="233.0" promptText="Finalized date" GridPane.rowIndex="3" />
-                                                <TextField prefHeight="25.0" prefWidth="0.0" promptText="Desciption" GridPane.rowIndex="4" />
+                                                <TextField prefHeight="25.0" prefWidth="0.0" promptText="Description" GridPane.rowIndex="4" />
                                              </children>
                                           </GridPane>
                                        </children>
@@ -302,7 +302,7 @@
                                     <TableColumn prefWidth="50.0" text="Status" />
                                     <TableColumn prefWidth="111.0" text="Finalized date" />
                                     <TableColumn prefWidth="55.0" text="Seq. no" />
-                                    <TableColumn prefWidth="130.0" text="Desciption" />
+                                    <TableColumn prefWidth="130.0" text="Description" />
                                     <TableColumn minWidth="7.0" prefWidth="102.0" text="Result" />
                                     <TableColumn prefWidth="102.0" text="Client" />
                                     <TableColumn prefWidth="95.0" text="Item" />
@@ -364,7 +364,7 @@
                                                 <DatePicker prefHeight="25.0" prefWidth="312.0" promptText="Registered date" GridPane.rowIndex="1" />
                                                 <DatePicker prefHeight="25.0" prefWidth="233.0" promptText="Finalized date" GridPane.rowIndex="3" />
                                                 <TextField layoutX="10.0" layoutY="229.0" promptText="Request" GridPane.rowIndex="7" />
-                                                <TextField prefHeight="25.0" prefWidth="0.0" promptText="Desciption" GridPane.rowIndex="4" />
+                                                <TextField prefHeight="25.0" prefWidth="0.0" promptText="Description" GridPane.rowIndex="4" />
                                              </children>
                                           </GridPane>
                                        </children>
