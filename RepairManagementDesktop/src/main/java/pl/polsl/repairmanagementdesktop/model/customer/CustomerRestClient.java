@@ -18,9 +18,7 @@ import java.util.Optional;
 @Component
 public class CustomerRestClient {
 
-    private final static String BASE_URI = "customer";
     private final Client<CustomerEntity> client;
-
 
     @Autowired
     public CustomerRestClient(ClientFactory factory){
@@ -34,21 +32,14 @@ public class CustomerRestClient {
         client.post(customer);
      }
 
+     public CustomerEntity findById(Integer id){
+        return client.get()
+     }
+
 
      public Iterable<CustomerEntity> findAll(){
          return client.getAll();
      }
-//
-//     public Optional<CustomerDTO> findById(Integer id){
-//        try {
-//            return Optional.ofNullable(restTemplate.getForObject(BASE_URI + "/" + id, CustomerDTO.class));
-//        } catch (HttpClientErrorException e) {
-//            if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
-//                return Optional.empty();
-//            }
-//            throw e;
-//        }
-//     }
 
 
 

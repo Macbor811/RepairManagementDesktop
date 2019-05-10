@@ -1,5 +1,6 @@
 package pl.polsl.repairmanagementdesktop.model.customer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import pl.polsl.repairmanagementdesktop.model.item.ItemEntity;
 import pl.polsl.repairmanagementdesktop.model.address.AddressEntity;
@@ -13,9 +14,11 @@ import java.util.Collection;
 import java.util.Objects;
 
 
-@RemoteResource("/customerEntity")
+@RemoteResource("/customerEntities")
 public class CustomerEntity {
-    private URI id;
+
+
+    private URI uri;
     private String firstName;
     private String lastName;
     private String phoneNumber;
@@ -30,13 +33,19 @@ public class CustomerEntity {
         this.address = address;
     }
 
+
     @ResourceId
-    public URI getId() {
-        return id;
+    public URI getUri() {
+        return uri;
     }
-    public void setId(URI id) {
-        this.id = id;
+    public void setUri(URI uri) {
+        this.uri = uri;
     }
+
+    public String getPostCode(){
+        return getAddress().getPostCode();
+    }
+
 
     public String getFirstName() {
         return firstName;
@@ -73,22 +82,6 @@ public class CustomerEntity {
     }
     public void setItems(Collection<ItemEntity> items) {
         this.items = items;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CustomerEntity that = (CustomerEntity) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(firstName, that.firstName) &&
-                Objects.equals(lastName, that.lastName) &&
-                Objects.equals(phoneNumber, that.phoneNumber);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, lastName, phoneNumber);
     }
 
 }

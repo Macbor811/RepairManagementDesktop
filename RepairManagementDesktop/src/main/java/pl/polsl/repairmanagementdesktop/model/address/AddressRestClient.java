@@ -10,9 +10,7 @@ import java.net.URI;
 @Component
 public class AddressRestClient {
 
-    private final static String BASE_URI = "address";
     private final Client<AddressEntity> client;
-
 
     @Autowired
     public AddressRestClient(ClientFactory factory){

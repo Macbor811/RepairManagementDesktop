@@ -11,7 +11,7 @@ import java.net.URI;
 import java.util.Collection;
 import java.util.Objects;
 
-@RemoteResource("/addressEntity")
+@RemoteResource("/addressEntities")
 public class AddressEntity {
     private URI id;
     private String postCode;
