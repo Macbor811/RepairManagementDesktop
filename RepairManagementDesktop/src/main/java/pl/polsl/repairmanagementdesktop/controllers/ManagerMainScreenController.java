@@ -21,7 +21,7 @@ import pl.polsl.repairmanagementdesktop.model.customer.CustomerRestClient;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerTableRow;
 
 import java.io.IOException;
-
+//testPatryk
 @Controller
 public class ManagerMainScreenController {
 
