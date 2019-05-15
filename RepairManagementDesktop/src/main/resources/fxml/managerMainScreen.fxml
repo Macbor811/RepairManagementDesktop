@@ -23,86 +23,18 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="693.0" prefWidth="1176.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.ManagerMainScreenController">
+<AnchorPane prefHeight="693.0" prefWidth="1176.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.ManagerMainScreenController">
    <children>
       <TabPane layoutX="14.0" layoutY="36.0" prefHeight="553.0" prefWidth="774.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
         <tabs>
           <Tab text="Customers">
               <content>
-                  <fx:include fx:id="customersTab" source="customersTab.fxml"/>
+                  <fx:include fx:id="customersTab" source="customersTab.fxml" />
               </content>
           </Tab>
             <Tab text="Items">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <ToolBar layoutX="14.0" layoutY="10.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <items>
-                              <Button mnemonicParsing="false" text="Show" />
-                              <Button mnemonicParsing="false" text="Update" />
-                              <Button mnemonicParsing="false" onAction="#addClientButtonClicked" text="Create" />
-                           </items>
-                        </ToolBar>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="531.0" prefWidth="931.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <TableView fx:id="customersTableView1" layoutX="245.0" layoutY="50.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="432.0" prefWidth="655.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="44.0">
-                                 <columns>
-                                    <TableColumn fx:id="customerIdColumn1" prefWidth="61.0" text="ID" />
-                                    <TableColumn fx:id="customerFNameColumn1" prefWidth="87.0" text="Name" />
-                                    <TableColumn fx:id="customerLNameColumn1" prefWidth="102.0" text="Type" />
-                                    <TableColumn fx:id="customerLNameColumn11" prefWidth="140.0" text="Client" />
-                                 </columns>
-                              </TableView>
-                              <ToolBar layoutX="14.0" layoutY="10.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <items>
-                                    <Button fx:id="showCustomersButton1" mnemonicParsing="false" onAction="#showCustomersButtonClicked" text="Show" />
-                                    <Button mnemonicParsing="false" text="Update" />
-                                    <Button fx:id="addClientButton1" mnemonicParsing="false" onAction="#addClientButtonClicked" text="Create" />
-                                 </items>
-                              </ToolBar>
-                              <Pagination layoutX="157.0" layoutY="461.0" maxPageIndicatorCount="2" prefHeight="51.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                              <ScrollPane layoutY="44.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="432.0" prefWidth="241.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="44.0">
-                                 <content>
-                                    <AnchorPane prefHeight="429.0" prefWidth="239.0">
-                                       <children>
-                                          <ToolBar layoutX="-1.0" layoutY="11.0" prefHeight="15.0" prefWidth="239.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                             <items>
-                                                <Label text="Filter">
-                                                   <font>
-                                                      <Font size="15.0" />
-                                                   </font>
-                                                </Label>
-                                             </items>
-                                          </ToolBar>
-                                          <GridPane layoutX="20.0" layoutY="55.0" prefHeight="334.0" prefWidth="199.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="40.0">
-                                             <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                             </columnConstraints>
-                                             <rowConstraints>
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                             </rowConstraints>
-                                             <children>
-                                                <TextField promptText="Name" GridPane.rowIndex="1" />
-                                                <TextField promptText="Type" GridPane.rowIndex="2" />
-                                                <TextField promptText="ID" />
-                                                <TextField promptText="Client" GridPane.rowIndex="3" />
-                                             </children>
-                                          </GridPane>
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </ScrollPane>
-                           </children>
-                        </AnchorPane>
-                     </children>
-                  </AnchorPane>
+                  <fx:include fx:id="itemsTab" source="itemsTab.fxml" />
                </content>
             </Tab>
           <Tab text="Requests">
@@ -113,7 +45,7 @@
                            <items>
                               <Button mnemonicParsing="false" text="Show" />
                               <Button mnemonicParsing="false" text="Update" />
-                              <Button fx:id="addRequestButton" mnemonicParsing="false" onAction="#addClientButtonClicked" text="Create" />
+                              <Button fx:id="addRequestButton" mnemonicParsing="false"  text="Create" />
                               <Pane prefHeight="30.0" prefWidth="271.0" />
                               <MenuButton mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Navigate to:">
                                 <items>
@@ -142,9 +74,9 @@
                               </TableView>
                               <ToolBar layoutX="14.0" layoutY="10.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <items>
-                                    <Button fx:id="showCustomersButton11" mnemonicParsing="false" onAction="#showCustomersButtonClicked" text="Show" />
+                                    <Button fx:id="showCustomersButton11" mnemonicParsing="false"  text="Show" />
                                     <Button mnemonicParsing="false" text="Update" />
-                                    <Button fx:id="addClientButton11" mnemonicParsing="false" onAction="#addClientButtonClicked" text="Create" />
+                                    <Button fx:id="addClientButton11" mnemonicParsing="false"  text="Create" />
                                     <MenuButton mnemonicParsing="false" text="Navigate to">
                                       <items>
                                         <MenuItem mnemonicParsing="false" text="Client" />
@@ -215,7 +147,7 @@
                            <items>
                               <Button mnemonicParsing="false" text="Show" />
                               <Button mnemonicParsing="false" text="Update" />
-                              <Button fx:id="addRequestButton1" mnemonicParsing="false" onAction="#addClientButtonClicked" text="Create" />
+                              <Button fx:id="addRequestButton1" mnemonicParsing="false"  text="Create" />
                               <Pane prefHeight="30.0" prefWidth="271.0" />
                               <MenuButton mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Navigate to:">
                                  <items>
@@ -246,9 +178,9 @@
                               </TableView>
                               <ToolBar layoutX="14.0" layoutY="10.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <items>
-                                    <Button fx:id="showCustomersButton111" mnemonicParsing="false" onAction="#showCustomersButtonClicked" text="Show" />
+                                    <Button fx:id="showCustomersButton111" mnemonicParsing="false"  text="Show" />
                                     <Button mnemonicParsing="false" text="Update" />
-                                    <Button fx:id="addClientButton111" mnemonicParsing="false" onAction="#addClientButtonClicked" text="Create" />
+                                    <Button fx:id="addClientButton111" mnemonicParsing="false" text="Create" />
                                     <MenuButton mnemonicParsing="false" text="Navigate to">
                                        <items>
                                           <MenuItem mnemonicParsing="false" text="Client" />

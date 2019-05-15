@@ -1,7 +1,6 @@
 package pl.polsl.repairmanagementdesktop.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -41,7 +40,7 @@ public class LoginScreenController {
     private void loginButtonClicked(ActionEvent event) throws IOException {
 
 
-        Parent managerMainScreen = fxmlLoader.load("/managerMainScreen.fxml");
+        Parent managerMainScreen = fxmlLoader.load("/fxml/managerMainScreen.fxml");
         Scene nextScene = new Scene(managerMainScreen);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();

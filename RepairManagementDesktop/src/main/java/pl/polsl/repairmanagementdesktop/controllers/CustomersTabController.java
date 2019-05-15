@@ -63,7 +63,7 @@ public class CustomersTabController {
 
     @FXML
     private void addClientButtonClicked(ActionEvent event) throws IOException {
-        Parent managerMainScreen = fxmlLoader.load("/addCustomerScreen.fxml");
+        Parent managerMainScreen = fxmlLoader.load("/fxml/addCustomerScreen.fxml");
         Scene nextScene = new Scene(managerMainScreen);
 
         Stage window = new Stage();

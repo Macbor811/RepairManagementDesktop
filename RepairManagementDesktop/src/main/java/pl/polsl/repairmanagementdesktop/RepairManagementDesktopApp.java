@@ -37,7 +37,7 @@ public class RepairManagementDesktopApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        fxmlLoader.setLocation(getClass().getResource("/loginScreen.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/fxml/loginScreen.fxml"));
         rootNode = fxmlLoader.load();
 
         primaryStage.setTitle("Repair Management System");

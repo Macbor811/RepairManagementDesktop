@@ -92,13 +92,12 @@ public class AddCustomerScreenController {
 
             URI id = addressRC.save(address);
 
-            address = addressRC.find(id);
 
             CustomerEntity customer = new CustomerEntity(
                     firstNameTextField.getText(),
                     lastNameTextField.getText(),
                     phoneNumTextField.getText(),
-                    address
+                    addressRC.find(id)
             );
 
             customerRC.save(customer);
