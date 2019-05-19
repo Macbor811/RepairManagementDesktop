@@ -10,8 +10,11 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="609.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.AddItemScreenController">
+<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="609.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.AddItemScreenController">
    <children>
+      <fx:define>
+         <fx:include fx:id="selectCustomerScreen" source="selectCustomerScreen.fxml" />
+      </fx:define>
       <Label layoutX="35.0" layoutY="40.0" text="Add item">
          <font>
             <Font size="15.0" />
@@ -67,5 +70,6 @@
       <Button fx:id="cancelActivityButton" layoutX="35.0" layoutY="563.0" mnemonicParsing="false" text="Cancel" />
       <Button fx:id="addActivityButton" layoutX="389.0" layoutY="563.0" mnemonicParsing="false" text="Add" />
       <Label fx:id="messageLabel" layoutX="226.0" layoutY="565.0" />
+
    </children>
 </Pane>

@@ -29,7 +29,10 @@ public class ItemsTabController {
     @FXML
     private void addItemButtonClicked(ActionEvent event) throws IOException {
         FXMLLoader loader = fxmlLoaderFactory.load("/fxml/addItemScreen.fxml");
+
         Parent managerMainScreen = loader.load();
+        AddItemScreenController controller = loader.getController();
+        controller.setThisLoader(loader);
         Scene nextScene = new Scene(managerMainScreen);
 
         Stage window = new Stage();

@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -24,6 +25,10 @@ import java.io.IOException;
 @Controller
 public class AddItemScreenController {
 
+    @FXML
+    private Pane mainPane;
+
+    private FXMLLoader thisLoader;
     private final LoaderFactory fxmlLoaderFactory;
     private final ApplicationEventPublisher eventPublisher;
 
@@ -36,8 +41,10 @@ public class AddItemScreenController {
     @FXML
     private Label currentWorkerSelectionLabel;
 
+    @FXML
     private SelectCustomerScreenController selectCustomerScreenController;
-    private Scene selectCustomerScene;
+    @FXML
+    private Node selectCustomerScreen;
 
     @Autowired
     public AddItemScreenController(LoaderFactory fxmlLoaderFactory, ApplicationEventPublisher eventPublisher) {
@@ -45,34 +52,39 @@ public class AddItemScreenController {
         this.eventPublisher = eventPublisher;
     }
 
-    @FXML
-    public void initialize(){
-        try {
-            FXMLLoader loader = fxmlLoaderFactory.load("/fxml/selectCustomerScreen.fxml");
-            Parent selectCustomerScreen = loader.load();
-
-            selectCustomerScreenController = loader.getController();
-
-
-
-            selectCustomerScene = new Scene(selectCustomerScreen);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    @FXML
+//    public void initialize(){
+//        try {
+//            FXMLLoader loader = fxmlLoaderFactory.load("/fxml/selectCustomerScreen.fxml");
+//            Parent selectCustomerScreen = loader.load();
+//
+//            selectCustomerScreenController = loader.getController();
+//
+//
+//
+//            selectCustomerScene = new Scene(selectCustomerScreen);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @FXML
     private void selectOwnerButtonClicked(ActionEvent event) throws IOException {
 
-
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        selectCustomerScreenController.setPreviousScene(((Node) event.getSource()).getScene());
-        window.setScene(selectCustomerScene);
+        Scene scene = ((Node) event.getSource()).getScene();
+        Stage window = (Stage) scene.getWindow();
         window.setResizable(true);
-        window.centerOnScreen();//SelectCustomerScreenController selectionController = loader.getController();
-        //window.getScene().setRoot(fxmlLoaderFactory.load("fxml/selectCustomerScreen.fxml").load());
+
+        mainPane.getChildren().setAll(selectCustomerScreen);
+        window.sizeToScene();
+        mainPane.resize(selectCustomerScreen.prefWidth(-1), selectCustomerScreen.prefHeight(-1));
+//
+//        selectCustomerScreenController.setPreviousScene(((Node) event.getSource()).getScene());
+        //thisLoader.setRoot(selectCustomerScreen);
+//        window.setResizable(true);
+//        window.centerOnScreen();//SelectCustomerScreenController selectionController = loader.getController();
+//        //window.getScene().setRoot(fxmlLoaderFactory.load("fxml/selectCustomerScreen.fxml").load());
 
     }
 
@@ -93,5 +105,7 @@ public class AddItemScreenController {
     }
 
 
-
+    public void setThisLoader(FXMLLoader thisLoader) {
+        this.thisLoader = thisLoader;
+    }
 }
