@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import pl.polsl.repairmanagementdesktop.model.address.AddressEntity;
 import pl.polsl.repairmanagementdesktop.model.address.AddressRestClient;
@@ -20,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.UnaryOperator;
 
+@Scope("prototype")
 @Controller
 public class AddCustomerScreenController {
 

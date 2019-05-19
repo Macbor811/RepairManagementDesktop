@@ -7,7 +7,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Controller;
+import pl.polsl.repairmanagementdesktop.CustomerSelectedEvent;
 
 
 @Controller
@@ -28,7 +30,8 @@ public class AddActivityScreenController {
 	@FXML
 	private Label messageLabel;
 	@FXML
-	private TextField descriptionTextField;	
+	private TextField descriptionTextField;
+
 
 }
 

@@ -1,6 +1,7 @@
 package pl.polsl.repairmanagementdesktop.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import pl.polsl.repairmanagementdesktop.AuthenticationManager;
 
 import javafx.event.ActionEvent;
-import pl.polsl.repairmanagementdesktop.Loader;
+import pl.polsl.repairmanagementdesktop.LoaderFactory;
 
 import java.io.IOException;
 
@@ -28,19 +29,19 @@ public class LoginScreenController {
     private Label messageLabel;
 
     private final AuthenticationManager authenticationManager;
-    private final Loader fxmlLoader;
+    private final LoaderFactory fxmlLoaderFactory;
 
     @Autowired
-    public LoginScreenController(AuthenticationManager authenticationManager, Loader fxmlLoader) {
+    public LoginScreenController(AuthenticationManager authenticationManager, LoaderFactory fxmlLoaderFactory) {
         this.authenticationManager = authenticationManager;
-        this.fxmlLoader = fxmlLoader;
+        this.fxmlLoaderFactory = fxmlLoaderFactory;
     }
 
     @FXML
     private void loginButtonClicked(ActionEvent event) throws IOException {
 
-
-        Parent managerMainScreen = fxmlLoader.load("/fxml/managerMainScreen.fxml");
+        FXMLLoader loader = fxmlLoaderFactory.load("/fxml/managerMainScreen.fxml");
+        Parent managerMainScreen = loader.load();
         Scene nextScene = new Scene(managerMainScreen);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();

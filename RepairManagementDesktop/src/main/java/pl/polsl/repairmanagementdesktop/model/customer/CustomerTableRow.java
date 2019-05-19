@@ -7,7 +7,7 @@ import java.net.URI;
 public class CustomerTableRow {
 
 
-    private Integer id;
+    private String id;
     private String firstName;
     private String lastName;
     private String phoneNumber;
@@ -21,7 +21,7 @@ public class CustomerTableRow {
         String uriString =  entity.getUri().toString();
 
         //processes URI string to get resource index(ex. api/customer/3)
-        this.id = Integer.parseInt(uriString.substring(uriString.lastIndexOf("/") + 1));
+        this.id = uriString.substring(uriString.lastIndexOf("/") + 1);
 
         this.firstName = entity.getFirstName();
         this.lastName = entity.getLastName();
@@ -35,7 +35,7 @@ public class CustomerTableRow {
     }
 
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
     public String getFirstName() {

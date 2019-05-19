@@ -2,14 +2,18 @@ package pl.polsl.repairmanagementdesktop.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import pl.polsl.repairmanagementdesktop.Loader;
+import pl.polsl.repairmanagementdesktop.CustomerSelectedEvent;
+import pl.polsl.repairmanagementdesktop.LoaderFactory;
 import pl.polsl.repairmanagementdesktop.TableColumnFactory;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerRestClient;
@@ -17,18 +21,23 @@ import pl.polsl.repairmanagementdesktop.model.customer.CustomerTableRow;
 
 import java.io.IOException;
 
+@Scope("prototype")
 @Controller
 public class CustomersTabController {
+
+
+    private ApplicationEventPublisher applicationEventPublisher;
     @FXML
     private TableView<CustomerTableRow> customersTableView;
 
     private final CustomerRestClient customerRC;
-    private final Loader fxmlLoader;
+    private final LoaderFactory fxmlLoaderFactory;
 
     @Autowired
-    public CustomersTabController(CustomerRestClient customerRC, Loader fxmlLoader) {
+    public CustomersTabController(ApplicationEventPublisher applicationEventPublisher, CustomerRestClient customerRC, LoaderFactory fxmlLoaderFactory) {
+        this.applicationEventPublisher = applicationEventPublisher;
         this.customerRC = customerRC;
-        this.fxmlLoader = fxmlLoader;
+        this.fxmlLoaderFactory = fxmlLoaderFactory;
     }
 
     private void initCustomerTable(){
@@ -53,6 +62,12 @@ public class CustomersTabController {
                 postCodeColumn,
                 numberColumn
         );
+
+//        customersTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+//                if (newSelection != null){
+//                    applicationEventPublisher.publishEvent(new CustomerSelectedEvent(newSelection, source));
+//                }
+//        });
     }
 
     @FXML
@@ -63,7 +78,8 @@ public class CustomersTabController {
 
     @FXML
     private void addClientButtonClicked(ActionEvent event) throws IOException {
-        Parent managerMainScreen = fxmlLoader.load("/fxml/addCustomerScreen.fxml");
+        FXMLLoader loader = fxmlLoaderFactory.load("/fxml/addCustomerScreen.fxml");
+        Parent managerMainScreen = loader.load();
         Scene nextScene = new Scene(managerMainScreen);
 
         Stage window = new Stage();
@@ -84,8 +100,9 @@ public class CustomersTabController {
     }
 
 
-
-
+    CustomerTableRow getCurrentSelection() {
+        return customersTableView.getSelectionModel().getSelectedItem();
+    }
 }
 
 
