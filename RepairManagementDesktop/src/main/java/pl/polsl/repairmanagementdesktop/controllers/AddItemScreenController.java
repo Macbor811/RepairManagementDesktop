@@ -28,7 +28,6 @@ public class AddItemScreenController {
     @FXML
     private Pane mainPane;
 
-    private FXMLLoader thisLoader;
     private final LoaderFactory fxmlLoaderFactory;
     private final ApplicationEventPublisher eventPublisher;
 
@@ -40,72 +39,51 @@ public class AddItemScreenController {
 
     @FXML
     private Label currentWorkerSelectionLabel;
-
-    @FXML
     private SelectCustomerScreenController selectCustomerScreenController;
-    @FXML
-    private Node selectCustomerScreen;
+    private Scene selectCustomerScene;
+
 
     @Autowired
     public AddItemScreenController(LoaderFactory fxmlLoaderFactory, ApplicationEventPublisher eventPublisher) {
         this.fxmlLoaderFactory = fxmlLoaderFactory;
         this.eventPublisher = eventPublisher;
+
+        try {
+            FXMLLoader loader = fxmlLoaderFactory.load("/fxml/selectCustomerScreen.fxml");
+            Parent selectCustomerScreen = loader.load();
+
+            selectCustomerScreenController = loader.getController();
+
+            selectCustomerScene = new Scene(selectCustomerScreen);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-//    @FXML
-//    public void initialize(){
-//        try {
-//            FXMLLoader loader = fxmlLoaderFactory.load("/fxml/selectCustomerScreen.fxml");
-//            Parent selectCustomerScreen = loader.load();
-//
-//            selectCustomerScreenController = loader.getController();
-//
-//
-//
-//            selectCustomerScene = new Scene(selectCustomerScreen);
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     @FXML
     private void selectOwnerButtonClicked(ActionEvent event) throws IOException {
 
         Scene scene = ((Node) event.getSource()).getScene();
-        Stage window = (Stage) scene.getWindow();
-        window.setResizable(true);
+        Stage thisWindow = (Stage) scene.getWindow();
 
-        mainPane.getChildren().setAll(selectCustomerScreen);
-        window.sizeToScene();
-        mainPane.resize(selectCustomerScreen.prefWidth(-1), selectCustomerScreen.prefHeight(-1));
-//
-//        selectCustomerScreenController.setPreviousScene(((Node) event.getSource()).getScene());
-        //thisLoader.setRoot(selectCustomerScreen);
-//        window.setResizable(true);
-//        window.centerOnScreen();//SelectCustomerScreenController selectionController = loader.getController();
-//        //window.getScene().setRoot(fxmlLoaderFactory.load("fxml/selectCustomerScreen.fxml").load());
-
-    }
+        Stage window = new Stage();
 
 
+        window.setScene(selectCustomerScene);
+        window.setResizable(false);
+        thisWindow.hide();
+        window.showAndWait();
+        thisWindow.show();
 
-    @EventListener
-    public void ownerSelected(CustomerSelectedEvent event){
-        if (event.getSource() == selectCustomerScreenController){
-            CustomerTableRow customer = event.getCustomer();
-            currentWorkerSelectionLabel.setText(event.getCustomer().getFirstName() +  " " + event.getCustomer().getLastName());
-            //currentTypeSelectionLabel.setText(descriptionTextField.getText());
+        CustomerTableRow customer = selectCustomerScreenController.getSelection();
+        if (customer != null){
+            currentWorkerSelectionLabel.setText(selectCustomerScreenController.getSelection().getFirstName());
+
         }
-//        else {
-//            eventPublisher.publishEvent(event);
-//        }
-
 
     }
 
 
-    public void setThisLoader(FXMLLoader thisLoader) {
-        this.thisLoader = thisLoader;
-    }
 }

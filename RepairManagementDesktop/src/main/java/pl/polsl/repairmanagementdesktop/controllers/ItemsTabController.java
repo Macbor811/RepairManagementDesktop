@@ -31,8 +31,7 @@ public class ItemsTabController {
         FXMLLoader loader = fxmlLoaderFactory.load("/fxml/addItemScreen.fxml");
 
         Parent managerMainScreen = loader.load();
-        AddItemScreenController controller = loader.getController();
-        controller.setThisLoader(loader);
+
         Scene nextScene = new Scene(managerMainScreen);
 
         Stage window = new Stage();

@@ -11,6 +11,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import pl.polsl.repairmanagementdesktop.CustomerSelectedEvent;
+import pl.polsl.repairmanagementdesktop.model.customer.CustomerTableRow;
 
 @Scope("prototype")
 @Controller
@@ -19,10 +20,6 @@ public class SelectCustomerScreenController {
     @FXML
     private Button selectButton;
 
-    private Scene previousScene;
-
-    @Autowired
-    private ApplicationEventPublisher applicationEventPublisher;
 
     @FXML
     private CustomersTabController customersTabController;
@@ -31,20 +28,17 @@ public class SelectCustomerScreenController {
     private void cancelButtonClicked(ActionEvent event){
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(previousScene);
+        window.close();
     }
 
     @FXML
     private void selectButtonClicked(ActionEvent event){
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        applicationEventPublisher.publishEvent(new CustomerSelectedEvent(customersTabController.getCurrentSelection(), this));
-        window.setScene(previousScene);
+        window.close();
     }
 
-
-    void setPreviousScene(Scene scene){
-        previousScene = scene;
+    CustomerTableRow getSelection(){
+        return customersTabController.getCurrentSelection();
     }
 
 
