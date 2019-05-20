@@ -9,7 +9,10 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import uk.co.blackpepper.bowman.Client;
 import uk.co.blackpepper.bowman.ClientFactory;
+import uk.co.blackpepper.bowman.Configuration;
+import uk.co.blackpepper.bowman.Page;
 
+import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -37,10 +40,10 @@ public class CustomerRestClient {
      }
 
 
-     public Iterable<CustomerEntity> findAll(){
-         return client.getAll();
-     }
+     public Iterable<CustomerEntity> findAll(int page, int size){
 
+        return client.getPage( URI.create(client.getBaseUri().toString()), page, size).getResources();
+     }
 
 
 }

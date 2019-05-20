@@ -8,8 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
-import pl.polsl.repairmanagementdesktop.model.address.AddressDTO;
-import pl.polsl.repairmanagementdesktop.model.customer.CustomerDTO;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerRestClient;
 
 @RunWith(SpringRunner.class)

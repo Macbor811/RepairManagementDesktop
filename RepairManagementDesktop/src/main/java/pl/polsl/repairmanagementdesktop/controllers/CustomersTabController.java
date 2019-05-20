@@ -2,10 +2,14 @@ package pl.polsl.repairmanagementdesktop.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Pagination;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +23,16 @@ import java.io.IOException;
 
 @Controller
 public class CustomersTabController {
+
+    private static final Integer DEFAULT_ROWS_PER_PAGE_COUNT = 20;
+
+    @FXML
+    private Pagination pagination;
+
+    @FXML
+    private TextField rowsPerPageTextField;
+
+
     @FXML
     private TableView<CustomerTableRow> customersTableView;
 
@@ -31,7 +45,7 @@ public class CustomersTabController {
         this.fxmlLoader = fxmlLoader;
     }
 
-    private void initCustomerTable(){
+    private void initCustomersTableView(){
         customersTableView.getColumns().clear();
 
         TableColumn<CustomerTableRow, String> idColumn = TableColumnFactory.createColumn("ID", "id");
@@ -55,10 +69,19 @@ public class CustomersTabController {
         );
     }
 
+    //The parameter and return value are required by pagination control, but not needed in this case.
+    private Node createPage(int pageIndex) {
+        showCustomersButtonClicked();
+
+        return new Pane(); //dummy value, not used
+    }
+
     @FXML
     public void initialize() {
-        initCustomerTable();
+        initCustomersTableView();
 
+        rowsPerPageTextField.setText(DEFAULT_ROWS_PER_PAGE_COUNT.toString());
+        pagination.setPageFactory(this::createPage);
     }
 
     @FXML
@@ -76,7 +99,8 @@ public class CustomersTabController {
     @FXML
     private void showCustomersButtonClicked(){
         customersTableView.getItems().clear();
-        for (CustomerEntity customer : customerRC.findAll()){
+        for (CustomerEntity customer :
+                customerRC.findAll(pagination.getCurrentPageIndex(), Integer.valueOf(rowsPerPageTextField.getText()))){
 
             customersTableView.getItems().add(new CustomerTableRow(customer));
 
