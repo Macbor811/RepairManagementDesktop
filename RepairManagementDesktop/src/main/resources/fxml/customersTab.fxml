@@ -70,9 +70,8 @@
                               <TextField fx:id="lastNameTextField" promptText="Last name" GridPane.rowIndex="2" />
                               <TextField fx:id="phoneTextField" promptText="Phone" GridPane.rowIndex="3" />
                               <TextField fx:id="idTextField" promptText="ID" />
-                              <TextField fx:id="cityTextField" promptText="City" GridPane.rowIndex="4" />
-                              <TextField fx:id="streetTextField" promptText="Street" GridPane.rowIndex="5" />
-                              <TextField fx:id="postCodeTextField" promptText="Postal code" GridPane.rowIndex="6" />
+                              <TextField fx:id="cityTextField" promptText="City" GridPane.rowIndex="5" />
+                              <TextField fx:id="streetTextField" promptText="Street" GridPane.rowIndex="6" />
                               <TextField fx:id="numberTextField" promptText="Number" GridPane.rowIndex="7" />
                         <Label text="Rows per page:" GridPane.rowIndex="8" />
                         <TextField fx:id="rowsPerPageTextField" prefHeight="25.0" prefWidth="110.0" GridPane.rowIndex="8">
@@ -80,6 +79,7 @@
                               <Insets left="85.0" right="80.0" />
                            </GridPane.margin>
                         </TextField>
+                        <TextField fx:id="postCodeTextField" promptText="Postal code" GridPane.rowIndex="4" />
                            </children>
                         </GridPane>
                      </children>

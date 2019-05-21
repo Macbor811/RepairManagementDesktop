@@ -40,9 +40,9 @@ public class CustomerRestClient {
      }
 
 
-     public Iterable<CustomerEntity> findAll(int page, int size){
+     public Page<CustomerEntity> findAll(int page, int size){
 
-        return client.getPage( URI.create(client.getBaseUri().toString()), page, size).getResources();
+        return client.getPage(URI.create(client.getBaseUri().toString()), page, size);
      }
 
 
