@@ -68,17 +68,6 @@ public class AddCustomerScreenController {
                 numberTextField
         );
 
-        UnaryOperator<TextFormatter.Change> filter = change -> {
-            String text = change.getText();
-
-            if (text.matches("[0-9]*")) {
-                return change;
-            }
-
-            return null;
-        };
-        TextFormatter<String> textFormatter = new TextFormatter<>(filter);
-        phoneNumTextField.setTextFormatter(textFormatter);
     }
 
     @FXML

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 import uk.co.blackpepper.bowman.Client;
 import uk.co.blackpepper.bowman.ClientFactory;
 import uk.co.blackpepper.bowman.Configuration;
@@ -30,7 +31,6 @@ public class CustomerRestClient {
 
     }
 
-
      public void save(CustomerEntity customer){
         client.post(customer);
      }
@@ -45,5 +45,7 @@ public class CustomerRestClient {
         return client.getPage(URI.create(client.getBaseUri().toString()), page, size);
      }
 
-
+    public Page<CustomerEntity> findAll(String params ,int page, int size){
+        return client.getPage(URI.create(client.getBaseUri().toString() + params), page, size);
+    }
 }
