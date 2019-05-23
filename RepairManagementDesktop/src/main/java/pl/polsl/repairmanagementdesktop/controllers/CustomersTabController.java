@@ -21,6 +21,7 @@ import pl.polsl.repairmanagementdesktop.model.customer.CustomerTableRow;
 import uk.co.blackpepper.bowman.Page;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 @Controller
 public class CustomersTabController {
@@ -96,15 +97,20 @@ public class CustomersTabController {
     }
 
     private void initQueryTextFields() {
-        queryCreator.getBindings().add(new TextFieldParamBinding(idTextField, "id"));
-        queryCreator.getBindings().add(new TextFieldParamBinding(firstNameTextField, "firstName"));
-        queryCreator.getBindings().add(new TextFieldParamBinding(lastNameTextField, "lastName"));
-        queryCreator.getBindings().add(new TextFieldParamBinding(phoneTextField, "phoneNumber"));
-        queryCreator.getBindings().add(new TextFieldParamBinding(streetTextField, "address.street"));
-        queryCreator.getBindings().add(new TextFieldParamBinding(cityTextField, "address.city"));
-        queryCreator.getBindings().add(new TextFieldParamBinding(postCodeTextField, "address.postCode"));
-        queryCreator.getBindings().add(new TextFieldParamBinding(numberTextField, "address.number"));
+        queryCreator.getBindings().addAll(
+                Arrays.asList(
+                        new TextFieldParamBinding(idTextField, "id"),
+                        new TextFieldParamBinding(firstNameTextField, "firstName"),
+                        new TextFieldParamBinding(lastNameTextField, "lastName"),
+                        new TextFieldParamBinding(phoneTextField, "phoneNumber"),
+                        new TextFieldParamBinding(streetTextField, "address.street"),
+                        new TextFieldParamBinding(cityTextField, "address.city"),
+                        new TextFieldParamBinding(postCodeTextField, "address.postCode"),
+                        new TextFieldParamBinding(numberTextField, "address.number")
+                )
+        );
     }
+
 
     private void initPagination() {
         rowsPerPageTextField.setText(DEFAULT_ROWS_PER_PAGE.toString());
