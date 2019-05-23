@@ -6,20 +6,18 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import pl.polsl.repairmanagementdesktop.model.address.AddressEntity;
-import pl.polsl.repairmanagementdesktop.model.address.AddressRestClient;
+import pl.polsl.repairmanagementdesktop.model.address.AddressService;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
-import pl.polsl.repairmanagementdesktop.model.customer.CustomerRestClient;
+import pl.polsl.repairmanagementdesktop.model.customer.CustomerService;
 
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.UnaryOperator;
 
 
 @Scope("prototype")
@@ -47,13 +45,13 @@ public class AddCustomerScreenController {
 
     private List<TextField> fieldsList;
 
-    private final CustomerRestClient customerRC;
-    private final AddressRestClient addressRC;
+    private final CustomerService customerService;
+    private final AddressService addressService;
 
     @Autowired
-    public AddCustomerScreenController(CustomerRestClient customerRC, AddressRestClient addressRC) {
-        this.customerRC = customerRC;
-        this.addressRC = addressRC;
+    public AddCustomerScreenController(CustomerService customerService, AddressService addressService) {
+        this.customerService = customerService;
+        this.addressService = addressService;
     }
 
     @FXML
@@ -82,17 +80,17 @@ public class AddCustomerScreenController {
                     numberTextField.getText()
             );
 
-            URI id = addressRC.save(address);
+            URI id = addressService.save(address);
 
 
             CustomerEntity customer = new CustomerEntity(
                     firstNameTextField.getText(),
                     lastNameTextField.getText(),
                     phoneNumTextField.getText(),
-                    addressRC.find(id)
+                    addressService.find(id)
             );
 
-            customerRC.save(customer);
+            customerService.save(customer);
 
             final Node source = (Node) event.getSource();
             final Stage stage = (Stage) source.getScene().getWindow();

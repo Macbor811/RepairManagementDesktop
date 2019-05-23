@@ -20,12 +20,12 @@ import java.util.Optional;
 
 
 @Component
-public class CustomerRestClient {
+public class CustomerService {
 
     private final Client<CustomerEntity> client;
 
     @Autowired
-    public CustomerRestClient(ClientFactory factory){
+    public CustomerService(ClientFactory factory){
 
         client = factory.create(CustomerEntity.class);
 
@@ -45,7 +45,7 @@ public class CustomerRestClient {
         return client.getPage(URI.create(client.getBaseUri().toString()), page, size);
      }
 
-    public Page<CustomerEntity> findAll(String params ,int page, int size){
+    public Page<CustomerEntity> findAllMatching(String params, int page, int size){
         return client.getPage(URI.create(client.getBaseUri().toString() + params), page, size);
     }
 }

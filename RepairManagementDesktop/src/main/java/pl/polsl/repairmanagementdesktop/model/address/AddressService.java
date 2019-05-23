@@ -8,12 +8,12 @@ import uk.co.blackpepper.bowman.ClientFactory;
 import java.net.URI;
 
 @Component
-public class AddressRestClient {
+public class AddressService {
 
     private final Client<AddressEntity> client;
 
     @Autowired
-    public AddressRestClient(ClientFactory factory){
+    public AddressService(ClientFactory factory){
 
         client = factory.create(AddressEntity.class);
 

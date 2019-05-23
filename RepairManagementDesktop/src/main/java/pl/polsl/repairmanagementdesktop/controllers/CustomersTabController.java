@@ -16,13 +16,11 @@ import pl.polsl.repairmanagementdesktop.TextFieldParamBinding;
 import pl.polsl.repairmanagementdesktop.TextFieldQueryCreator;
 import pl.polsl.repairmanagementdesktop.TextFormatterFactory;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
-import pl.polsl.repairmanagementdesktop.model.customer.CustomerRestClient;
+import pl.polsl.repairmanagementdesktop.model.customer.CustomerService;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerTableRow;
 import uk.co.blackpepper.bowman.Page;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class CustomersTabController {
@@ -58,13 +56,13 @@ public class CustomersTabController {
     @FXML
     private TableView<CustomerTableRow> customersTableView;
 
-    private final CustomerRestClient customerRC;
+    private final CustomerService customerService;
     private final Loader fxmlLoader;
     private String queryString = "";
 
     @Autowired
-    public CustomersTabController(CustomerRestClient customerRC, Loader fxmlLoader) {
-        this.customerRC = customerRC;
+    public CustomersTabController(CustomerService customerService, Loader fxmlLoader) {
+        this.customerService = customerService;
         this.fxmlLoader = fxmlLoader;
     }
 
@@ -153,7 +151,7 @@ public class CustomersTabController {
     }
 
     private void updateTable() {
-        Page<CustomerEntity> page = customerRC.findAll(queryString, pagination.getCurrentPageIndex(), rowsPerPage);
+        Page<CustomerEntity> page = customerService.findAllMatching(queryString, pagination.getCurrentPageIndex(), rowsPerPage);
         pagination.setPageCount((int) page.getTotalPages());
         customersTableView.getItems().clear();
 
