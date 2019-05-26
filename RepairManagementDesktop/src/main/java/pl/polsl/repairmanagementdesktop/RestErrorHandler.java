@@ -14,7 +14,7 @@ public class RestErrorHandler extends DefaultResponseErrorHandler {
     public void handleError(ClientHttpResponse response) throws IOException {
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
         errorAlert.setHeaderText("Error");
-        errorAlert.setContentText(response.getStatusText());
+        errorAlert.setContentText(response.getStatusCode().toString());
         errorAlert.showAndWait();
     }
 }
