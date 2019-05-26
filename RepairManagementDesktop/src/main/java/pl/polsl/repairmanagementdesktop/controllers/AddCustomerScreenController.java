@@ -9,7 +9,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.client.HttpClientErrorException;
 import pl.polsl.repairmanagementdesktop.model.address.AddressEntity;
 import pl.polsl.repairmanagementdesktop.model.address.AddressService;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
@@ -80,6 +82,7 @@ public class AddCustomerScreenController {
                     numberTextField.getText()
             );
 
+
             URI id = addressService.save(address);
 
 
@@ -90,11 +93,15 @@ public class AddCustomerScreenController {
                     addressService.find(id)
             );
 
-            customerService.save(customer);
 
-            final Node source = (Node) event.getSource();
-            final Stage stage = (Stage) source.getScene().getWindow();
-            stage.close();
+                customerService.save(customer);
+
+                final Node source = (Node) event.getSource();
+                final Stage stage = (Stage) source.getScene().getWindow();
+
+                stage.close();
+
+
         } else {
             messageLabel.setText("All fields must be filled.");
         }

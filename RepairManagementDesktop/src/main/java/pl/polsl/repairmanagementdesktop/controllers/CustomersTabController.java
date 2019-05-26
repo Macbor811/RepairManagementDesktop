@@ -10,6 +10,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.ResourceAccessException;
 import pl.polsl.repairmanagementdesktop.Loader;
 import pl.polsl.repairmanagementdesktop.TableColumnFactory;
 import pl.polsl.repairmanagementdesktop.TextFieldParamBinding;
@@ -157,18 +159,30 @@ public class CustomersTabController {
     }
 
     private void updateTable() {
-        Page<CustomerEntity> page = customerService.findAllMatching(queryString, pagination.getCurrentPageIndex(), rowsPerPage);
-        pagination.setPageCount((int) page.getTotalPages());
-        customersTableView.getItems().clear();
+        try{
+            Page<CustomerEntity> page = customerService.findAllMatching(queryString, pagination.getCurrentPageIndex(), rowsPerPage);
+            pagination.setPageCount((int) page.getTotalPages());
+            customersTableView.getItems().clear();
 
 
-        for (CustomerEntity customer : page.getResources()) {
+            for (CustomerEntity customer : page.getResources()) {
 
-            customersTableView.getItems().add(new CustomerTableRow(customer));
+                customersTableView.getItems().add(new CustomerTableRow(customer));
 
+            }
+        } catch (ResourceAccessException e){
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText("Connection error");
+            errorAlert.setContentText(e.getMessage());
+            errorAlert.showAndWait();
         }
+
     }
 
+//    @ExceptionHandler(ResourceAccessException.class)
+//    public void handleException(ResourceAccessException e) {
+//        System.out.println(e.getMessage());
+//    }
 
 }
 
