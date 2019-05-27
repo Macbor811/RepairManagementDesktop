@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -25,6 +26,14 @@ import java.io.IOException;
 @Controller
 public class AddItemScreenController {
 
+    @FXML
+    private Label currentOwnerSelectionLabel;
+    @FXML
+    private TextField itemNameTextField;
+    @FXML
+    private ListView itemTypeListView;
+    @FXML
+    private Label messageLabel;
     @FXML
     private Pane mainPane;
 
@@ -61,6 +70,11 @@ public class AddItemScreenController {
         }
     }
 
+    @FXML
+    public void initialize(){
+
+    }
+
 
     @FXML
     private void selectOwnerButtonClicked(ActionEvent event) throws IOException {
@@ -84,4 +98,11 @@ public class AddItemScreenController {
 
     }
 
+    @FXML
+    private void addItemButtonClicked(ActionEvent event) {
+    }
+
+    @FXML
+    private void cancelButtonClicked(ActionEvent event) {
+    }
 }
