@@ -2,7 +2,10 @@ package pl.polsl.repairmanagementdesktop.controllers;
 
 
 import javafx.fxml.FXML;
+<<<<<<< HEAD
 import javafx.scene.layout.AnchorPane;
+=======
+>>>>>>> master
 import org.springframework.stereotype.Controller;
 
 @Controller
