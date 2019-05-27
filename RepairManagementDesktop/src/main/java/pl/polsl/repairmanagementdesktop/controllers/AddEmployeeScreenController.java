@@ -5,9 +5,10 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-
+@Scope("prototype")
 @Controller
 public class AddEmployeeScreenController {
 
