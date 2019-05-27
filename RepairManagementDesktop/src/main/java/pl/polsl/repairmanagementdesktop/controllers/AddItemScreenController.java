@@ -1,5 +1,7 @@
 package pl.polsl.repairmanagementdesktop.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,13 +16,18 @@ import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Controller;
-import pl.polsl.repairmanagementdesktop.CustomerSelectedEvent;
 import pl.polsl.repairmanagementdesktop.LoaderFactory;
+import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
+import pl.polsl.repairmanagementdesktop.model.customer.CustomerService;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerTableRow;
+import pl.polsl.repairmanagementdesktop.model.item.ItemEntity;
+import pl.polsl.repairmanagementdesktop.model.item.ItemService;
+import pl.polsl.repairmanagementdesktop.model.itemtype.ItemTypeEntity;
+import pl.polsl.repairmanagementdesktop.model.itemtype.ItemTypeService;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 @Scope("prototype")
 @Controller
@@ -40,22 +47,26 @@ public class AddItemScreenController {
     private final LoaderFactory fxmlLoaderFactory;
     private final ApplicationEventPublisher eventPublisher;
 
+    private final ItemTypeService itemTypeService;
+    private final ItemService itemService;
+    private final CustomerService customerService;
+
     @FXML
     private TextField descriptionTextField;
 
-    @FXML
-    private Label currentTypeSelectionLabel;
 
-    @FXML
-    private Label currentWorkerSelectionLabel;
     private SelectCustomerScreenController selectCustomerScreenController;
     private Scene selectCustomerScene;
+    private  CustomerTableRow ownerTableRow;
 
 
     @Autowired
-    public AddItemScreenController(LoaderFactory fxmlLoaderFactory, ApplicationEventPublisher eventPublisher) {
+    public AddItemScreenController(LoaderFactory fxmlLoaderFactory, ApplicationEventPublisher eventPublisher, ItemTypeService itemTypeService, ItemService itemService, CustomerService customerService) {
         this.fxmlLoaderFactory = fxmlLoaderFactory;
         this.eventPublisher = eventPublisher;
+        this.itemTypeService = itemTypeService;
+        this.itemService = itemService;
+        this.customerService = customerService;
 
         try {
             FXMLLoader loader = fxmlLoaderFactory.load("/fxml/selectCustomerScreen.fxml");
@@ -72,6 +83,15 @@ public class AddItemScreenController {
 
     @FXML
     public void initialize(){
+        ObservableList<String> itemTypes = FXCollections.observableList(
+                itemTypeService.findAll(0, 1000)
+                        .getResources()
+                        .stream()
+                        .map(ItemTypeEntity::getType)
+                        .collect(Collectors.toList()));
+
+
+        itemTypeListView.setItems(itemTypes);
 
     }
 
@@ -91,18 +111,26 @@ public class AddItemScreenController {
         window.showAndWait();
         thisWindow.show();
 
-        CustomerTableRow customer = selectCustomerScreenController.getSelection();
-        if (customer != null){
-            currentWorkerSelectionLabel.setText(customer.getFirstName() + " " + customer.getLastName());
+        ownerTableRow = selectCustomerScreenController.getCurrentSelection();
+        if (ownerTableRow != null){
+            currentOwnerSelectionLabel.setText(ownerTableRow.getFirstName() + " " + ownerTableRow.getLastName());
         }
 
     }
 
     @FXML
     private void addItemButtonClicked(ActionEvent event) {
+        ItemTypeEntity type =  ((ItemTypeEntity) itemTypeListView.getSelectionModel().getSelectedItem());
+        CustomerEntity owner = customerService.findById(Integer.parseInt(ownerTableRow.getId()));
+
+        ItemEntity item = new ItemEntity(itemNameTextField.getText(), type, owner);
+
+        itemService.save(item);
     }
 
     @FXML
     private void cancelButtonClicked(ActionEvent event) {
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.close();
     }
 }

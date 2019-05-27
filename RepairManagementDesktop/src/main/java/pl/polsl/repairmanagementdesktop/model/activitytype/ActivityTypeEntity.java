@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 
+@RemoteResource("/activity-type")
 public class ActivityTypeEntity {
     private URI uri;
     private String type;

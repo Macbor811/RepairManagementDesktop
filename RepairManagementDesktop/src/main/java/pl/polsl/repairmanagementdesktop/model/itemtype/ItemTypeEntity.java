@@ -3,13 +3,14 @@ package pl.polsl.repairmanagementdesktop.model.itemtype;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import pl.polsl.repairmanagementdesktop.model.item.ItemEntity;
 import uk.co.blackpepper.bowman.InlineAssociationDeserializer;
+import uk.co.blackpepper.bowman.annotation.RemoteResource;
 import uk.co.blackpepper.bowman.annotation.ResourceId;
 
 import java.net.URI;
 import java.util.Collection;
-import java.util.Objects;
 
 
+@RemoteResource("/item-type")
 public class ItemTypeEntity{
 
     private URI uri;
@@ -40,6 +41,8 @@ public class ItemTypeEntity{
     }
 
 
-
-
+    @Override
+    public String toString(){
+        return type;
+    }
 }

@@ -47,7 +47,7 @@ public class SelectCustomerScreenController {
 
     }
 
-    CustomerTableRow getSelection(){
+    CustomerTableRow getCurrentSelection(){
         return currentSelection;
     }
 

@@ -1,6 +1,5 @@
 package pl.polsl.repairmanagementdesktop.controllers;
 
-<<<<<<< HEAD
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,17 +7,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
-=======
->>>>>>> master
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import pl.polsl.repairmanagementdesktop.LoaderFactory;
 
-<<<<<<< HEAD
 import java.io.IOException;
 
-=======
->>>>>>> master
 @Scope("prototype")
 @Controller
 public class ItemsTabController {

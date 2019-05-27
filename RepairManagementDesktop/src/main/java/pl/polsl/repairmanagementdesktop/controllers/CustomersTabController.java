@@ -2,32 +2,18 @@ package pl.polsl.repairmanagementdesktop.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-<<<<<<< HEAD
-import javafx.fxml.FXMLLoader;
-=======
 import javafx.scene.Node;
->>>>>>> master
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-<<<<<<< HEAD
-import pl.polsl.repairmanagementdesktop.CustomerSelectedEvent;
-import pl.polsl.repairmanagementdesktop.LoaderFactory;
-=======
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.ResourceAccessException;
-import pl.polsl.repairmanagementdesktop.Loader;
->>>>>>> master
-import pl.polsl.repairmanagementdesktop.TableColumnFactory;
-import pl.polsl.repairmanagementdesktop.TextFieldParamBinding;
-import pl.polsl.repairmanagementdesktop.TextFieldQueryCreator;
-import pl.polsl.repairmanagementdesktop.TextFormatterFactory;
+import pl.polsl.repairmanagementdesktop.*;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerService;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerTableRow;
@@ -40,21 +26,6 @@ import java.util.Arrays;
 @Controller
 public class CustomersTabController {
 
-<<<<<<< HEAD
-
-    private ApplicationEventPublisher applicationEventPublisher;
-    @FXML
-    private TableView<CustomerTableRow> customersTableView;
-
-    private final CustomerRestClient customerRC;
-    private final LoaderFactory fxmlLoaderFactory;
-
-    @Autowired
-    public CustomersTabController(ApplicationEventPublisher applicationEventPublisher, CustomerRestClient customerRC, LoaderFactory fxmlLoaderFactory) {
-        this.applicationEventPublisher = applicationEventPublisher;
-        this.customerRC = customerRC;
-        this.fxmlLoaderFactory = fxmlLoaderFactory;
-=======
     private static final Integer DEFAULT_ROWS_PER_PAGE = 20;
 
     @FXML
@@ -87,14 +58,13 @@ public class CustomersTabController {
     private TableView<CustomerTableRow> customersTableView;
 
     private final CustomerService customerService;
-    private final Loader fxmlLoader;
+    private final LoaderFactory loaderFactory;
     private String queryString = "";
 
     @Autowired
-    public CustomersTabController(CustomerService customerService, Loader fxmlLoader) {
+    public CustomersTabController(CustomerService customerService, LoaderFactory loaderFactory) {
         this.customerService = customerService;
-        this.fxmlLoader = fxmlLoader;
->>>>>>> master
+        this.loaderFactory = loaderFactory;
     }
 
     private void initCustomersTableView() {
@@ -120,13 +90,6 @@ public class CustomersTabController {
                 numberColumn
         );
 
-<<<<<<< HEAD
-//        customersTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-//                if (newSelection != null){
-//                    applicationEventPublisher.publishEvent(new CustomerSelectedEvent(newSelection, source));
-//                }
-//        });
-=======
         for (TableColumn column : customersTableView.getColumns()) {
             column.setStyle("-fx-alignment: CENTER;");
         }
@@ -156,7 +119,6 @@ public class CustomersTabController {
         pagination.setPageCount(1);
 
         rowsPerPageTextField.setTextFormatter(TextFormatterFactory.numericTextFormatter());
->>>>>>> master
     }
 
     @FXML
@@ -176,14 +138,8 @@ public class CustomersTabController {
 
 
     @FXML
-<<<<<<< HEAD
-    private void addClientButtonClicked(ActionEvent event) throws IOException {
-        FXMLLoader loader = fxmlLoaderFactory.load("/fxml/addCustomerScreen.fxml");
-        Parent managerMainScreen = loader.load();
-=======
     private void addCustomerButtonClicked(ActionEvent event) throws IOException {
-        Parent managerMainScreen = fxmlLoader.load("/fxml/addCustomerScreen.fxml");
->>>>>>> master
+        Parent managerMainScreen = loaderFactory.load("/fxml/addCustomerScreen.fxml").load();
         Scene nextScene = new Scene(managerMainScreen);
 
         Stage window = new Stage();
@@ -209,11 +165,6 @@ public class CustomersTabController {
 
             for (CustomerEntity customer : page.getResources()) {
 
-<<<<<<< HEAD
-    CustomerTableRow getCurrentSelection() {
-        return customersTableView.getSelectionModel().getSelectedItem();
-    }
-=======
                 customersTableView.getItems().add(new CustomerTableRow(customer));
 
             }
@@ -226,12 +177,16 @@ public class CustomersTabController {
 
     }
 
+
+    CustomerTableRow getCurrentSelection(){
+        return customersTableView.getSelectionModel().getSelectedItem();
+    }
+
 //    @ExceptionHandler(ResourceAccessException.class)
 //    public void handleException(ResourceAccessException e) {
 //        System.out.println(e.getMessage());
 //    }
 
->>>>>>> master
 }
 
 

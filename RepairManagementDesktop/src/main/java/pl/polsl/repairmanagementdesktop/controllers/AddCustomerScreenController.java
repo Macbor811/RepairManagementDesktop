@@ -9,10 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-<<<<<<< HEAD
-=======
-import org.springframework.http.HttpStatus;
->>>>>>> master
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.HttpClientErrorException;
 import pl.polsl.repairmanagementdesktop.model.address.AddressEntity;
@@ -24,10 +21,6 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> master
 @Scope("prototype")
 @Controller
 public class AddCustomerScreenController {

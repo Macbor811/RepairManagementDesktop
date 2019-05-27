@@ -1,4 +1,5 @@
-package pl.polsl.repairmanagementdesktop.model.customer;
+package pl.polsl.repairmanagementdesktop.model.item;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -21,32 +22,32 @@ import java.util.Optional;
 
 
 @Service
-public class CustomerService {
+public class ItemService {
 
-    private final Client<CustomerEntity> client;
+    private final Client<ItemEntity> client;
 
     @Autowired
-    public CustomerService(ClientFactory factory){
+    public ItemService(ClientFactory factory){
 
-        client = factory.create(CustomerEntity.class);
+        client = factory.create(ItemEntity.class);
 
     }
 
-     public void save(CustomerEntity customer){
-        client.post(customer);
-     }
+    public void save(ItemEntity Item){
+        client.post(Item);
+    }
 
-     public CustomerEntity findById(Integer id){
+    public ItemEntity findById(Integer id){
         return client.get();
-     }
+    }
 
 
-     public Page<CustomerEntity> findAll(int page, int size){
+    public Page<ItemEntity> findAll(int page, int size){
 
         return client.getPage(URI.create(client.getBaseUri().toString()), page, size);
-     }
+    }
 
-    public Page<CustomerEntity> findAllMatching(String params, int page, int size){
+    public Page<ItemEntity> findAllMatching(String params, int page, int size){
         return client.getPage(URI.create(client.getBaseUri().toString() + params), page, size);
     }
 }

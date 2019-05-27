@@ -6,13 +6,14 @@ import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 import uk.co.blackpepper.bowman.InlineAssociationDeserializer;
 import uk.co.blackpepper.bowman.annotation.LinkedResource;
+import uk.co.blackpepper.bowman.annotation.RemoteResource;
 import uk.co.blackpepper.bowman.annotation.ResourceId;
 
 import java.net.URI;
 import java.util.Collection;
 import java.util.Objects;
 
-
+@RemoteResource("/item")
 public class ItemEntity {
     private URI uri;
 

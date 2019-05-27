@@ -2,12 +2,13 @@ package pl.polsl.repairmanagementdesktop.model.address;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import uk.co.blackpepper.bowman.Client;
 import uk.co.blackpepper.bowman.ClientFactory;
 
 import java.net.URI;
 
-@Component
+@Service
 public class AddressService {
 
     private final Client<AddressEntity> client;
@@ -23,8 +24,8 @@ public class AddressService {
         return client.get(uri);
     }
 
-    public URI save(AddressEntity customer){
-        return client.post(customer);
+    public URI save(AddressEntity entity){
+        return client.post(entity);
     }
 
 
