@@ -6,28 +6,21 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-<<<<<<< HEAD
-=======
-import org.springframework.http.HttpStatus;
->>>>>>> master
 import org.springframework.stereotype.Controller;
-import org.springframework.web.client.HttpClientErrorException;
 import pl.polsl.repairmanagementdesktop.model.address.AddressEntity;
-import pl.polsl.repairmanagementdesktop.model.address.AddressService;
+import pl.polsl.repairmanagementdesktop.model.address.AddressRestClient;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
-import pl.polsl.repairmanagementdesktop.model.customer.CustomerService;
+import pl.polsl.repairmanagementdesktop.model.customer.CustomerRestClient;
 
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.UnaryOperator;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> master
 @Scope("prototype")
 @Controller
 public class AddCustomerScreenController {
@@ -53,13 +46,13 @@ public class AddCustomerScreenController {
 
     private List<TextField> fieldsList;
 
-    private final CustomerService customerService;
-    private final AddressService addressService;
+    private final CustomerRestClient customerRC;
+    private final AddressRestClient addressRC;
 
     @Autowired
-    public AddCustomerScreenController(CustomerService customerService, AddressService addressService) {
-        this.customerService = customerService;
-        this.addressService = addressService;
+    public AddCustomerScreenController(CustomerRestClient customerRC, AddressRestClient addressRC) {
+        this.customerRC = customerRC;
+        this.addressRC = addressRC;
     }
 
     @FXML
@@ -74,6 +67,17 @@ public class AddCustomerScreenController {
                 numberTextField
         );
 
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String text = change.getText();
+
+            if (text.matches("[0-9]*")) {
+                return change;
+            }
+
+            return null;
+        };
+        TextFormatter<String> textFormatter = new TextFormatter<>(filter);
+        phoneNumTextField.setTextFormatter(textFormatter);
     }
 
     @FXML
@@ -88,26 +92,21 @@ public class AddCustomerScreenController {
                     numberTextField.getText()
             );
 
-
-            URI id = addressService.save(address);
+            URI id = addressRC.save(address);
 
 
             CustomerEntity customer = new CustomerEntity(
                     firstNameTextField.getText(),
                     lastNameTextField.getText(),
                     phoneNumTextField.getText(),
-                    addressService.find(id)
+                    addressRC.find(id)
             );
 
+            customerRC.save(customer);
 
-                customerService.save(customer);
-
-                final Node source = (Node) event.getSource();
-                final Stage stage = (Stage) source.getScene().getWindow();
-
-                stage.close();
-
-
+            final Node source = (Node) event.getSource();
+            final Stage stage = (Stage) source.getScene().getWindow();
+            stage.close();
         } else {
             messageLabel.setText("All fields must be filled.");
         }

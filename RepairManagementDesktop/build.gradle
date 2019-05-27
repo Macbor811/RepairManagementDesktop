@@ -14,17 +14,10 @@ repositories {
     mavenCentral()
 }
 
-//required by bowman-client.jar
-dependencies{
-    compile "org.javassist:javassist:3.25.0-GA"
-    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
-}
-
 
 dependencies {
-    implementation files('libs/bowman-client.jar')
+    compile "uk.co.blackpepper.bowman:bowman-client:0.6.1"
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-hateoas'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
