@@ -79,11 +79,9 @@ public class AddItemScreenController {
 
         CustomerTableRow customer = selectCustomerScreenController.getSelection();
         if (customer != null){
-            currentWorkerSelectionLabel.setText(selectCustomerScreenController.getSelection().getFirstName());
-
+            currentWorkerSelectionLabel.setText(customer.getFirstName() + " " + customer.getLastName());
         }
 
     }
-
 
 }

@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class SelectCustomerScreenController {
     @FXML
     private Button selectButton;
 
+    private CustomerTableRow currentSelection = null;
+
 
     @FXML
     private CustomersTabController customersTabController;
@@ -33,12 +36,19 @@ public class SelectCustomerScreenController {
 
     @FXML
     private void selectButtonClicked(ActionEvent event){
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.close();
+        currentSelection = customersTabController.getCurrentSelection();
+        if (currentSelection != null){
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.close();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("No customer selected!");
+        }
+
     }
 
     CustomerTableRow getSelection(){
-        return customersTabController.getCurrentSelection();
+        return currentSelection;
     }
 
 
