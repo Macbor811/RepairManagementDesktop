@@ -83,12 +83,18 @@ public class AddItemScreenController {
 
     @FXML
     public void initialize(){
-        ObservableList<String> itemTypes = FXCollections.observableList(
-                itemTypeService.findAll(0, 1000)
+        ObservableList<String> itemTypes = FXCollections
+                .observableList(
+                itemTypeService
+                        .findAll(0, 1000)
                         .getResources()
                         .stream()
-                        .map(ItemTypeEntity::getType)
-                        .collect(Collectors.toList()));
+                        .map(entity -> {
+                            String uriString = entity.getUri().toString();
+                            return uriString.substring(uriString.lastIndexOf("/") + 1); //extract ID from URI
+                        })
+                        .collect(Collectors.toList())
+                );
 
 
         itemTypeListView.setItems(itemTypes);
@@ -121,11 +127,16 @@ public class AddItemScreenController {
     @FXML
     private void addItemButtonClicked(ActionEvent event) {
         ItemTypeEntity type = itemTypeService.findById((String) itemTypeListView.getSelectionModel().getSelectedItem());
-        CustomerEntity owner = customerService.findById(Integer.parseInt(ownerTableRow.getId()));
+        CustomerEntity owner = customerService.findById(ownerTableRow.getId());
 
         ItemEntity item = new ItemEntity(itemNameTextField.getText(), type, owner);
 
         itemService.save(item);
+
+
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.close();
+
     }
 
     @FXML

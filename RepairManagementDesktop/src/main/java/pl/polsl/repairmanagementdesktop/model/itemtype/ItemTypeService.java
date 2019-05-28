@@ -25,7 +25,8 @@ public class ItemTypeService {
     }
 
     public ItemTypeEntity findById(String id){
-        return client.get(URI.create(client.getBaseUri().toString() + "/" + id));
+        String baseUriStr = client.getBaseUri().toString();
+        return client.get(URI.create(baseUriStr + "/" + id));
     }
 
 

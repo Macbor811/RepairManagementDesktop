@@ -36,8 +36,9 @@ public class CustomerService {
         client.post(customer);
      }
 
-     public CustomerEntity findById(Integer id){
-        return client.get();
+     public CustomerEntity findById(String id){
+         String baseUriStr = client.getBaseUri().toString();
+         return client.get(URI.create(baseUriStr + "/" + id));
      }
 
 
