@@ -24,8 +24,8 @@ public class ItemTypeService {
         client.post(entity);
     }
 
-    public ItemTypeEntity findById(Integer id){
-        return client.get();
+    public ItemTypeEntity findById(String id){
+        return client.get(URI.create(client.getBaseUri().toString() + "/" + id));
     }
 
 

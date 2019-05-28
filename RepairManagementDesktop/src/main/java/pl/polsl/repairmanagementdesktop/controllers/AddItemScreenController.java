@@ -120,7 +120,7 @@ public class AddItemScreenController {
 
     @FXML
     private void addItemButtonClicked(ActionEvent event) {
-        ItemTypeEntity type =  ((ItemTypeEntity) itemTypeListView.getSelectionModel().getSelectedItem());
+        ItemTypeEntity type = itemTypeService.findById((String) itemTypeListView.getSelectionModel().getSelectedItem());
         CustomerEntity owner = customerService.findById(Integer.parseInt(ownerTableRow.getId()));
 
         ItemEntity item = new ItemEntity(itemNameTextField.getText(), type, owner);
