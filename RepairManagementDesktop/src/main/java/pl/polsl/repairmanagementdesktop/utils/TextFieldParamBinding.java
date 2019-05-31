@@ -1,8 +1,8 @@
-package pl.polsl.repairmanagementdesktop;
+package pl.polsl.repairmanagementdesktop.utils;
 
 import javafx.scene.control.TextField;
 
-public class TextFieldParamBinding {
+public class TextFieldParamBinding implements ParamBinding{
 
 
     private final TextField textField;
@@ -15,11 +15,15 @@ public class TextFieldParamBinding {
 
     @Override
     public String toString() {
+       return this.bind();
+    }
+
+    @Override
+    public String bind() {
         if (!textField.getText().isEmpty()) {
             return "&" + queryParam + "=" + textField.getText();
         } else {
             return "";
         }
     }
-
 }

@@ -11,12 +11,11 @@ import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.ResourceAccessException;
-import pl.polsl.repairmanagementdesktop.*;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerService;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerTableRow;
+import pl.polsl.repairmanagementdesktop.utils.*;
 import uk.co.blackpepper.bowman.Page;
 
 import java.io.IOException;
@@ -52,7 +51,7 @@ public class CustomersTabController {
     @FXML
     private TextField numberTextField;
 
-    private final TextFieldQueryCreator queryCreator = new TextFieldQueryCreator();
+    private final QueryCreator queryCreator = new QueryCreator();
 
     @FXML
     private TableView<CustomerTableRow> customersTableView;
@@ -172,7 +171,7 @@ public class CustomersTabController {
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
             errorAlert.setHeaderText("Connection error");
             errorAlert.setContentText(e.getMessage());
-            errorAlert.showAndWait();
+            errorAlert.show();
         }
 
     }

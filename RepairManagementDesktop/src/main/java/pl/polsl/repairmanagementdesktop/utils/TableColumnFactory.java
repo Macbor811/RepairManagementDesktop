@@ -1,4 +1,4 @@
-package pl.polsl.repairmanagementdesktop;
+package pl.polsl.repairmanagementdesktop.utils;
 
 import javafx.scene.control.Control;
 import javafx.scene.control.TableColumn;

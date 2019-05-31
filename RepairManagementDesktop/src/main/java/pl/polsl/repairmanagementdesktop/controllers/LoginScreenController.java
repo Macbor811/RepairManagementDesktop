@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import pl.polsl.repairmanagementdesktop.AuthenticationManager;
 
 import javafx.event.ActionEvent;
-import pl.polsl.repairmanagementdesktop.LoaderFactory;
+import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;
 
 import java.io.IOException;
 
@@ -37,6 +37,7 @@ public class LoginScreenController {
         this.fxmlLoaderFactory = fxmlLoaderFactory;
     }
 
+
     @FXML
     private void loginButtonClicked(ActionEvent event) throws IOException {
 
@@ -45,6 +46,7 @@ public class LoginScreenController {
         Scene nextScene = new Scene(managerMainScreen);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
 
         window.setScene(nextScene);
         window.setResizable(true);

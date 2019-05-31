@@ -1,4 +1,4 @@
-package pl.polsl.repairmanagementdesktop;
+package pl.polsl.repairmanagementdesktop.utils;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
