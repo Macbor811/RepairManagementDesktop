@@ -16,6 +16,8 @@ repositories {
 
 //required by bowman-client.jar
 dependencies{
+   // compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:*"
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.6")
     compile "org.javassist:javassist:3.25.0-GA"
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
 }

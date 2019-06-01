@@ -1,5 +1,9 @@
 package pl.polsl.repairmanagementdesktop.model.activity;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import pl.polsl.repairmanagementdesktop.model.activitytype.ActivityTypeEntity;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeEntity;
 import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
@@ -8,7 +12,7 @@ import uk.co.blackpepper.bowman.annotation.RemoteResource;
 import uk.co.blackpepper.bowman.annotation.ResourceId;
 
 import java.net.URI;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @RemoteResource("/activity")
@@ -19,15 +23,15 @@ public class ActivityEntity  {
     private String description;
     private String result;
     private String status;
-    private Timestamp registerDate;
-    private Timestamp endDate;
+    private LocalDateTime registerDate;
+    private LocalDateTime endDate;
     private ActivityTypeEntity activityType;
     private RequestEntity request;
     private EmployeeEntity worker;
 
     public ActivityEntity(){};
 
-    public ActivityEntity(Integer sequenceNum, String description, String result, String status, Timestamp registerDate, Timestamp endDate, ActivityTypeEntity activityType, RequestEntity request, EmployeeEntity worker) {
+    public ActivityEntity(Integer sequenceNum, String description, String result, String status, LocalDateTime registerDate, LocalDateTime endDate, ActivityTypeEntity activityType, RequestEntity request, EmployeeEntity worker) {
         this.sequenceNum = sequenceNum;
         this.description = description;
         this.result = result;
@@ -76,17 +80,21 @@ public class ActivityEntity  {
         this.status = status;
     }
 
-    public Timestamp getRegisterDate() {
+    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    public LocalDateTime getRegisterDate() {
         return registerDate;
     }
-    public void setRegisterDate(Timestamp registerDate) {
+    public void setRegisterDate(LocalDateTime registerDate) {
         this.registerDate = registerDate;
     }
 
-    public Timestamp getEndDate() {
+    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    public LocalDateTime getEndDate() {
         return endDate;
     }
-    public void setEndDate(Timestamp endDate) {
+    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
 

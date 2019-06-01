@@ -1,6 +1,9 @@
 package pl.polsl.repairmanagementdesktop.model.employee;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityEntity;
 import pl.polsl.repairmanagementdesktop.model.address.AddressEntity;
@@ -9,6 +12,7 @@ import uk.co.blackpepper.bowman.annotation.LinkedResource;
 import uk.co.blackpepper.bowman.annotation.ResourceId;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -23,6 +27,7 @@ public class EmployeeEntity {
     private String role;
     private String username;
     private String password;
+    private LocalDateTime deactivationDate;
     private Collection<ActivityEntity> activities;
     private AddressEntity address;
     private Collection<RequestEntity> requests;
@@ -86,6 +91,15 @@ public class EmployeeEntity {
     }
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    public LocalDateTime getDeactivationDate() {
+        return deactivationDate;
+    }
+    public void setDeactivationDate(LocalDateTime deactivationDate) {
+        this.deactivationDate = deactivationDate;
     }
 
     @JsonDeserialize(contentUsing = InlineAssociationDeserializer.class)
