@@ -24,19 +24,11 @@ public class RequestService {
         client.post(entity);
     }
 
-    public RequestEntity findById(String id){
-        String baseUriStr = client.getBaseUri().toString();
-        return client.get(URI.create(baseUriStr + "/" + id));
-    }
-
 
     public Page<RequestEntity> findAll(int page, int size){
 
-        return client.getPage(URI.create(client.getBaseUri().toString()), page, size);
+        return client.getPage(page, size);
     }
 
-    public Page<RequestEntity> findAllMatching(String params, int page, int size){
-        return client.getPage(URI.create(client.getBaseUri().toString() + params), page, size);
-    }
 
 }

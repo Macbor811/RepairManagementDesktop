@@ -44,7 +44,7 @@ public class ItemService {
 
     public Page<ItemEntity> findAll(int page, int size){
 
-        return client.getPage(URI.create(client.getBaseUri().toString()), page, size);
+        return client.getPage(page, size);
     }
 
     public Page<ItemEntity> findAllMatching(String params, int page, int size){

@@ -1,4 +1,4 @@
-package pl.polsl.repairmanagementdesktop.utils;
+package pl.polsl.repairmanagementdesktop.utils.search;
 
 public interface ParamBinding {
 

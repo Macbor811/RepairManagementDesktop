@@ -14,7 +14,7 @@ public class ManagerMainScreenController {
     //private Tab customersTab;
 
     @FXML
-    private CustomersTabController tabController;
+    private CustomersTabController customersTabController;
 
 //    public ManagerMainScreenController(CustomerRestClient customerRC, Loader fxmlLoader) {
 //        this.customerRC = customerRC;

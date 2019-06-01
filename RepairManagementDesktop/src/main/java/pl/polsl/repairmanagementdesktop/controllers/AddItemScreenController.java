@@ -45,7 +45,6 @@ public class AddItemScreenController {
     private Pane mainPane;
 
     private final LoaderFactory fxmlLoaderFactory;
-    private final ApplicationEventPublisher eventPublisher;
 
     private final ItemTypeService itemTypeService;
     private final ItemService itemService;
@@ -61,9 +60,8 @@ public class AddItemScreenController {
 
 
     @Autowired
-    public AddItemScreenController(LoaderFactory fxmlLoaderFactory, ApplicationEventPublisher eventPublisher, ItemTypeService itemTypeService, ItemService itemService, CustomerService customerService) {
+    public AddItemScreenController(LoaderFactory fxmlLoaderFactory, ItemTypeService itemTypeService, ItemService itemService, CustomerService customerService) {
         this.fxmlLoaderFactory = fxmlLoaderFactory;
-        this.eventPublisher = eventPublisher;
         this.itemTypeService = itemTypeService;
         this.itemService = itemService;
         this.customerService = customerService;
@@ -86,7 +84,7 @@ public class AddItemScreenController {
         ObservableList<String> itemTypes = FXCollections
                 .observableList(
                 itemTypeService
-                        .findAll(0, 1000)
+                        .findAll(0, Integer.MAX_VALUE)
                         .getResources()
                         .stream()
                         .map(entity -> {

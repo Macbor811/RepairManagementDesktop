@@ -20,16 +20,8 @@ public class AddressService {
 
     }
 
-    public AddressEntity find(URI uri){
-        return client.get(uri);
-    }
-
     public URI save(AddressEntity entity){
         return client.post(entity);
     }
 
-
-    public Iterable<AddressEntity> findAll(){
-        return client.getAll();
-    }
 }

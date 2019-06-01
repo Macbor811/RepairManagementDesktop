@@ -24,18 +24,10 @@ public class ActivityTypeService {
         client.post(entity);
     }
 
-    public ActivityTypeEntity findById(Integer id){
-        return client.get();
-    }
-
 
     public Page<ActivityTypeEntity> findAll(int page, int size){
 
-        return client.getPage(URI.create(client.getBaseUri().toString()), page, size);
-    }
-
-    public Page<ActivityTypeEntity> findAllMatching(String params, int page, int size){
-        return client.getPage(URI.create(client.getBaseUri().toString() + params), page, size);
+        return client.getPage(page, size);
     }
 
 }

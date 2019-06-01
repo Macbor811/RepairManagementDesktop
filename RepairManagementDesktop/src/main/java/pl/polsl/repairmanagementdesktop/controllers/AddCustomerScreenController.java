@@ -89,7 +89,7 @@ public class AddCustomerScreenController {
                     firstNameTextField.getText(),
                     lastNameTextField.getText(),
                     phoneNumTextField.getText(),
-                    addressService.find(id)
+                    address
             );
 
 

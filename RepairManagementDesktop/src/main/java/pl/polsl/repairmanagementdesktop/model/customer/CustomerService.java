@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import pl.polsl.repairmanagementdesktop.utils.search.SearchQuery;
 import uk.co.blackpepper.bowman.Client;
 import uk.co.blackpepper.bowman.ClientFactory;
 import uk.co.blackpepper.bowman.Configuration;
@@ -44,10 +45,11 @@ public class CustomerService {
 
      public Page<CustomerEntity> findAll(int page, int size){
 
-        return client.getPage(URI.create(client.getBaseUri().toString()), page, size);
+        return client.getPage(page, size);
      }
 
-    public Page<CustomerEntity> findAllMatching(String params, int page, int size){
-        return client.getPage(URI.create(client.getBaseUri().toString() + params), page, size);
+    public Page<CustomerEntity> findAllMatching(SearchQuery query, int page, int size){
+        URI uri = UriComponentsBuilder.fromUri(client.getBaseUri()).query(query.getQueryString()).build().toUri();
+        return client.getPage(uri, page, size);
     }
 }

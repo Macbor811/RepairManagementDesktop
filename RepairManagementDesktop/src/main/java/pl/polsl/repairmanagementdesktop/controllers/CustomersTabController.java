@@ -16,6 +16,8 @@ import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerService;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerTableRow;
 import pl.polsl.repairmanagementdesktop.utils.*;
+import pl.polsl.repairmanagementdesktop.utils.search.TextFieldParamBinding;
+import pl.polsl.repairmanagementdesktop.utils.search.UriSearchQuery;
 import uk.co.blackpepper.bowman.Page;
 
 import java.io.IOException;
@@ -51,14 +53,13 @@ public class CustomersTabController {
     @FXML
     private TextField numberTextField;
 
-    private final QueryCreator queryCreator = new QueryCreator();
+    private final UriSearchQuery uriSearchQuery = new UriSearchQuery();
 
     @FXML
     private TableView<CustomerTableRow> customersTableView;
 
     private final CustomerService customerService;
     private final LoaderFactory loaderFactory;
-    private String queryString = "";
 
     @Autowired
     public CustomersTabController(CustomerService customerService, LoaderFactory loaderFactory) {
@@ -95,8 +96,11 @@ public class CustomersTabController {
 
     }
 
-    private void initQueryTextFields() {
-        queryCreator.getBindings().addAll(
+    private void initQueryFields() {
+
+        idTextField.setTextFormatter(TextFormatterFactory.numericTextFormatter());
+
+        uriSearchQuery.getBindings().addAll(
                 Arrays.asList(
                         new TextFieldParamBinding(idTextField, "id"),
                         new TextFieldParamBinding(firstNameTextField, "firstName"),
@@ -123,7 +127,7 @@ public class CustomersTabController {
     @FXML
     public void initialize() {
         initCustomersTableView();
-        initQueryTextFields();
+        initQueryFields();
         initPagination();
 
     }
@@ -151,13 +155,13 @@ public class CustomersTabController {
     @FXML
     private void showCustomersButtonClicked() {
         rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
-        queryString = queryCreator.createQueryString();
+        uriSearchQuery.update();
         updateTable();
     }
 
     private void updateTable() {
         try{
-            Page<CustomerEntity> page = customerService.findAllMatching(queryString, pagination.getCurrentPageIndex(), rowsPerPage);
+            Page<CustomerEntity> page = customerService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
             pagination.setPageCount((int) page.getTotalPages());
             customersTableView.getItems().clear();
 

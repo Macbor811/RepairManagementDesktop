@@ -1,8 +1,9 @@
-package pl.polsl.repairmanagementdesktop.utils;
+package pl.polsl.repairmanagementdesktop.utils.search;
 
 import javafx.scene.control.TextField;
+import pl.polsl.repairmanagementdesktop.utils.search.ParamBinding;
 
-public class TextFieldParamBinding implements ParamBinding{
+public class TextFieldParamBinding implements ParamBinding {
 
 
     private final TextField textField;
