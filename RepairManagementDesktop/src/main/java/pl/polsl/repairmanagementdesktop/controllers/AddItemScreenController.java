@@ -41,8 +41,6 @@ public class AddItemScreenController {
     private ListView itemTypeListView;
     @FXML
     private Label messageLabel;
-    @FXML
-    private Pane mainPane;
 
     private final LoaderFactory fxmlLoaderFactory;
 
@@ -66,6 +64,7 @@ public class AddItemScreenController {
         this.itemService = itemService;
         this.customerService = customerService;
 
+        //prepare customer selection screen
         try {
             FXMLLoader loader = fxmlLoaderFactory.load("/fxml/selectCustomerScreen.fxml");
             Parent selectCustomerScreen = loader.load();
@@ -79,24 +78,27 @@ public class AddItemScreenController {
         }
     }
 
-    @FXML
-    public void initialize(){
+    private void initItemTypeListView(){
         ObservableList<String> itemTypes = FXCollections
                 .observableList(
-                itemTypeService
-                        .findAll(0, Integer.MAX_VALUE)
-                        .getResources()
-                        .stream()
-                        .map(entity -> {
-                            String uriString = entity.getUri().toString();
-                            return uriString.substring(uriString.lastIndexOf("/") + 1); //extract ID from URI
-                        })
-                        .collect(Collectors.toList())
+                        itemTypeService
+                                .findAll(0, Integer.MAX_VALUE)
+                                .getResources()
+                                .stream()
+                                .map(entity -> {
+                                    String uriString = entity.getUri().toString();
+                                    return uriString.substring(uriString.lastIndexOf("/") + 1); //extract ID from URI
+                                })
+                                .collect(Collectors.toList())
                 );
 
 
         itemTypeListView.setItems(itemTypes);
+    }
 
+    @FXML
+    public void initialize(){
+        initItemTypeListView();
     }
 
 
@@ -112,7 +114,7 @@ public class AddItemScreenController {
         window.setScene(selectCustomerScene);
         window.setResizable(false);
         thisWindow.hide();
-        window.showAndWait();
+        window.showAndWait(); //wait for results from SelectCustomerScreen
         thisWindow.show();
 
         ownerTableRow = selectCustomerScreenController.getCurrentSelection();

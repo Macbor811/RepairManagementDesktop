@@ -90,7 +90,7 @@ public class CustomersTabController {
                 numberColumn
         );
 
-        for (TableColumn column : customersTableView.getColumns()) {
+        for (var column : customersTableView.getColumns()) {
             column.setStyle("-fx-alignment: CENTER;");
         }
 
@@ -152,6 +152,9 @@ public class CustomersTabController {
         window.show();
     }
 
+    /**
+     * Updates search settings from text fields to show new results.
+     */
     @FXML
     private void showCustomersButtonClicked() {
         rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
@@ -167,9 +170,7 @@ public class CustomersTabController {
 
 
             for (CustomerEntity customer : page.getResources()) {
-
                 customersTableView.getItems().add(new CustomerTableRow(customer));
-
             }
         } catch (ResourceAccessException e){
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);

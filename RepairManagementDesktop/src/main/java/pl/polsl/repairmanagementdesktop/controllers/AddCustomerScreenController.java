@@ -81,9 +81,7 @@ public class AddCustomerScreenController {
                     numberTextField.getText()
             );
 
-
-            URI id = addressService.save(address);
-
+            addressService.save(address);
 
             CustomerEntity customer = new CustomerEntity(
                     firstNameTextField.getText(),
