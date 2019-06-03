@@ -2,25 +2,41 @@ package pl.polsl.repairmanagementdesktop;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.resource.OAuth2AccessDeniedException;
-import org.springframework.security.oauth2.client.token.AccessTokenProvider;
 import org.springframework.security.oauth2.client.token.DefaultAccessTokenRequest;
-import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.stereotype.Component;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
+import pl.polsl.repairmanagementdesktop.model.employee.EmployeeService;
 
 @Component
 public class AuthenticationManager {
 
     //private final OAuth2RestTemplate restTemplate;
+
+    public class UserData {
+
+        private String id;
+        private String role;
+
+        public UserData(String id, String role) {
+            this.id = id;
+            this.role = role;
+        }
+
+        public String getId() {
+            return id;
+        }
+        public String getRole() {
+            return role;
+        }
+    }
+
+    private final CurrentUser user;
+    private final EmployeeService employeeService;
 
     @Value("${server.address}")
     private String server;
@@ -28,7 +44,9 @@ public class AuthenticationManager {
     private final HttpComponentsClientHttpRequestFactory sslRequestFactory;
 
     @Autowired
-    public AuthenticationManager(HttpComponentsClientHttpRequestFactory sslRequestFactory) {
+    public AuthenticationManager(CurrentUser user, EmployeeService employeeService, HttpComponentsClientHttpRequestFactory sslRequestFactory) {
+        this.user = user;
+        this.employeeService = employeeService;
         this.sslRequestFactory = sslRequestFactory;
     }
 
@@ -52,10 +70,25 @@ public class AuthenticationManager {
 
 
     public enum AuthorizedRole{
-       ADMIN, MANAGER, WORKER, FAILED
+        ADMIN("ROLE_ADM"),
+        MANAGER("ROLE_MAN"),
+        WORKER("ROLE_WRK"),
+        FAILED("ROLE_FAILED");
+
+        private final String text;
+
+        AuthorizedRole(final String text) {
+            this.text = text;
+        }
+
+        @Override
+        public String toString() {
+            return text;
+        }
+
     }
 
-    public AuthorizedRole authorizeForRole(String username, String password){
+    public UserData authorize(String username, String password){
 
         var restTemplate = oAuth2RestTemplate(username, password);
         restTemplate.setRequestFactory(sslRequestFactory);
@@ -68,10 +101,10 @@ public class AuthenticationManager {
         try{
             var token = restTemplate.getAccessToken();
 
-            return AuthorizedRole.ADMIN;
+            return null;
 
         } catch (OAuth2AccessDeniedException e) {
-            return AuthorizedRole.FAILED;
+            return new UserData(null, AuthorizedRole.FAILED.toString());
         }
 
 
