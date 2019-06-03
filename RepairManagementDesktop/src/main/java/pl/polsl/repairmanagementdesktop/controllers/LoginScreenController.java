@@ -48,35 +48,31 @@ public class LoginScreenController {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
 
-        window.setScene(nextScene);
-        window.setResizable(true);
-        window.centerOnScreen();
-        window.show();
+//        window.setScene(nextScene);
+//        window.setResizable(true);
+//        window.centerOnScreen();
+//        window.show();
 
-//        switch (authenticationManager.authorizeForRole(usernameField.getText(), passwordField.getText())){
-//            case FAILED:{
-//                messageLabel.setText("Login failed. Wrong username or password.");
-//                break;
-//            }
-//            case WORKER:{
-//                break;
-//            }
-//            case MANAGER:{
-//                Parent managerMainScreen = fxmlLoader.load("/managerMainScreen.fxml");
-//                Scene nextScene = new Scene(managerMainScreen);
-//
-//                Stage window = (Stage) ((Node)event.getSource() ).getScene().getWindow();
-//
-//                window.setScene(nextScene);
-//                window.setResizable(true);
-//                window.centerOnScreen();
-//                window.show();
-//                break;
-//            }
-//
-//        }
-//
-//
+        switch (authenticationManager.authorizeForRole(usernameField.getText(), passwordField.getText())){
+            case FAILED:{
+                messageLabel.setText("Login failed. Wrong username or password.");
+                break;
+            }
+            case WORKER:{
+                break;
+            }
+            case MANAGER:{
+
+                window.setScene(nextScene);
+                window.setResizable(true);
+                window.centerOnScreen();
+                window.show();
+                break;
+            }
+
+        }
+
+
     }
 
 }

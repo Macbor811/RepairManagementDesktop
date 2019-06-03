@@ -37,6 +37,8 @@ public class ConfiguredClientFactory {
                 .setRestTemplateConfigurer(restTemplate -> {
                     restTemplate.setRequestFactory(sslRequestFactory());
                     restTemplate.setErrorHandler(handler);
+
+
                 })
                 .setBaseUri(server + "/api")
                 .build()
@@ -44,8 +46,8 @@ public class ConfiguredClientFactory {
         return factory;
     }
 
-
-    private HttpComponentsClientHttpRequestFactory sslRequestFactory(){
+    @Bean
+    public HttpComponentsClientHttpRequestFactory sslRequestFactory(){
         TrustStrategy acceptingTrustStrategy = (cert, authType) -> true;
         SSLContext sslContext = null;
         try {
@@ -76,6 +78,7 @@ public class ConfiguredClientFactory {
         return requestFactory;
 
     }
+
 
 
 
