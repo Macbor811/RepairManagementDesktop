@@ -1,5 +1,6 @@
 package pl.polsl.repairmanagementdesktop;
 
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.stereotype.Component;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeEntity;
 
@@ -15,14 +16,20 @@ public class CurrentUser {
     private String username;
     private AuthenticationManager.AuthorizedRole role;
 
+    private OAuth2AccessToken token;
 
-    public void set(EmployeeEntity entity){
+
+    public void setEmployee(EmployeeEntity entity){
         uri = entity.getUri();
         username = entity.getUsername();
 
         role = Stream.of(AuthenticationManager.AuthorizedRole.values())
-                .filter(role -> role.toString().equals(entity.getRole()))
+                .filter(role -> role.toString().equals("ROLE_" + entity.getRole()))
                 .findFirst().orElse(AuthenticationManager.AuthorizedRole.FAILED);
+    }
+
+    public void setToken(OAuth2AccessToken token) {
+        this.token = token;
     }
 
     public URI getUri() {
@@ -34,6 +41,7 @@ public class CurrentUser {
     public AuthenticationManager.AuthorizedRole getRole() {
         return role;
     }
-
-
+    public OAuth2AccessToken getToken() {
+        return token;
+    }
 }

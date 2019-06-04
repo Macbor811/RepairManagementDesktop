@@ -17,7 +17,7 @@ public class AuthenticationManagerTest {
     @Test
     public void shouldNotReturnFailedWhenServerIsRunning(){
         Assert.assertNotEquals(
-                authenticationManager.authorizeForRole("admin", "pass"),
+                authenticationManager.authenticate("admin", "pass"),
                 AuthenticationManager.AuthorizedRole.FAILED
         );
     }

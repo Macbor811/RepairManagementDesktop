@@ -41,19 +41,12 @@ public class LoginScreenController {
     @FXML
     private void loginButtonClicked(ActionEvent event) throws IOException {
 
-        FXMLLoader loader = fxmlLoaderFactory.load("/fxml/managerMainScreen.fxml");
-        Parent managerMainScreen = loader.load();
-        Scene nextScene = new Scene(managerMainScreen);
-
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-
 //        window.setScene(nextScene);
 //        window.setResizable(true);
 //        window.centerOnScreen();
 //        window.show();
 
-        switch (authenticationManager.authorizeForRole(usernameField.getText(), passwordField.getText())){
+        switch (authenticationManager.authenticate(usernameField.getText(), passwordField.getText())){
             case FAILED:{
                 messageLabel.setText("Login failed. Wrong username or password.");
                 break;
@@ -62,7 +55,11 @@ public class LoginScreenController {
                 break;
             }
             case MANAGER:{
+                FXMLLoader loader = fxmlLoaderFactory.load("/fxml/managerMainScreen.fxml");
+                Parent managerMainScreen = loader.load();
+                Scene nextScene = new Scene(managerMainScreen);
 
+                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 window.setScene(nextScene);
                 window.setResizable(true);
                 window.centerOnScreen();

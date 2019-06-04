@@ -11,17 +11,24 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.apache.http.ssl.SSLContexts;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.client.ClientHttpRequestExecution;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import pl.polsl.repairmanagementdesktop.CurrentUser;
 import pl.polsl.repairmanagementdesktop.RestErrorHandler;
 import uk.co.blackpepper.bowman.ClientFactory;
 import uk.co.blackpepper.bowman.Configuration;
 import uk.co.blackpepper.bowman.RestTemplateConfigurer;
 
 import javax.net.ssl.SSLContext;
+import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -30,6 +37,8 @@ import java.security.cert.X509Certificate;
 @org.springframework.context.annotation.Configuration
 public class ConfiguredClientFactory {
 
+    @Autowired
+    private CurrentUser currentUser;
 
     @Bean
     public ClientFactory configuredClient(@Value("${server.address}") String server, RestErrorHandler handler) {
@@ -38,6 +47,15 @@ public class ConfiguredClientFactory {
                     restTemplate.setRequestFactory(sslRequestFactory());
                     restTemplate.setErrorHandler(handler);
 
+
+                    restTemplate.getInterceptors().add(new ClientHttpRequestInterceptor() {
+
+                        public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
+                                throws IOException {
+                            request.getHeaders().add("Authorization", "Bearer" + currentUser.getToken().toString());
+                            return execution.execute(request, body);
+                        }
+                    });
 
                 })
                 .setBaseUri(server + "/api")
@@ -52,11 +70,7 @@ public class ConfiguredClientFactory {
         SSLContext sslContext = null;
         try {
             sslContext = SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy).build();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (KeyManagementException e) {
-            e.printStackTrace();
-        } catch (KeyStoreException e) {
+        } catch (NoSuchAlgorithmException | KeyManagementException | KeyStoreException e) {
             e.printStackTrace();
         }
         SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext,

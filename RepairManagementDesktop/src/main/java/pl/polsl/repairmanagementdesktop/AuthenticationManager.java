@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.client.token.DefaultAccessTokenReques
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.stereotype.Component;
+import pl.polsl.repairmanagementdesktop.model.employee.EmployeeEntity;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeService;
 
 @Component
@@ -17,23 +18,6 @@ public class AuthenticationManager {
 
     //private final OAuth2RestTemplate restTemplate;
 
-    public class UserData {
-
-        private String id;
-        private String role;
-
-        public UserData(String id, String role) {
-            this.id = id;
-            this.role = role;
-        }
-
-        public String getId() {
-            return id;
-        }
-        public String getRole() {
-            return role;
-        }
-    }
 
     private final CurrentUser user;
     private final EmployeeService employeeService;
@@ -88,7 +72,7 @@ public class AuthenticationManager {
 
     }
 
-    public UserData authorize(String username, String password){
+    public AuthorizedRole authenticate(String username, String password){
 
         var restTemplate = oAuth2RestTemplate(username, password);
         restTemplate.setRequestFactory(sslRequestFactory);
@@ -101,10 +85,18 @@ public class AuthenticationManager {
         try{
             var token = restTemplate.getAccessToken();
 
-            return null;
+            UserData data = restTemplate.getForObject(server + "oauth/user", UserData.class);
+
+            user.setToken(token);
+
+            var employee = employeeService.findById(data.getId());
+
+            user.setEmployee(employee);
+
+            return user.getRole();
 
         } catch (OAuth2AccessDeniedException e) {
-            return new UserData(null, AuthorizedRole.FAILED.toString());
+            return AuthorizedRole.FAILED;
         }
 
 
