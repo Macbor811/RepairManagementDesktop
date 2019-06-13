@@ -14,9 +14,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="itemsTab" minHeight="0.0" minWidth="0.0" prefHeight="531.0" prefWidth="931.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.ItemsTabController">
+<AnchorPane fx:id="itemsTab" minHeight="0.0" minWidth="0.0" prefHeight="531.0" prefWidth="931.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.ItemsTabController">
         <children>
-            <TableView fx:id="customersTableView1" minHeight="-Infinity" minWidth="-Infinity" prefHeight="432.0" prefWidth="655.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="44.0">
+            <TableView fx:id="itemTableView" minHeight="-Infinity" minWidth="-Infinity" prefHeight="432.0" prefWidth="655.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="44.0">
                 <columns>
                     <TableColumn fx:id="customerIdColumn1" prefWidth="61.0" text="ID" />
                     <TableColumn fx:id="customerFNameColumn1" prefWidth="87.0" text="Name" />
@@ -26,12 +26,12 @@
             </TableView>
             <ToolBar prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <items>
-                    <Button fx:id="showCustomersButton1" mnemonicParsing="false" text="Show" />
-                    <Button mnemonicParsing="false" text="Update" />
-                    <Button fx:id="addItemButton" mnemonicParsing="false" text="Create" onAction="#addItemButtonClicked"/>
+                    <Button fx:id="showCustomersButton1" mnemonicParsing="false" onAction="#showItemsButtonClicked" text="Show" />
+                    <Button fx:id="updateCustomersButton1" mnemonicParsing="false" onAction="#updateItemsButtonClicked" text="Update" />
+                    <Button fx:id="addItemButton" mnemonicParsing="false" onAction="#addItemButtonClicked" text="Create" />
                 </items>
             </ToolBar>
-            <Pagination maxPageIndicatorCount="2" prefHeight="51.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <Pagination fx:id="pagination" maxPageIndicatorCount="2" prefHeight="51.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
             <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="432.0" prefWidth="241.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="44.0">
                 <content>
                     <AnchorPane prefHeight="429.0" prefWidth="239.0">
@@ -60,10 +60,10 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                 <children>
-                                    <TextField promptText="Name" GridPane.rowIndex="1" />
-                                    <TextField promptText="Type" GridPane.rowIndex="2" />
-                                    <TextField promptText="ID" />
-                                    <TextField promptText="Client" GridPane.rowIndex="3" />
+                                    <TextField fx:id="nameTextField" promptText="Name" GridPane.rowIndex="1" />
+                                    <TextField fx:id="typeTextField" promptText="Type" GridPane.rowIndex="2" />
+                                    <TextField fx:id="idTextField" promptText="ID" />
+                                    <TextField fx:id="clientTextField" promptText="Client" GridPane.rowIndex="3" />
                                 </children>
                             </GridPane>
                         </children>
