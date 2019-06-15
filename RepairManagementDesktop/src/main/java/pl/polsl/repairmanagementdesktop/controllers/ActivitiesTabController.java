@@ -23,6 +23,7 @@ import pl.polsl.repairmanagementdesktop.model.customer.CustomerTableRow;
 import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;
 import pl.polsl.repairmanagementdesktop.utils.TableColumnFactory;
 import pl.polsl.repairmanagementdesktop.utils.TextFormatterFactory;
+import pl.polsl.repairmanagementdesktop.utils.search.DatePickerParamBinding;
 import pl.polsl.repairmanagementdesktop.utils.search.TextFieldParamBinding;
 import pl.polsl.repairmanagementdesktop.utils.search.UriSearchQuery;
 import uk.co.blackpepper.bowman.Page;
@@ -44,17 +45,17 @@ public class ActivitiesTabController {
     private Pagination pagination;
 
     @FXML
-    private TextField rowsPerPageTextField;
+   // private TextField rowsPerPageTextField;
     private Integer rowsPerPage = DEFAULT_ROWS_PER_PAGE;
 
     @FXML
     private TextField idTextField;
     @FXML
-    private TextField registeredDateTextField;
+    private DatePicker registeredDatePicker;
     @FXML
     private TextField statusTextField;
     @FXML
-    private TextField finalizedDateTextField;
+    private DatePicker finalizedDatePicker;
     @FXML
     private TextField descriptionTextField;
     @FXML
@@ -78,7 +79,7 @@ public class ActivitiesTabController {
         this.loaderFactory = loaderFactory;
     }
 
-    private void initCustomersTableView() {
+    private void initActivityTableView() {
         activityTableView.getColumns().clear();
 
         TableColumn<ActivityTableRow, String> idColumn = TableColumnFactory.createColumn("ID", "id");
@@ -114,9 +115,9 @@ public class ActivitiesTabController {
         uriSearchQuery.getBindings().addAll(
                 Arrays.asList(
                         new TextFieldParamBinding(idTextField, "id"),
-                        new TextFieldParamBinding(registeredDateTextField, "registeredDate"),
+                        new DatePickerParamBinding(registeredDatePicker, "registeredDate"),
                         new TextFieldParamBinding(statusTextField, "statusText"),
-                        new TextFieldParamBinding(finalizedDateTextField, "finalizedDate"),
+                        new DatePickerParamBinding(finalizedDatePicker, "finalizedDate"),
                         new TextFieldParamBinding(descriptionTextField, "description"),
                         new TextFieldParamBinding(clientTextField, "client"),
                         new TextFieldParamBinding(itemTextField, "item"),
@@ -126,17 +127,17 @@ public class ActivitiesTabController {
     }
 
     private void initPagination() {
-        rowsPerPageTextField.setText(DEFAULT_ROWS_PER_PAGE.toString());
+       // rowsPerPageTextField.setText(DEFAULT_ROWS_PER_PAGE.toString());
         pagination.setPageFactory(this::createPage);
         pagination.setMaxPageIndicatorCount(10);
         pagination.setPageCount(1);
 
-        rowsPerPageTextField.setTextFormatter(TextFormatterFactory.numericTextFormatter());
+//        rowsPerPageTextField.setTextFormatter(TextFormatterFactory.numericTextFormatter());
     }
 
     @FXML
     public void initialize() {
-        initCustomersTableView();
+        initActivityTableView();
         initQueryFields();
         initPagination();
 
@@ -166,15 +167,19 @@ public class ActivitiesTabController {
      * Updates search settings from text fields to show new results.
      */
     @FXML
-    private void showActivityButtonCliecked() {
-        rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
+    private void showActivityButtonClicked() {
+        //rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
         uriSearchQuery.update();
         updateTable();
+    }
+    @FXML
+    private void updatesActivityButtonClicked() {
+
     }
 
     private void updateTable() {
         try{
-            Page<ActivityEntity> page = activityService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
+            Page<ActivityEntity> page = activityService.findAllMatching(uriSearchQuery.getQueryString(), pagination.getCurrentPageIndex(), rowsPerPage);
             pagination.setPageCount((int) page.getTotalPages());
             activityTableView.getItems().clear();
 

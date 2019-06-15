@@ -1,6 +1,7 @@
 package pl.polsl.repairmanagementdesktop.model.activity;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 import pl.polsl.repairmanagementdesktop.utils.search.SearchQuery;
 import uk.co.blackpepper.bowman.Client;
@@ -9,6 +10,7 @@ import uk.co.blackpepper.bowman.Page;
 
 import java.net.URI;
 
+@Service
 public class ActivityService {
 
     private final Client<ActivityEntity> client;
@@ -35,8 +37,8 @@ public class ActivityService {
         return client.getPage(page, size);
     }
 
-    public Page<ActivityEntity> findAllMatching(SearchQuery query, int page, int size){
-        URI uri = UriComponentsBuilder.fromUri(client.getBaseUri()).query(query.getQueryString()).build().toUri();
+    public Page<ActivityEntity> findAllMatching(String param, int page, int size){
+        URI uri = UriComponentsBuilder.fromUri(client.getBaseUri()).query(param).build().toUri();
         return client.getPage(uri, page, size);
     }
 }

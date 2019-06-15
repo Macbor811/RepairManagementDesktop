@@ -36,7 +36,7 @@
         </TableView>
         <ToolBar prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
-                <Button fx:id="showActivityButton" mnemonicParsing="false" onAction="#showActivityButtonCliecked" text="Show" />
+                <Button fx:id="showActivityButton" mnemonicParsing="false" onAction="#showActivityButtonClicked" text="Show" />
                 <Button fx:id="updateActivityButton" mnemonicParsing="false" onAction="#updatesActivityButtonClicked" text="Update" />
                 <Button fx:id="addActivityButton" mnemonicParsing="false" onAction="#addActivityButtonClicked" text="Create" />
                 <MenuButton mnemonicParsing="false" text="Navigate to">
@@ -86,8 +86,8 @@
                                     </GridPane.margin>
                                 </TextField>
                                 <TextField fx:id="itemTextField" promptText="Item" GridPane.rowIndex="6" />
-                                <DatePicker fx:id="registeredDateTextField" prefHeight="25.0" prefWidth="312.0" promptText="Registered date" GridPane.rowIndex="1" />
-                                <DatePicker fx:id="finalizedDateTextField" prefHeight="25.0" prefWidth="233.0" promptText="Finalized date" GridPane.rowIndex="3" />
+                                <DatePicker fx:id="registeredDatePicker" prefHeight="25.0" prefWidth="312.0" promptText="Registered date" GridPane.rowIndex="1" />
+                                <DatePicker fx:id="finalizedDatePicker" prefHeight="25.0" prefWidth="233.0" promptText="Finalized date" GridPane.rowIndex="3" />
                                 <TextField fx:id="requestTextField" layoutX="10.0" layoutY="229.0" promptText="Request" GridPane.rowIndex="7" />
                                 <TextField fx:id="descriptionTextField" prefHeight="25.0" prefWidth="0.0" promptText="Description" GridPane.rowIndex="4" />
                             </children>

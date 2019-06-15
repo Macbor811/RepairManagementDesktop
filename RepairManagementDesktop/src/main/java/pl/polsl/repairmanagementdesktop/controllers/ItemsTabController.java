@@ -74,7 +74,7 @@ public class ItemsTabController {
         TableColumn<ItemTableRow, String> idColumn = TableColumnFactory.createColumn("ID", "id");
         TableColumn<ItemTableRow, String> nameColumn = TableColumnFactory.createColumn("Name", "name");
         TableColumn<ItemTableRow, ItemTypeEntity> typeColumn = TableColumnFactory.createColumn("Type", "type");
-        TableColumn<ItemTableRow, CustomerEntity> clientColumn = TableColumnFactory.createColumn("Client", "client");
+        TableColumn<ItemTableRow, String> clientColumn = TableColumnFactory.createColumn("Client", "client");
 
         itemTableView.getColumns().addAll(
                 idColumn,
