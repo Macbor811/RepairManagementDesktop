@@ -89,7 +89,6 @@ public class ActivitiesTabController {
         TableColumn<ActivityTableRow, Integer> sequenceNumDateColumn = TableColumnFactory.createColumn("Finalized Date", "sequenceNum");
         TableColumn<ActivityTableRow, String> descriptionColumn = TableColumnFactory.createColumn("Description", "description");
         TableColumn<ActivityTableRow, String> requestColumn = TableColumnFactory.createColumn("Result", "result");
-        TableColumn<ActivityTableRow, CustomerEntity> clientColumn = TableColumnFactory.createColumn("Client", "client");
 
         activityTableView.getColumns().addAll(
                 idColumn,
@@ -98,7 +97,6 @@ public class ActivitiesTabController {
                 finalizedDateColumn,
                 sequenceNumDateColumn,
                 descriptionColumn,
-                clientColumn,
                 requestColumn
         );
 

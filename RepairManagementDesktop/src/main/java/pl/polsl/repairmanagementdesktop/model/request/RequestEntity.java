@@ -28,13 +28,12 @@ public class RequestEntity {
     private String status;
     private LocalDateTime registerDate;
     private LocalDateTime endDate;
-    private CustomerEntity client;
 
     private Collection<RequestEntity> requests;
     private ItemEntity item;
     private EmployeeEntity manager;
 
-    public RequestEntity(String description, String result, String status, LocalDateTime registerDate, LocalDateTime endDate, Collection<RequestEntity> requests, ItemEntity item, EmployeeEntity manager,CustomerEntity client) {
+    public RequestEntity(String description, String result, String status, LocalDateTime registerDate, LocalDateTime endDate, Collection<RequestEntity> requests, ItemEntity item, EmployeeEntity manager) {
         this.description = description;
         this.result = result;
         this.status = status;
@@ -43,7 +42,6 @@ public class RequestEntity {
         this.requests = requests;
         this.item = item;
         this.manager = manager;
-        this.client = client;
     }
 
     public RequestEntity(){}

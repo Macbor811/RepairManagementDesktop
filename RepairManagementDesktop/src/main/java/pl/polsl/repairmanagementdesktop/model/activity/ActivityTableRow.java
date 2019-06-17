@@ -13,7 +13,6 @@ public class ActivityTableRow {
     private String status;
     private LocalDateTime finalizedDate;
     private String description;
-   // private CustomerEntity client;
     private Integer sequenceNum;
     private String result;
 
@@ -31,7 +30,6 @@ public class ActivityTableRow {
         this.description = entity.getDescription();
         this.sequenceNum = entity.getSequenceNum();
         this.result = entity.getResult();
-
     }
     public String getId() { return id;}
     public LocalDateTime getRegisteredDate() { return registeredDate;}
@@ -39,6 +37,6 @@ public class ActivityTableRow {
     public LocalDateTime getFinalizedDate() { return finalizedDate;}
     public Integer getSequenceNum(){return sequenceNum;}
     public String getDescription() { return description;}
-   // public CustomerEntity getOwner() { return client;}
+    public String getResult() { return result;}
 
 }

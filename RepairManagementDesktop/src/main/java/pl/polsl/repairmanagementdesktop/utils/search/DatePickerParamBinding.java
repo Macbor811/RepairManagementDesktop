@@ -22,11 +22,11 @@ public class DatePickerParamBinding implements ParamBinding {
 
     @Override
     public String bind() {
-        if (!datePicker.getValue().toString().isEmpty()) {
+       // if (!datePicker.getValue().toString().isEmpty()) {
            // return "&" + queryParam + "=" + datePicker.getValue().toString();
+          //  return "";
+      //  } else {
             return "";
-        } else {
-            return "";
-        }
+       // }
     }
 }
