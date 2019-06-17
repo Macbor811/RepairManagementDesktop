@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityEntity;
+import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeEntity;
 import pl.polsl.repairmanagementdesktop.model.item.ItemEntity;
 import uk.co.blackpepper.bowman.InlineAssociationDeserializer;
@@ -27,20 +28,22 @@ public class RequestEntity {
     private String status;
     private LocalDateTime registerDate;
     private LocalDateTime endDate;
+    private CustomerEntity client;
 
-    private Collection<ActivityEntity> activities;
+    private Collection<RequestEntity> requests;
     private ItemEntity item;
     private EmployeeEntity manager;
 
-    public RequestEntity(String description, String result, String status, LocalDateTime registerDate, LocalDateTime endDate, Collection<ActivityEntity> activities, ItemEntity item, EmployeeEntity manager) {
+    public RequestEntity(String description, String result, String status, LocalDateTime registerDate, LocalDateTime endDate, Collection<RequestEntity> requests, ItemEntity item, EmployeeEntity manager,CustomerEntity client) {
         this.description = description;
         this.result = result;
         this.status = status;
         this.registerDate = registerDate;
         this.endDate = endDate;
-        this.activities = activities;
+        this.requests = requests;
         this.item = item;
         this.manager = manager;
+        this.client = client;
     }
 
     public RequestEntity(){}
@@ -95,11 +98,11 @@ public class RequestEntity {
 
 
     @JsonDeserialize(contentUsing = InlineAssociationDeserializer.class)
-    public Collection<ActivityEntity> getActivities() {
-        return activities;
+    public Collection<RequestEntity> getRequests() {
+        return requests;
     }
     public void setActivities(Collection<ActivityEntity> activities) {
-        this.activities = activities;
+        this.requests = requests;
     }
 
     @LinkedResource
