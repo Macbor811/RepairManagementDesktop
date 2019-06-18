@@ -166,7 +166,6 @@ public class ActivitiesTabController {
      */
     @FXML
     private void showActivityButtonClicked() {
-        //rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
         uriSearchQuery.update();
         updateTable();
     }

@@ -9,6 +9,7 @@ import pl.polsl.repairmanagementdesktop.model.activity.ActivityEntity;
 import pl.polsl.repairmanagementdesktop.model.address.AddressEntity;
 import uk.co.blackpepper.bowman.InlineAssociationDeserializer;
 import uk.co.blackpepper.bowman.annotation.LinkedResource;
+import uk.co.blackpepper.bowman.annotation.RemoteResource;
 import uk.co.blackpepper.bowman.annotation.ResourceId;
 
 import java.net.URI;
@@ -17,6 +18,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 
+@RemoteResource("/employee")
 public class EmployeeEntity {
 
     private URI uri;

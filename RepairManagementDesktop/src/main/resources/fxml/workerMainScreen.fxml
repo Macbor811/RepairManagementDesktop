@@ -23,7 +23,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="693.0" prefWidth="1176.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.ManagerMainScreenController">
+<AnchorPane prefHeight="693.0" prefWidth="1176.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.ManagerMainScreenController">
     <children>
         <TabPane layoutX="14.0" layoutY="36.0" prefHeight="553.0" prefWidth="774.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
             <tabs>
@@ -35,7 +35,6 @@
                                     <items>
                                         <Button mnemonicParsing="false" text="Show" />
                                         <Button mnemonicParsing="false" text="Update" />
-                                        <Button fx:id="addRequestButton" mnemonicParsing="false" onAction="#addClientButtonClicked" text="Create" />
                                         <Pane prefHeight="30.0" prefWidth="271.0" />
                                         <MenuButton mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Navigate to:">
                                             <items>
@@ -50,7 +49,7 @@
                                 </ToolBar>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="531.0" prefWidth="931.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <children>
-                                        <TableView fx:id="customersTableView11" layoutX="245.0" layoutY="50.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="432.0" prefWidth="655.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="44.0">
+                                        <TableView fx:id="WorkerTableView" layoutX="245.0" layoutY="50.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="432.0" prefWidth="655.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="44.0">
                                             <columns>
                                                 <TableColumn prefWidth="75.0" text="ID" />
                                                 <TableColumn prefWidth="97.0" text="Registered date" />
@@ -63,13 +62,13 @@
                                         </TableView>
                                         <ToolBar layoutX="14.0" layoutY="10.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <items>
-                                                <Button fx:id="showCustomersButton11" mnemonicParsing="false" onAction="#showCustomersButtonClicked" text="Show" />
-                                                <Button mnemonicParsing="false" text="Update" />
-                                                <Button mnemonicParsing="false" text="Finalize" />
-                                                <Button mnemonicParsing="false" text="Cancel" />
+                                                <Button fx:id="showWorkerButton" mnemonicParsing="false" onAction="#showWorkerButtonClicked" text="Show" />
+                                                <Button fx:id="updateWorkerButton" mnemonicParsing="false" onAction="#updateWorkerButtonClicked" text="Update" />
+                                                <Button fx:id="finalizeWorkerButton" mnemonicParsing="false" onAction="#finalizeWorkerButtonClicked" text="Finalize" />
+                                                <Button fx:id="cancelWorkerButton" mnemonicParsing="false" onAction="#cancelWorkerButtonClicked" text="Cancel" />
                                             </items>
                                         </ToolBar>
-                                        <Pagination layoutX="157.0" layoutY="461.0" maxPageIndicatorCount="2" prefHeight="51.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                        <Pagination fx:id="pagination" layoutX="157.0" layoutY="461.0" maxPageIndicatorCount="2" prefHeight="51.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                                         <ScrollPane layoutY="44.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="432.0" prefWidth="241.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="44.0">
                                             <content>
                                                 <AnchorPane prefHeight="429.0" prefWidth="239.0">
@@ -98,16 +97,16 @@
                                                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                             </rowConstraints>
                                                             <children>
-                                                                <TextField promptText="Status" GridPane.rowIndex="2" />
-                                                                <TextField promptText="ID" />
-                                                                <TextField prefHeight="25.0" prefWidth="0.0" promptText="Client" GridPane.rowIndex="4">
+                                                                <TextField fx:id="statusTextField" promptText="Status" GridPane.rowIndex="2" />
+                                                                <TextField fx:id="idTextField" promptText="ID" />
+                                                                <TextField fx:id="clientTextField" prefHeight="25.0" prefWidth="0.0" promptText="Client" GridPane.rowIndex="4">
                                                                     <GridPane.margin>
                                                                         <Insets />
                                                                     </GridPane.margin>
                                                                 </TextField>
-                                                                <TextField promptText="Item" GridPane.rowIndex="5" />
-                                                                <DatePicker prefHeight="25.0" prefWidth="312.0" promptText="Registered date" GridPane.rowIndex="1" />
-                                                                <DatePicker prefHeight="25.0" prefWidth="233.0" promptText="Finalized date" GridPane.rowIndex="3" />
+                                                                <TextField fx:id="itemTextField" promptText="Item" GridPane.rowIndex="5" />
+                                                                <DatePicker fx:id="registerDatePicker" prefHeight="25.0" prefWidth="312.0" promptText="Registered date" GridPane.rowIndex="1" />
+                                                                <DatePicker fx:id="finalizeDatePicker" prefHeight="25.0" prefWidth="233.0" promptText="Finalized date" GridPane.rowIndex="3" />
                                                             </children>
                                                         </GridPane>
                                                     </children>
@@ -116,7 +115,7 @@
                                         </ScrollPane>
                                         <ScrollPane layoutX="932.0" layoutY="44.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="432.0" prefWidth="241.0" AnchorPane.bottomAnchor="55.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="44.0">
                                             <content>
-                                                <AnchorPane prefHeight="517.0" prefWidth="239.0">
+                                                <AnchorPane fx:id="requestScrollPane" prefHeight="517.0" prefWidth="239.0">
                                                     <children>
                                                         <ToolBar layoutX="-1.0" layoutY="11.0" prefHeight="15.0" prefWidth="239.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                             <items>
