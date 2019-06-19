@@ -43,7 +43,8 @@ public class RequestsTabController {
     private Pagination pagination;
 
     @FXML
-    // private TextField rowsPerPageTextField;
+    private TextField rowsPerPageTextField;
+
     private Integer rowsPerPage = DEFAULT_ROWS_PER_PAGE;
 
     @FXML
@@ -120,12 +121,12 @@ public class RequestsTabController {
     }
 
     private void initPagination() {
-        // rowsPerPageTextField.setText(DEFAULT_ROWS_PER_PAGE.toString());
+        rowsPerPageTextField.setText(DEFAULT_ROWS_PER_PAGE.toString());
         pagination.setPageFactory(this::createPage);
         pagination.setMaxPageIndicatorCount(10);
         pagination.setPageCount(1);
 
-//        rowsPerPageTextField.setTextFormatter(TextFormatterFactory.numericTextFormatter());
+        rowsPerPageTextField.setTextFormatter(TextFormatterFactory.numericTextFormatter());
     }
 
     @FXML
@@ -161,7 +162,7 @@ public class RequestsTabController {
      */
     @FXML
     private void showRequestButtonClicked() {
-        //rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
+        rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
         uriSearchQuery.update();
         updateTable();
     }

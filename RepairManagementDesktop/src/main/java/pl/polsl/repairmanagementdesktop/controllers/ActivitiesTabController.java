@@ -45,7 +45,8 @@ public class ActivitiesTabController {
     private Pagination pagination;
 
     @FXML
-   // private TextField rowsPerPageTextField;
+    private TextField rowsPerPageTextField;
+
     private Integer rowsPerPage = DEFAULT_ROWS_PER_PAGE;
 
     @FXML
@@ -125,12 +126,11 @@ public class ActivitiesTabController {
     }
 
     private void initPagination() {
-       // rowsPerPageTextField.setText(DEFAULT_ROWS_PER_PAGE.toString());
+        rowsPerPageTextField.setText(DEFAULT_ROWS_PER_PAGE.toString());
         pagination.setPageFactory(this::createPage);
         pagination.setMaxPageIndicatorCount(10);
         pagination.setPageCount(1);
-
-//        rowsPerPageTextField.setTextFormatter(TextFormatterFactory.numericTextFormatter());
+        rowsPerPageTextField.setTextFormatter(TextFormatterFactory.numericTextFormatter());
     }
 
     @FXML
@@ -166,9 +166,11 @@ public class ActivitiesTabController {
      */
     @FXML
     private void showActivityButtonClicked() {
+        rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
         uriSearchQuery.update();
         updateTable();
     }
+
     @FXML
     private void updatesActivityButtonClicked() {
 
@@ -176,7 +178,7 @@ public class ActivitiesTabController {
 
     private void updateTable() {
         try{
-            Page<ActivityEntity> page = activityService.findAllMatching(uriSearchQuery.getQueryString(), pagination.getCurrentPageIndex(), rowsPerPage);
+            Page<ActivityEntity> page = activityService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
             pagination.setPageCount((int) page.getTotalPages());
             activityTableView.getItems().clear();
 

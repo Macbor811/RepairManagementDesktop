@@ -37,6 +37,16 @@ public class ItemsTabController {
     private final LoaderFactory fxmlLoaderFactory;
 
 
+    private static final Integer DEFAULT_ROWS_PER_PAGE = 20;
+
+    @FXML
+    private Pagination pagination;
+
+    @FXML
+    private TextField rowsPerPageTextField;
+    private Integer rowsPerPage = DEFAULT_ROWS_PER_PAGE;
+
+
     @FXML
     private TextField idTextField;
     @FXML
@@ -47,13 +57,9 @@ public class ItemsTabController {
     private TextField clientTextField;
 
 
-
     @FXML
-    private Pagination pagination;
-    @FXML
-    private TableView<ItemTableRow> itemTableView = new TableView<ItemTableRow>();
+    private TableView<ItemTableRow> itemTableView;// = new TableView<ItemTableRow>();
 
-    int rowsPerPage = 10;
 
     private final UriSearchQuery uriSearchQuery = new UriSearchQuery();
 
@@ -105,12 +111,12 @@ public class ItemsTabController {
 
 
     private void initPagination() {
-       // rowsPerPageTextField.setText(DEFAULT_ROWS_PER_PAGE.toString());
+        rowsPerPageTextField.setText(DEFAULT_ROWS_PER_PAGE.toString());
         pagination.setPageFactory(this::createPage);
         pagination.setMaxPageIndicatorCount(10);
         pagination.setPageCount(1);
 
-      //  rowsPerPageTextField.setTextFormatter(TextFormatterFactory.numericTextFormatter());
+         rowsPerPageTextField.setTextFormatter(TextFormatterFactory.numericTextFormatter());
     }
 
     @FXML
@@ -133,20 +139,18 @@ public class ItemsTabController {
      */
     @FXML
     private void showItemsButtonClicked() {
-       // rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
+        rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
         uriSearchQuery.update();
         updateTable();
     }
 
     @FXML
     private void updateItemsButtonClicked() {
-
-
     }
 
     private void updateTable() {
         try{
-            Page<ItemEntity> page = itemService.findAllMatching(uriSearchQuery.getQueryString(), pagination.getCurrentPageIndex(), rowsPerPage);
+            Page<ItemEntity> page = itemService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
             pagination.setPageCount((int) page.getTotalPages());
             itemTableView.getItems().clear();
 
@@ -163,13 +167,6 @@ public class ItemsTabController {
         }
 
     }
-
-
-
-
-
-
-
 
 
     @FXML

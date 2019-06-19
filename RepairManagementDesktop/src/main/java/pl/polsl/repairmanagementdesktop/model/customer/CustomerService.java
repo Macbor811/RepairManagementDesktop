@@ -30,7 +30,6 @@ public class CustomerService {
     public CustomerService(ClientFactory factory){
 
         client = factory.create(CustomerEntity.class);
-
     }
 
      public void save(CustomerEntity customer){

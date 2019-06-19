@@ -37,8 +37,8 @@ public class ActivityService {
         return client.getPage(page, size);
     }
 
-    public Page<ActivityEntity> findAllMatching(String param, int page, int size){
-        URI uri = UriComponentsBuilder.fromUri(client.getBaseUri()).query(param).build().toUri();
+    public Page<ActivityEntity> findAllMatching(SearchQuery query, int page, int size){
+        URI uri = UriComponentsBuilder.fromUri(client.getBaseUri()).query(query.getQueryString()).build().toUri();
         return client.getPage(uri, page, size);
     }
 }
