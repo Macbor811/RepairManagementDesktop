@@ -109,6 +109,7 @@ public class AdminMainScreenController {
                         new TextFieldParamBinding(firstNameTextField, "firstName"),
                         new TextFieldParamBinding(lastNameTextField, "lastName"),
                         new TextFieldParamBinding(usernameTextField, "username"),
+                        new TextFieldParamBinding(roleTextField, "role"),
                         new TextFieldParamBinding(phoneNumberTextField, "phoneNumber"),
                         new DatePickerParamBinding(dateDatePicker, "deactivationDate")
                 )
