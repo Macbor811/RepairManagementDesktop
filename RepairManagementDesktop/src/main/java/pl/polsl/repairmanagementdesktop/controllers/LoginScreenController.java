@@ -37,67 +37,38 @@ public class LoginScreenController {
         this.fxmlLoaderFactory = fxmlLoaderFactory;
     }
 
+    private void loadMainScreen(String fxml, Stage window) throws IOException {
+        FXMLLoader loader = fxmlLoaderFactory.load(fxml);
+        Parent workerMainScreen = loader.load();
+        Scene nextScene = new Scene(workerMainScreen);
+
+        window.setScene(nextScene);
+        window.setResizable(true);
+        window.centerOnScreen();
+        window.show();
+    }
+
 
     @FXML
     private void loginButtonClicked(ActionEvent event) throws IOException {
 
-        //FXMLLoader loader = fxmlLoaderFactory.load("/fxml/managerMainScreen.fxml");
-       // Parent managerMainScreen = loader.load();
-       // Scene nextScene = new Scene(managerMainScreen);
 
-        //Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-
-       // window.setScene(nextScene);
-       // window.setResizable(true);
-       // window.centerOnScreen();
-        //window.show();
-
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         switch (authenticationManager.authorizeForRole(usernameField.getText(), passwordField.getText())){
             case FAILED:{
                 messageLabel.setText("Login failed. Wrong username or password.");
                 break;
             }
             case WORKER:{
-                FXMLLoader loader = fxmlLoaderFactory.load("/fxml/workerMainScreen.fxml");
-                Parent workerMainScreen = loader.load();
-                Scene nextScene = new Scene(workerMainScreen);
-
-                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-
-                window.setScene(nextScene);
-                window.setResizable(true);
-                window.centerOnScreen();
-                window.show();
+                loadMainScreen("/fxml/workerMainScreen.fxml", window);
                 break;
             }
             case ADMIN:{
-                FXMLLoader loader = fxmlLoaderFactory.load("/fxml/adminMainScreen.fxml");
-                 Parent adminMainScreen = loader.load();
-                 Scene nextScene = new Scene(adminMainScreen);
-
-                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-
-                 window.setScene(nextScene);
-                 window.setResizable(true);
-                 window.centerOnScreen();
-                window.show();
+                loadMainScreen("/fxml/adminMainScreen.fxml", window);
                 break;
             }
             case MANAGER:{
-                FXMLLoader loader = fxmlLoaderFactory.load("/fxml/managerMainScreen.fxml");
-                 Parent managerMainScreen = loader.load();
-                 Scene nextScene = new Scene(managerMainScreen);
-
-                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-
-                 window.setScene(nextScene);
-                 window.setResizable(true);
-                 window.centerOnScreen();
-                window.show();
+                loadMainScreen("/fxml/managerMainScreen.fxml", window);
                 break;
             }
 
