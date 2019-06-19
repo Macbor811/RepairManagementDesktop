@@ -18,6 +18,7 @@ public class EmployeeTableRow {
     private String id;
     private String firstName;
     private String lastName;
+    private String role;
     private String phoneNumber;
     private String username;
     private LocalDateTime deactivationDate;
@@ -30,6 +31,7 @@ public class EmployeeTableRow {
 
         this.firstName = entity.getFirstName();
         this.lastName = entity.getLastName();
+        this.role = entity.getRole();
         this.phoneNumber = entity.getPhoneNumber();
         this.username = entity.getUsername();
         this.deactivationDate = entity.getDeactivationDate();
@@ -41,5 +43,5 @@ public class EmployeeTableRow {
     public String getLastName() { return lastName;}
     public String getUsername() { return username;}
     public String getPhoneNumber() { return phoneNumber;}
-
+    public String getRole() { return role;}
 }

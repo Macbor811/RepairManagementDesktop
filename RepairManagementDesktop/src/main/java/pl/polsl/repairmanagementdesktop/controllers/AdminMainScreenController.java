@@ -76,15 +76,18 @@ public class AdminMainScreenController {
         UsersTableView.getColumns().clear();
 
         TableColumn<EmployeeTableRow, String> idColumn = TableColumnFactory.createColumn("ID", "id");
-        TableColumn<EmployeeTableRow, String> firstNameColumn = TableColumnFactory.createColumn("firstName", "firstName");
-        TableColumn<EmployeeTableRow, String> lastNameColumn = TableColumnFactory.createColumn("lastName", "lastName");
-        TableColumn<EmployeeTableRow, String> usernameColumn = TableColumnFactory.createColumn("username", "username");
-        TableColumn<EmployeeTableRow, String> phoneNumberColumn = TableColumnFactory.createColumn("phoneNumber", "phoneNumber");
+        TableColumn<EmployeeTableRow, String> firstNameColumn = TableColumnFactory.createColumn("First name", "firstName");
+        TableColumn<EmployeeTableRow, String> lastNameColumn = TableColumnFactory.createColumn("Last name", "lastName");
+        TableColumn<EmployeeTableRow, String> usernameColumn = TableColumnFactory.createColumn("Username", "username");
+        TableColumn<EmployeeTableRow, String> roleColumn = TableColumnFactory.createColumn("Role", "role");
+        TableColumn<EmployeeTableRow, String> phoneNumberColumn = TableColumnFactory.createColumn("Phone", "phoneNumber");
         TableColumn<EmployeeTableRow, LocalDateTime> deactivationDateColumn = TableColumnFactory.createColumn("Deactivation Date", "deactivationDate");
 
         UsersTableView.getColumns().addAll(
                 idColumn,
                 firstNameColumn,
+                lastNameColumn,
+                roleColumn,
                 usernameColumn,
                 phoneNumberColumn,
                 deactivationDateColumn
