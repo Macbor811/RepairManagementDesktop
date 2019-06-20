@@ -18,7 +18,7 @@ public class ItemTableRow {
         this.id = uriString.substring(uriString.lastIndexOf("/") + 1);
 
         this.name = entity.getName();
-        this.type = entity.getItemType();
+        this.type = entity.getType();
         this.client = entity.getOwner();
 
     }

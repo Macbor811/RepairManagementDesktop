@@ -11,22 +11,21 @@ import uk.co.blackpepper.bowman.annotation.ResourceId;
 
 import java.net.URI;
 import java.util.Collection;
-import java.util.Objects;
 
 @RemoteResource("/item")
 public class ItemEntity {
     private URI uri;
 
     private String name;
-    private ItemTypeEntity itemType;
+    private ItemTypeEntity type;
     private CustomerEntity owner;
     private Collection<RequestEntity> requests;
 
     public ItemEntity(){}
 
-    public ItemEntity(String name, ItemTypeEntity itemType, CustomerEntity owner) {
+    public ItemEntity(String name, ItemTypeEntity type, CustomerEntity owner) {
         this.name = name;
-        this.itemType = itemType;
+        this.type = type;
         this.owner = owner;
     }
 
@@ -46,11 +45,11 @@ public class ItemEntity {
     }
 
     @LinkedResource
-    public ItemTypeEntity getItemType() {
-        return itemType;
+    public ItemTypeEntity getType() {
+        return type;
     }
-    public void setItemType(ItemTypeEntity itemType) {
-        this.itemType = itemType;
+    public void setType(ItemTypeEntity type) {
+        this.type = type;
     }
 
     @LinkedResource

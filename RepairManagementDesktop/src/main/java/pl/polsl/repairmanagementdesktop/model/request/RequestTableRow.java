@@ -41,6 +41,6 @@ public class RequestTableRow {
     public String getResult() { return result;}
     public String getClient() { return client.getFirstName() +" "+ client.getLastName();}
     public String getItem() {
-        return item.getItemType().getType() + " " + item.getName();
+        return item.getType().getType() + " " + item.getName();
     }
 }
