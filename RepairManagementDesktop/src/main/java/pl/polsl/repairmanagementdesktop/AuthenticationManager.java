@@ -11,12 +11,12 @@ public class AuthenticationManager {
 
     public AuthorizedRole authorizeForRole(String username, String password){
 
-        if (username.equals("man") && password.equals("man")){
+        if (username.equals("man")){
             return AuthorizedRole.MANAGER;
         }
-        else if (username.equals("admin") && password.equals("admin")){
+        else if (username.equals("admin")){
             return AuthorizedRole.ADMIN;
-        }else if (username.equals("work") && password.equals("work")){
+        }else if (username.equals("work")){
             return AuthorizedRole.WORKER;
         }
         return AuthorizedRole.FAILED;

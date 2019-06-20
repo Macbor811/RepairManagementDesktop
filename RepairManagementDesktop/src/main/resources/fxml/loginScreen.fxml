@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.LoginScreenController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.LoginScreenController" onKeyPressed="#keyPressed">
    <children>
       <Button fx:id="loginButton" layoutX="227.0" layoutY="250.0" mnemonicParsing="false" onAction="#loginButtonClicked" text="Login" />
       <TextField fx:id="usernameField" layoutX="182.0" layoutY="161.0" />

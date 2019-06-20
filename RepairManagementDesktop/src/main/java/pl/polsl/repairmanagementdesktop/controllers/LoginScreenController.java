@@ -6,6 +6,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,12 +50,8 @@ public class LoginScreenController {
         window.show();
     }
 
-
-    @FXML
-    private void loginButtonClicked(ActionEvent event) throws IOException {
-
-
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    private void handleLogin() throws IOException {
+        Stage window = (Stage) loginButton.getScene().getWindow();
         switch (authenticationManager.authorizeForRole(usernameField.getText(), passwordField.getText())){
             case FAILED:{
                 messageLabel.setText("Login failed. Wrong username or password.");
@@ -75,4 +73,16 @@ public class LoginScreenController {
         }
     }
 
+
+    @FXML
+    private void loginButtonClicked(ActionEvent event) throws IOException {
+        handleLogin();
+    }
+
+    @FXML
+    private void keyPressed(KeyEvent keyEvent) throws IOException {
+        if (keyEvent.getCode() == KeyCode.ENTER){
+            handleLogin();
+        }
+    }
 }
