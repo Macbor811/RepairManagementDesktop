@@ -16,6 +16,7 @@ import pl.polsl.repairmanagementdesktop.model.activity.ActivityEntity;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityService;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityTableRow;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
+import pl.polsl.repairmanagementdesktop.model.item.ItemTableRow;
 import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
 import pl.polsl.repairmanagementdesktop.model.request.RequestService;
 import pl.polsl.repairmanagementdesktop.model.request.RequestTableRow;
@@ -85,7 +86,8 @@ public class RequestsTabController {
         TableColumn<RequestTableRow, LocalDateTime> finalizedDateColumn = TableColumnFactory.createColumn("Finalized Date", "finalizedDate");
         TableColumn<RequestTableRow, String> descriptionColumn = TableColumnFactory.createColumn("Description", "description");
         TableColumn<RequestTableRow, String> resultColumn = TableColumnFactory.createColumn("Result", "result");
-        TableColumn<RequestTableRow, CustomerEntity> clientColumn = TableColumnFactory.createColumn("Client", "client");
+        TableColumn<RequestTableRow, String> itemColumn = TableColumnFactory.createColumn("Item", "item");
+        TableColumn<RequestTableRow, String> clientColumn = TableColumnFactory.createColumn("Client", "client");
 
         requestTableView.getColumns().addAll(
                 idColumn,
@@ -94,6 +96,7 @@ public class RequestsTabController {
                 finalizedDateColumn,
                 descriptionColumn,
                 clientColumn,
+                itemColumn,
                 resultColumn
         );
 
@@ -111,11 +114,11 @@ public class RequestsTabController {
                 Arrays.asList(
                         new TextFieldParamBinding(idTextField, "id"),
                         new DatePickerParamBinding(registeredDatePicker, "registeredDate"),
-                        new TextFieldParamBinding(statusTextField, "statusText"),
+                        new TextFieldParamBinding(statusTextField, "status"),
                         new DatePickerParamBinding(finalizedDatePicker, "finalizedDate"),
                         new TextFieldParamBinding(descriptionTextField, "description"),
                         new TextFieldParamBinding(clientTextField, "client"),
-                        new TextFieldParamBinding(itemTextField, "item")
+                        new TextFieldParamBinding(itemTextField, "item.name")
                 )
         );
     }
@@ -173,7 +176,7 @@ public class RequestsTabController {
 
     private void updateTable() {
         try{
-            Page<RequestEntity> page = requestService.findAllMatching(uriSearchQuery.getQueryString(), pagination.getCurrentPageIndex(), rowsPerPage);
+            Page<RequestEntity> page = requestService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
             pagination.setPageCount((int) page.getTotalPages());
             requestTableView.getItems().clear();
 

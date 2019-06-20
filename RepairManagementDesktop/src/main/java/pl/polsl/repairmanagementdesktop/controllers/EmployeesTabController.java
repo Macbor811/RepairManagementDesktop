@@ -139,7 +139,7 @@ public class EmployeesTabController {
 
     private void updateTable() {
         try{
-            Page<EmployeeEntity> page = employeeService.findAllMatching(uriSearchQuery.getQueryString(), pagination.getCurrentPageIndex(), rowsPerPage);
+            Page<EmployeeEntity> page = employeeService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
             pagination.setPageCount((int) page.getTotalPages());
             employeesTableView.getItems().clear();
 

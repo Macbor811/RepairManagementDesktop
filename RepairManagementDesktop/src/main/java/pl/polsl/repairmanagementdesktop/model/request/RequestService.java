@@ -3,6 +3,7 @@ package pl.polsl.repairmanagementdesktop.model.request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
+import pl.polsl.repairmanagementdesktop.utils.search.SearchQuery;
 import uk.co.blackpepper.bowman.Client;
 import uk.co.blackpepper.bowman.ClientFactory;
 import uk.co.blackpepper.bowman.Page;
@@ -32,9 +33,8 @@ public class RequestService {
     }
 
 
-    public Page<RequestEntity> findAllMatching(String param, int page, Integer size) {
-        URI uri = UriComponentsBuilder.fromUri(client.getBaseUri()).query(param).build().toUri();
+    public Page<RequestEntity> findAllMatching(SearchQuery query, int page, int size){
+        URI uri = UriComponentsBuilder.fromUri(client.getBaseUri()).query(query.getQueryString()).build().toUri();
         return client.getPage(uri, page, size);
-
     }
 }

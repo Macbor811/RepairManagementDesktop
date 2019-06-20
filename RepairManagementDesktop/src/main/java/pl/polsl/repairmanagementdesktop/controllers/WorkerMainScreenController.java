@@ -134,7 +134,7 @@ public class WorkerMainScreenController {
     }
     private void updateTable() {
         try{
-            Page<RequestEntity> page = requestService.findAllMatching(uriSearchQuery.getQueryString(), pagination.getCurrentPageIndex(), rowsPerPage);
+            Page<RequestEntity> page = requestService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
             pagination.setPageCount((int) page.getTotalPages());
             WorkerTableView.getItems().clear();
 

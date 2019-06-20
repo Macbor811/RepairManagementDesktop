@@ -1,19 +1,21 @@
 package pl.polsl.repairmanagementdesktop.model.request;
 
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
+import pl.polsl.repairmanagementdesktop.model.item.ItemEntity;
 
 import java.time.LocalDateTime;
 
 public class RequestTableRow {
 
 
-    private String id;
-    private LocalDateTime registeredDate;
-    private String status;
-    private LocalDateTime finalizedDate;
-    private String description;
-    private String result;
-    private CustomerEntity client;
+    private final String id;
+    private final LocalDateTime registeredDate;
+    private final String status;
+    private final LocalDateTime finalizedDate;
+    private final String description;
+    private final String result;
+    private final ItemEntity item;
+    private final CustomerEntity client;
 
     public RequestTableRow(RequestEntity entity) {
         String uriString = entity.getUri().toString();
@@ -28,6 +30,7 @@ public class RequestTableRow {
         this.description = entity.getDescription();
         this.result = entity.getResult();
         this.client = entity.getItem().getOwner();
+        this.item = entity.getItem();
 
     }
     public String getId() { return id;}
@@ -36,6 +39,8 @@ public class RequestTableRow {
     public LocalDateTime getFinalizedDate() { return finalizedDate;}
     public String getDescription() { return description;}
     public String getResult() { return result;}
-     public String getClient() { return client.getFirstName()+" "+client.getLastName();}
-
+    public String getClient() { return client.getFirstName() +" "+ client.getLastName();}
+    public String getItem() {
+        return item.getItemType().getType() + " " + item.getName();
+    }
 }

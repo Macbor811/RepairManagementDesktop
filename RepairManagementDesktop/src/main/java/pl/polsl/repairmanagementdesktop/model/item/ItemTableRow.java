@@ -30,11 +30,11 @@ public class ItemTableRow {
     public String getName() {
         return name;
     }
-    public ItemTypeEntity getType() {
-        return type;
+    public String getType() {
+        return type.getType();
     }
     public String getClient() {
-        return client.getFirstName()+ " " + client.getLastName();
+        return client.getFirstName() + " " + client.getLastName();
     }
 
 }

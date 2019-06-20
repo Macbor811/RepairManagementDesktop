@@ -79,7 +79,7 @@ public class ItemsTabController {
 
         TableColumn<ItemTableRow, String> idColumn = TableColumnFactory.createColumn("ID", "id");
         TableColumn<ItemTableRow, String> nameColumn = TableColumnFactory.createColumn("Name", "name");
-        TableColumn<ItemTableRow, ItemTypeEntity> typeColumn = TableColumnFactory.createColumn("Type", "type");
+        TableColumn<ItemTableRow, String> typeColumn = TableColumnFactory.createColumn("Type", "type");
         TableColumn<ItemTableRow, String> clientColumn = TableColumnFactory.createColumn("Client", "client");
 
         itemTableView.getColumns().addAll(
@@ -103,7 +103,7 @@ public class ItemsTabController {
                 Arrays.asList(
                         new TextFieldParamBinding(idTextField, "id"),
                         new TextFieldParamBinding(nameTextField, "name"),
-                        new TextFieldParamBinding(typeTextField, "type"),
+                        new TextFieldParamBinding(typeTextField, "type.type"),
                         new TextFieldParamBinding(clientTextField, "client")
                 )
         );

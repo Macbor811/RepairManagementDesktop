@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
+import pl.polsl.repairmanagementdesktop.utils.search.SearchQuery;
 import uk.co.blackpepper.bowman.Client;
 import uk.co.blackpepper.bowman.ClientFactory;
 import uk.co.blackpepper.bowman.Page;
@@ -33,9 +34,8 @@ public class EmployeeService {
         }
 
 
-        public Page<EmployeeEntity> findAllMatching(String param, int page, Integer size) {
-            URI uri = UriComponentsBuilder.fromUri(client.getBaseUri()).query(param).build().toUri();
+        public Page<EmployeeEntity> findAllMatching(SearchQuery query, int page, int size){
+            URI uri = UriComponentsBuilder.fromUri(client.getBaseUri()).query(query.getQueryString()).build().toUri();
             return client.getPage(uri, page, size);
-
         }
-    }
+}
