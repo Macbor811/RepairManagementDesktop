@@ -4,6 +4,8 @@ package pl.polsl.repairmanagementdesktop.utils.search;
         import javafx.scene.control.TextField;
         import pl.polsl.repairmanagementdesktop.utils.search.ParamBinding;
 
+        import java.time.ZoneId;
+
 public class DatePickerParamBinding implements ParamBinding {
 
 
@@ -22,11 +24,13 @@ public class DatePickerParamBinding implements ParamBinding {
 
     @Override
     public String bind() {
-       // if (!datePicker.getValue().toString().isEmpty()) {
-           // return "&" + queryParam + "=" + datePicker.getValue().toString();
-          //  return "";
-      //  } else {
+        if (datePicker.getValue() != null) {
+
+            var instant = datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant();
+
+            return "&" + queryParam + "=" + instant.toString();
+        } else {
             return "";
-       // }
+        }
     }
 }

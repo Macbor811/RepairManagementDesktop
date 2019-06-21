@@ -81,9 +81,9 @@ public class RequestsTabController {
         requestTableView.getColumns().clear();
 
         TableColumn<RequestTableRow, String> idColumn = TableColumnFactory.createColumn("ID", "id");
-        TableColumn<RequestTableRow, LocalDateTime> registeredDateColumn = TableColumnFactory.createColumn("Registered Date", "registeredDate");
+        TableColumn<RequestTableRow, String> registeredDateColumn = TableColumnFactory.createColumn("Registered Date", "registeredDate");
         TableColumn<RequestTableRow, String> statusColumn = TableColumnFactory.createColumn("Status", "status");
-        TableColumn<RequestTableRow, LocalDateTime> finalizedDateColumn = TableColumnFactory.createColumn("Finalized Date", "finalizedDate");
+        TableColumn<RequestTableRow, String> finalizedDateColumn = TableColumnFactory.createColumn("Finalized Date", "finalizedDate");
         TableColumn<RequestTableRow, String> descriptionColumn = TableColumnFactory.createColumn("Description", "description");
         TableColumn<RequestTableRow, String> resultColumn = TableColumnFactory.createColumn("Result", "result");
         TableColumn<RequestTableRow, String> itemColumn = TableColumnFactory.createColumn("Item", "item");
@@ -113,9 +113,9 @@ public class RequestsTabController {
         uriSearchQuery.getBindings().addAll(
                 Arrays.asList(
                         new TextFieldParamBinding(idTextField, "id"),
-                        new DatePickerParamBinding(registeredDatePicker, "registeredDate"),
+                        new DatePickerParamBinding(registeredDatePicker, "registerDate"),
                         new TextFieldParamBinding(statusTextField, "status"),
-                        new DatePickerParamBinding(finalizedDatePicker, "finalizedDate"),
+                        new DatePickerParamBinding(finalizedDatePicker, "endDate"),
                         new TextFieldParamBinding(descriptionTextField, "description"),
                         new TextFieldParamBinding(clientTextField, "client"),
                         new TextFieldParamBinding(itemTextField, "item.name")

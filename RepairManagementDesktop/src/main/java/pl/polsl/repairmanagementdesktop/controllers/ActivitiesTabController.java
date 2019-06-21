@@ -84,9 +84,9 @@ public class ActivitiesTabController {
         activityTableView.getColumns().clear();
 
         TableColumn<ActivityTableRow, String> idColumn = TableColumnFactory.createColumn("ID", "id");
-        TableColumn<ActivityTableRow, LocalDateTime> registeredDateColumn = TableColumnFactory.createColumn("Registered Date", "registeredDate");
+        TableColumn<ActivityTableRow, String> registeredDateColumn = TableColumnFactory.createColumn("Registered Date", "registeredDate");
         TableColumn<ActivityTableRow, String> statusColumn = TableColumnFactory.createColumn("Status", "status");
-        TableColumn<ActivityTableRow, LocalDateTime> finalizedDateColumn = TableColumnFactory.createColumn("Finalized Date", "finalizedDate");
+        TableColumn<ActivityTableRow, String> finalizedDateColumn = TableColumnFactory.createColumn("Finalized Date", "finalizedDate");
         TableColumn<ActivityTableRow, Integer> sequenceNumDateColumn = TableColumnFactory.createColumn("Finalized Date", "sequenceNum");
         TableColumn<ActivityTableRow, String> descriptionColumn = TableColumnFactory.createColumn("Description", "description");
         TableColumn<ActivityTableRow, String> requestColumn = TableColumnFactory.createColumn("Result", "result");
@@ -114,9 +114,9 @@ public class ActivitiesTabController {
         uriSearchQuery.getBindings().addAll(
                 Arrays.asList(
                         new TextFieldParamBinding(idTextField, "id"),
-                        new DatePickerParamBinding(registeredDatePicker, "registeredDate"),
+                        new DatePickerParamBinding(registeredDatePicker, "registerDate"),
                         new TextFieldParamBinding(statusTextField, "statusText"),
-                        new DatePickerParamBinding(finalizedDatePicker, "finalizedDate"),
+                        new DatePickerParamBinding(finalizedDatePicker, "endDate"),
                         new TextFieldParamBinding(descriptionTextField, "description"),
                         new TextFieldParamBinding(clientTextField, "client"),
                         new TextFieldParamBinding(itemTextField, "item"),

@@ -4,6 +4,8 @@ import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 import pl.polsl.repairmanagementdesktop.model.item.ItemEntity;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 public class RequestTableRow {
 
@@ -17,6 +19,9 @@ public class RequestTableRow {
     private final ItemEntity item;
     private final CustomerEntity client;
 
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+
+
     public RequestTableRow(RequestEntity entity) {
         String uriString = entity.getUri().toString();
 
@@ -24,9 +29,9 @@ public class RequestTableRow {
         this.id = uriString.substring(uriString.lastIndexOf("/") + 1);
 
 
-        this.registeredDate = entity.getRegisterDate();
+        this.registeredDate = entity.getRegisterDate() != null ? entity.getRegisterDate().atZone(ZoneId.systemDefault()).toLocalDateTime() : null;
         this.status = entity.getStatus();
-        this.finalizedDate = entity.getEndDate();
+        this.finalizedDate = entity.getEndDate() != null ? entity.getEndDate().atZone(ZoneId.systemDefault()).toLocalDateTime() : null;
         this.description = entity.getDescription();
         this.result = entity.getResult();
         this.client = entity.getItem().getOwner();
@@ -34,9 +39,9 @@ public class RequestTableRow {
 
     }
     public String getId() { return id;}
-    public LocalDateTime getRegisteredDate() { return registeredDate;}
+    public String getRegisteredDate() { return registeredDate != null ? DATE_FORMATTER.format(registeredDate) : null;}
     public String getStatus() { return status;}
-    public LocalDateTime getFinalizedDate() { return finalizedDate;}
+    public String getFinalizedDate() {  return finalizedDate != null ? DATE_FORMATTER.format(finalizedDate) : null;}
     public String getDescription() { return description;}
     public String getResult() { return result;}
     public String getClient() { return client.getFirstName() +" "+ client.getLastName();}
