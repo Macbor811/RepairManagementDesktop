@@ -85,8 +85,14 @@
                                     </GridPane.margin>
                                 </TextField>
                                 <TextField fx:id="itemTextField" promptText="Item" GridPane.rowIndex="6" />
-                                <DatePicker fx:id="registeredDatePicker" prefHeight="25.0" prefWidth="312.0" promptText="Registered date" GridPane.rowIndex="1" />
-                                <DatePicker fx:id="finalizedDatePicker" prefHeight="25.0" prefWidth="233.0" promptText="Finalized date" GridPane.rowIndex="3" />
+                                <DatePicker fx:id="registeredDatePicker" prefHeight="25.0" prefWidth="312.0" promptText="Registered date" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets right="50.0" />
+                           </GridPane.margin></DatePicker>
+                                <DatePicker fx:id="finalizedDatePicker" prefHeight="25.0" prefWidth="233.0" promptText="Finalized date" GridPane.rowIndex="3">
+                           <GridPane.margin>
+                              <Insets right="50.0" />
+                           </GridPane.margin></DatePicker>
                                 <TextField fx:id="requestTextField" layoutX="10.0" layoutY="229.0" promptText="Request" GridPane.rowIndex="7" />
                                 <TextField fx:id="descriptionTextField" prefHeight="25.0" prefWidth="0.0" promptText="Description" GridPane.rowIndex="4" />
                         <Label text="Rows per page:" GridPane.rowIndex="8" />
@@ -95,6 +101,8 @@
                               <Insets left="85.0" right="80.0" />
                            </GridPane.margin>
                         </TextField>
+                        <Button mnemonicParsing="false" onAction="#clearRegisterDateButtonClicked" text="Clear" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                        <Button mnemonicParsing="false" onAction="#clearFinalizedDateButtonClicked" text="Clear" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
                             </children>
                         </GridPane>
                     </children>

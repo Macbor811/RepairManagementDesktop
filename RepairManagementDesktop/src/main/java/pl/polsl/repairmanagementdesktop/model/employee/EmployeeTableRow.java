@@ -10,7 +10,10 @@ import uk.co.blackpepper.bowman.ClientFactory;
 import uk.co.blackpepper.bowman.Page;
 
 import java.net.URI;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 
 public class EmployeeTableRow {
@@ -21,7 +24,10 @@ public class EmployeeTableRow {
     private String role;
     private String phoneNumber;
     private String username;
-    private LocalDateTime deactivationDate;
+    private Instant deactivationDate;
+
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+
 
     public EmployeeTableRow(EmployeeEntity entity) {
         String uriString = entity.getUri().toString();
@@ -35,10 +41,15 @@ public class EmployeeTableRow {
         this.phoneNumber = entity.getPhoneNumber();
         this.username = entity.getUsername();
         this.deactivationDate = entity.getDeactivationDate();
-
     }
     public String getId() { return id;}
-    public LocalDateTime getDeactivationDate() { return deactivationDate;}
+    public String getDeactivationDate() {
+        if (deactivationDate != null ){
+            return DATE_FORMATTER.format(deactivationDate.atZone(ZoneId.systemDefault()).toLocalDateTime());
+        } else {
+            return null;
+        }
+    }
     public String getFirstName() { return firstName;}
     public String getLastName() { return lastName;}
     public String getUsername() { return username;}
