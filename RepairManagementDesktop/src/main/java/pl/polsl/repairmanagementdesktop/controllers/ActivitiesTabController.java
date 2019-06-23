@@ -9,27 +9,23 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.EventListener;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.ResourceAccessException;
-import pl.polsl.repairmanagementdesktop.CustomerSelectedEvent;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityEntity;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityService;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityTableRow;
-import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
-import pl.polsl.repairmanagementdesktop.model.customer.CustomerService;
-import pl.polsl.repairmanagementdesktop.model.customer.CustomerTableRow;
+import pl.polsl.repairmanagementdesktop.model.employee.EmployeeService;
 import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;
 import pl.polsl.repairmanagementdesktop.utils.TableColumnFactory;
 import pl.polsl.repairmanagementdesktop.utils.TextFormatterFactory;
 import pl.polsl.repairmanagementdesktop.utils.search.DatePickerParamBinding;
+import pl.polsl.repairmanagementdesktop.utils.search.ParamBinding;
 import pl.polsl.repairmanagementdesktop.utils.search.TextFieldParamBinding;
 import pl.polsl.repairmanagementdesktop.utils.search.UriSearchQuery;
 import uk.co.blackpepper.bowman.Page;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 
 
@@ -68,15 +64,21 @@ public class ActivitiesTabController {
 
     private final UriSearchQuery uriSearchQuery = new UriSearchQuery();
 
+    private boolean isInitialized = false;
+
     @FXML
     private TableView<ActivityTableRow> activityTableView;
 
     private final ActivityService activityService;
+
+    private final EmployeeService employeeService;
+
     private final LoaderFactory loaderFactory;
 
     @Autowired
-    public ActivitiesTabController(ActivityService activityService, LoaderFactory loaderFactory) {
+    public ActivitiesTabController(ActivityService activityService, EmployeeService employeeService, LoaderFactory loaderFactory) {
         this.activityService = activityService;
+        this.employeeService = employeeService;
         this.loaderFactory = loaderFactory;
     }
 
@@ -99,11 +101,13 @@ public class ActivitiesTabController {
                 sequenceNumDateColumn,
                 descriptionColumn,
                 requestColumn
+
         );
 
         for (var column : activityTableView.getColumns()) {
             column.setStyle("-fx-alignment: CENTER;");
         }
+
 
     }
 
@@ -125,6 +129,13 @@ public class ActivitiesTabController {
         );
     }
 
+    public void addParamBindings(ParamBinding ... bindings){
+        for (var binding : bindings){
+            uriSearchQuery.getBindings().add(binding);
+        }
+    }
+
+
     private void initPagination() {
         rowsPerPageTextField.setText(DEFAULT_ROWS_PER_PAGE.toString());
         pagination.setPageFactory(this::createPage);
@@ -135,7 +146,7 @@ public class ActivitiesTabController {
 
     @FXML
     public void initialize() {
-        initActivityTableView();
+
         initQueryFields();
         initPagination();
 
@@ -166,6 +177,11 @@ public class ActivitiesTabController {
      */
     @FXML
     private void showActivityButtonClicked() {
+        if (!isInitialized){
+            initActivityTableView();
+            isInitialized = true;
+        }
+
         rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
         uriSearchQuery.update();
         updateTable();
@@ -177,23 +193,33 @@ public class ActivitiesTabController {
     }
 
     private void updateTable() {
-        try{
-            Page<ActivityEntity> page = activityService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
-            pagination.setPageCount((int) page.getTotalPages());
-            activityTableView.getItems().clear();
+        if (isInitialized) {
+            try {
+                Page<ActivityEntity> page = activityService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
+                pagination.setPageCount((int) page.getTotalPages());
+                activityTableView.getItems().clear();
 
 
-            for (ActivityEntity activity: page.getResources()) {
-                activityTableView.getItems().add(new ActivityTableRow(activity));
+                for (ActivityEntity activity: page.getResources()) {
+                    activityTableView.getItems().add(new ActivityTableRow(activity));
+                }
+            } catch (ResourceAccessException e){
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setHeaderText("Connection error");
+                errorAlert.setContentText(e.getMessage());
+                errorAlert.show();
             }
-        } catch (ResourceAccessException e){
-            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-            errorAlert.setHeaderText("Connection error");
-            errorAlert.setContentText(e.getMessage());
-            errorAlert.show();
         }
-
     }
 
 
+    @FXML
+    private void clearRegisterDateButtonClicked(ActionEvent event) {
+        registeredDatePicker.setValue(null);
+    }
+
+    @FXML
+    private void clearFinalizedDateButtonClicked(ActionEvent event) {
+        registeredDatePicker.setValue(null);
+    }
 }
