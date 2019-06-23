@@ -3,6 +3,7 @@ package pl.polsl.repairmanagementdesktop.model.activity;
 import pl.polsl.repairmanagementdesktop.model.activitytype.ActivityTypeEntity;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
+import pl.polsl.repairmanagementdesktop.utils.StringUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -43,7 +44,9 @@ public class ActivityTableRow {
     public String getStatus() { return status;}
     public String getFinalizedDate() {  return finalizedDate != null ? DATE_FORMATTER.format(finalizedDate) : null;}
     public Integer getSequenceNum(){return sequenceNum;}
-    public String getDescription() { return description;}
-    public String getResult() { return result;}
+    public String getDescription() { return StringUtils.trim(description, 20);}
+    public String getResult() {
+        return StringUtils.trim(result, 20);
+    }
 
 }

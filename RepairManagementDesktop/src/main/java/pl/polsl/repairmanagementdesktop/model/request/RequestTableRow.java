@@ -2,6 +2,7 @@ package pl.polsl.repairmanagementdesktop.model.request;
 
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 import pl.polsl.repairmanagementdesktop.model.item.ItemEntity;
+import pl.polsl.repairmanagementdesktop.utils.StringUtils;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -42,8 +43,8 @@ public class RequestTableRow {
     public String getRegisteredDate() { return registeredDate != null ? DATE_FORMATTER.format(registeredDate) : null;}
     public String getStatus() { return status;}
     public String getFinalizedDate() {  return finalizedDate != null ? DATE_FORMATTER.format(finalizedDate) : null;}
-    public String getDescription() { return description;}
-    public String getResult() { return result;}
+    public String getDescription() {  return StringUtils.trim(description, 15);}
+    public String getResult() {  return StringUtils.trim(result, 15);}
     public String getClient() { return client.getFirstName() +" "+ client.getLastName();}
     public String getItem() {
         return item.getType().getType() + " " + item.getName();
