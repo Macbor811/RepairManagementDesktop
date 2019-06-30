@@ -18,7 +18,7 @@
                      <children>
                         <fx:include fx:id="employeesTab" source="employeesTab.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                         <Button layoutX="64.0" layoutY="14.0" mnemonicParsing="false" onAction="#addUserButtonClicked" text="Add" AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="8.0" />
-                        <Button layoutX="114.0" layoutY="8.0" mnemonicParsing="false" onAction="#updateUserButtonClicked" text="Update" AnchorPane.leftAnchor="111.0" AnchorPane.topAnchor="8.0" />
+                        <Button layoutX="99.0" layoutY="8.0" mnemonicParsing="false" onAction="#updateUserButtonClicked" text="Update" AnchorPane.leftAnchor="97.0" AnchorPane.topAnchor="8.0" />
                      </children>
                   </AnchorPane>
                </content>
