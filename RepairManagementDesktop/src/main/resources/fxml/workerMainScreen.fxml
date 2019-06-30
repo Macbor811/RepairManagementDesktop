@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -11,11 +12,17 @@
         <children>
             <TabPane layoutX="14.0" layoutY="36.0" prefHeight="553.0" prefWidth="774.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                 <tabs>
-                    <Tab text="Your activities">
-                        <content>
-                            <fx:include fx:id="activitiesTab" source="activitiesTab.fxml" />
-                        </content>
-                    </Tab>
+            <Tab text="Your activities">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <fx:include fx:id="activitiesTab" source="activitiesTab.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Button fx:id="updateActivityButton" mnemonicParsing="false" onAction="#updateActivityButtonClicked" text="Update" AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="8.0" />
+                        <Button layoutX="176.0" layoutY="8.0" mnemonicParsing="false" onAction="#finalizeActivityButtonClicked"  text="Finalize" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="8.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
                 </tabs>
             </TabPane>
             <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="794.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

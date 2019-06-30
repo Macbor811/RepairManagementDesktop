@@ -31,8 +31,6 @@
       <ToolBar layoutX="14.0" layoutY="10.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
             <Button fx:id="showUsersButton" mnemonicParsing="false" onAction="#showUsersButtonClicked" text="Show" />
-            <Button fx:id="addUserButton" mnemonicParsing="false" onAction="#addUserButtonClicked" text="Add" />
-            <Button fx:id="updateUserButton" mnemonicParsing="false" onAction="#updateUserButtonClicked" text="Update" />
          </items>
       </ToolBar>
       <Pagination fx:id="pagination" layoutX="157.0" layoutY="461.0" maxPageIndicatorCount="2" prefHeight="51.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />

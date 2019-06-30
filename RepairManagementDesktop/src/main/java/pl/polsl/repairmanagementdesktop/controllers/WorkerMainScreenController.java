@@ -43,4 +43,14 @@ public class WorkerMainScreenController {
     public void initialize(){
         activitiesTabController.addParamBindings(new ConstantParamBinding("worker.id", "2"));
     }
+
+    @FXML
+    private void updateActivityButtonClicked(ActionEvent event) {
+        activitiesTabController.updateActivity(event);
+    }
+
+    @FXML
+    private void finalizeActivityButtonClicked(ActionEvent event) {
+        activitiesTabController.finalizeActivity(event);
+    }
 }

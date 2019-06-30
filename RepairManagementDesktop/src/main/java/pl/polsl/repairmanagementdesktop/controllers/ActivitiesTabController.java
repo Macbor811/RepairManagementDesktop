@@ -159,17 +159,12 @@ public class ActivitiesTabController {
         return new Pane();
     }
 
+    public void addActivity(ActionEvent event){
 
-    @FXML
-    private void addActivityButtonClicked(ActionEvent event) throws IOException {
-        Parent managerMainScreen = loaderFactory.load("/fxml/addCustomerScreen.fxml").load();
-        Scene nextScene = new Scene(managerMainScreen);
+    }
 
-        Stage window = new Stage();
+    public void finalizeActivity(ActionEvent event){
 
-        window.setScene(nextScene);
-        window.setResizable(false);
-        window.show();
     }
 
     /**
@@ -187,8 +182,8 @@ public class ActivitiesTabController {
         updateTable();
     }
 
-    @FXML
-    private void updatesActivityButtonClicked() {
+
+    public void updateActivity(ActionEvent event) {
 
     }
 
@@ -221,5 +216,8 @@ public class ActivitiesTabController {
     @FXML
     private void clearFinalizedDateButtonClicked(ActionEvent event) {
         registeredDatePicker.setValue(null);
+    }
+
+    public void createActivity(ActionEvent event) {
     }
 }

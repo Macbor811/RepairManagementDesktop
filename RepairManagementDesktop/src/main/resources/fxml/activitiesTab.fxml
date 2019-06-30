@@ -4,8 +4,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Pagination?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -35,16 +33,6 @@
         <ToolBar prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
                 <Button fx:id="showActivityButton" mnemonicParsing="false" onAction="#showActivityButtonClicked" text="Show" />
-                <Button fx:id="updateActivityButton" mnemonicParsing="false" onAction="#updatesActivityButtonClicked" text="Update" />
-                <Button fx:id="addActivityButton" mnemonicParsing="false" onAction="#addActivityButtonClicked" text="Create" />
-                <MenuButton mnemonicParsing="false" text="Navigate to">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Client" />
-                        <MenuItem mnemonicParsing="false" text="Item" />
-                    </items>
-                </MenuButton>
-                <Button mnemonicParsing="false" text="Finalize" />
-                <Button mnemonicParsing="false" text="Cancel" />
             </items>
         </ToolBar>
         <Pagination fx:id="pagination" maxPageIndicatorCount="2" prefHeight="51.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />

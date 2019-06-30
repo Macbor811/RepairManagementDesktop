@@ -156,8 +156,7 @@ public class EmployeesTabController {
 
     }
 
-    @FXML
-    private void addUserButtonClicked(ActionEvent event) throws IOException {
+    public void addUser(ActionEvent event)  {
 
     }
 
@@ -168,8 +167,7 @@ public class EmployeesTabController {
         updateTable();
     }
 
-    @FXML
-    private void updateUserButtonClicked() {
+    public void updateUser(ActionEvent event) {
 
     }
 }
