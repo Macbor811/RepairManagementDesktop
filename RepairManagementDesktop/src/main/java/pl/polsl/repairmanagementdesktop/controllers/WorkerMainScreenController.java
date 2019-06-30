@@ -32,6 +32,8 @@ import java.util.Arrays;
 @Controller
 public class WorkerMainScreenController {
 
+    private Integer currentUserId = 2;
+
     @FXML
     private AnchorPane activitiesTab;
 
@@ -41,7 +43,8 @@ public class WorkerMainScreenController {
 
     @FXML
     public void initialize(){
-        activitiesTabController.addParamBindings(new ConstantParamBinding("worker.id", "2"));
+        //add filter so he can only view his own activities
+        activitiesTabController.addParamBindings(new ConstantParamBinding("worker.id", currentUserId.toString()));
     }
 
     @FXML

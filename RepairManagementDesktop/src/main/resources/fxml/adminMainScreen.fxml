@@ -17,7 +17,7 @@
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
                         <fx:include fx:id="employeesTab" source="employeesTab.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <Button layoutX="64.0" layoutY="14.0" mnemonicParsing="false" onAction="#addUserButtonClicked" text="Create" AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="8.0" />
+                        <Button layoutX="64.0" layoutY="14.0" mnemonicParsing="false" onAction="#addUserButtonClicked" text="Add" AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="8.0" />
                         <Button layoutX="114.0" layoutY="8.0" mnemonicParsing="false" onAction="#updateUserButtonClicked" text="Update" AnchorPane.leftAnchor="111.0" AnchorPane.topAnchor="8.0" />
                      </children>
                   </AnchorPane>

@@ -24,6 +24,7 @@ import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;
 import pl.polsl.repairmanagementdesktop.utils.TableColumnFactory;
 import pl.polsl.repairmanagementdesktop.utils.TextFormatterFactory;
 import pl.polsl.repairmanagementdesktop.utils.search.DatePickerParamBinding;
+import pl.polsl.repairmanagementdesktop.utils.search.ParamBinding;
 import pl.polsl.repairmanagementdesktop.utils.search.TextFieldParamBinding;
 import pl.polsl.repairmanagementdesktop.utils.search.UriSearchQuery;
 import uk.co.blackpepper.bowman.Page;
@@ -148,17 +149,13 @@ public class RequestsTabController {
     }
 
 
-    @FXML
-    private void addRequestButtonClicked(ActionEvent event) throws IOException {
-        Parent managerMainScreen = loaderFactory.load("/fxml/addCustomerScreen.fxml").load();
-        Scene nextScene = new Scene(managerMainScreen);
-
-        Stage window = new Stage();
-
-        window.setScene(nextScene);
-        window.setResizable(false);
-        window.show();
+    public void addParamBindings(ParamBinding... bindings){
+        for (var binding : bindings){
+            uriSearchQuery.getBindings().add(binding);
+        }
+        uriSearchQuery.update();
     }
+
 
     /**
      * Updates search settings from text fields to show new results.
@@ -169,9 +166,25 @@ public class RequestsTabController {
         uriSearchQuery.update();
         updateTable();
     }
-    @FXML
-    private void updateRequestButtonClicked() {
 
+
+    public void addRequest(ActionEvent event) {
+        //TODO
+    }
+
+    public void updateRequest(ActionEvent event) {
+        //TODO
+    }
+
+    public void finalizeRequest(ActionEvent event){
+        //TODO
+    }
+    public void showRequestDetails(ActionEvent event) {
+        //TODO
+    }
+
+    public void manageRequestActivities(ActionEvent event) {
+        //TODO
     }
 
     private void updateTable() {
@@ -192,6 +205,17 @@ public class RequestsTabController {
         }
 
     }
+
+    @FXML
+    private void clearRegisterDateButtonClicked(ActionEvent event) {
+        registeredDatePicker.setValue(null);
+    }
+
+    @FXML
+    private void clearFinalizedDateButtonClicked(ActionEvent event) {
+        finalizedDatePicker.setValue(null);
+    }
+
 
 
 }

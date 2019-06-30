@@ -133,6 +133,7 @@ public class ActivitiesTabController {
         for (var binding : bindings){
             uriSearchQuery.getBindings().add(binding);
         }
+        uriSearchQuery.update();
     }
 
 
@@ -146,10 +147,9 @@ public class ActivitiesTabController {
 
     @FXML
     public void initialize() {
-
         initQueryFields();
         initPagination();
-
+        initActivityTableView();
     }
 
     //The parameter and return value are required by pagination control, but not needed in this case.
@@ -160,22 +160,27 @@ public class ActivitiesTabController {
     }
 
     public void addActivity(ActionEvent event){
-
+        //TODO
     }
 
     public void finalizeActivity(ActionEvent event){
-
+        //TODO
     }
+
+    public void updateActivity(ActionEvent event) {
+        //TODO
+    }
+
+    public void showActivityDetails(ActionEvent event) {
+        //TODO
+    }
+
 
     /**
      * Updates search settings from text fields to show new results.
      */
     @FXML
     private void showActivityButtonClicked() {
-        if (!isInitialized){
-            initActivityTableView();
-            isInitialized = true;
-        }
 
         rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
         uriSearchQuery.update();
@@ -183,12 +188,8 @@ public class ActivitiesTabController {
     }
 
 
-    public void updateActivity(ActionEvent event) {
-
-    }
 
     private void updateTable() {
-        if (isInitialized) {
             try {
                 Page<ActivityEntity> page = activityService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
                 pagination.setPageCount((int) page.getTotalPages());
@@ -204,7 +205,6 @@ public class ActivitiesTabController {
                 errorAlert.setContentText(e.getMessage());
                 errorAlert.show();
             }
-        }
     }
 
 
@@ -215,9 +215,8 @@ public class ActivitiesTabController {
 
     @FXML
     private void clearFinalizedDateButtonClicked(ActionEvent event) {
-        registeredDatePicker.setValue(null);
+        finalizedDatePicker.setValue(null);
     }
 
-    public void createActivity(ActionEvent event) {
-    }
+
 }

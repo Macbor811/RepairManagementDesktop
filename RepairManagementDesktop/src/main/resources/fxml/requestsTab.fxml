@@ -64,6 +64,7 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
+                        <Button mnemonicParsing="false" onAction="#clearFinalizedDateButtonClicked" text="Clear" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
                                 <TextField fx:id="statusTextField" promptText="Status" GridPane.rowIndex="2" />
                                 <TextField fx:id="idTextField" promptText="ID" />
                                 <TextField fx:id="clientTextField" prefHeight="25.0" prefWidth="0.0" promptText="Client" GridPane.rowIndex="5">
@@ -72,8 +73,14 @@
                                     </GridPane.margin>
                                 </TextField>
                                 <TextField fx:id="itemTextField" promptText="Item" GridPane.rowIndex="6" />
-                                <DatePicker fx:id="registeredDatePicker" prefHeight="25.0" prefWidth="312.0" promptText="Registered date" GridPane.rowIndex="1" />
-                                <DatePicker fx:id="finalizedDatePicker" prefHeight="25.0" prefWidth="233.0" promptText="Finalized date" GridPane.rowIndex="3" />
+                                <DatePicker fx:id="registeredDatePicker" prefHeight="25.0" prefWidth="312.0" promptText="Registered date" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets right="50.0" />
+                           </GridPane.margin></DatePicker>
+                                <DatePicker fx:id="finalizedDatePicker" prefHeight="25.0" prefWidth="233.0" promptText="Finalized date" GridPane.rowIndex="3">
+                           <GridPane.margin>
+                              <Insets right="50.0" />
+                           </GridPane.margin></DatePicker>
                                 <TextField fx:id="descriptionTextField" prefHeight="25.0" prefWidth="0.0" promptText="Description" GridPane.rowIndex="4" />
                         <Label text="Rows per page:" GridPane.rowIndex="7" />
                         <TextField fx:id="rowsPerPageTextField" prefHeight="25.0" prefWidth="110.0" GridPane.rowIndex="7">
@@ -81,6 +88,7 @@
                               <Insets left="85.0" right="80.0" />
                            </GridPane.margin>
                         </TextField>
+                        <Button mnemonicParsing="false" onAction="#clearRegisterDateButtonClicked" text="Clear" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                             </children>
                         </GridPane>
                     </children>

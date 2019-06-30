@@ -16,6 +16,7 @@ import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;
 import pl.polsl.repairmanagementdesktop.utils.TableColumnFactory;
 import pl.polsl.repairmanagementdesktop.utils.TextFormatterFactory;
 import pl.polsl.repairmanagementdesktop.utils.search.DatePickerParamBinding;
+import pl.polsl.repairmanagementdesktop.utils.search.ParamBinding;
 import pl.polsl.repairmanagementdesktop.utils.search.TextFieldParamBinding;
 import pl.polsl.repairmanagementdesktop.utils.search.UriSearchQuery;
 import uk.co.blackpepper.bowman.Page;
@@ -137,6 +138,13 @@ public class EmployeesTabController {
         return new Pane();
     }
 
+    public void addParamBindings(ParamBinding... bindings){
+        for (var binding : bindings){
+            uriSearchQuery.getBindings().add(binding);
+        }
+        uriSearchQuery.update();
+    }
+
     private void updateTable() {
         try{
             Page<EmployeeEntity> page = employeeService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
@@ -156,8 +164,12 @@ public class EmployeesTabController {
 
     }
 
-    public void addUser(ActionEvent event)  {
+    public void updateUser(ActionEvent event) {
+        //TODO
+    }
 
+    public void addUser(ActionEvent event)  {
+        //TODO
     }
 
     @FXML
@@ -167,7 +179,10 @@ public class EmployeesTabController {
         updateTable();
     }
 
-    public void updateUser(ActionEvent event) {
 
+
+    @FXML
+    private void clearDeactivationDateButtonClicked(ActionEvent event) {
+        deactivationDateDatePicker.setValue(null);
     }
 }

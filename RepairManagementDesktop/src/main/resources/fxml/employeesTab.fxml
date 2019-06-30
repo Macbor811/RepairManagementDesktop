@@ -72,7 +72,10 @@
                         </TextField>
                         <TextField fx:id="firstNameTextField" promptText="First name" GridPane.rowIndex="1" />
                         <TextField fx:id="usernameTextField" prefHeight="25.0" prefWidth="0.0" promptText="Username" GridPane.rowIndex="4" />
-                        <DatePicker fx:id="deactivationDateDatePicker" prefHeight="25.0" prefWidth="200.0" promptText="Deactivation date" GridPane.rowIndex="6" />
+                        <DatePicker fx:id="deactivationDateDatePicker" prefHeight="25.0" prefWidth="200.0" promptText="Deactivation date" GridPane.rowIndex="6">
+                           <GridPane.margin>
+                              <Insets right="50.0" />
+                           </GridPane.margin></DatePicker>
                         <TextField fx:id="roleTextField" promptText="Role" GridPane.rowIndex="3" />
                         <Label text="Rows per page:" GridPane.rowIndex="7" />
                         <TextField fx:id="rowsPerPageTextField" prefHeight="25.0" prefWidth="110.0" GridPane.rowIndex="7">
@@ -80,6 +83,7 @@
                               <Insets left="85.0" right="80.0" />
                            </GridPane.margin>
                         </TextField>
+                        <Button mnemonicParsing="false" onAction="#clearDeactivationDateButtonClicked" text="Clear" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
                      </children>
                   </GridPane>
                </children>

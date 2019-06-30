@@ -22,6 +22,7 @@ import pl.polsl.repairmanagementdesktop.model.itemtype.ItemTypeEntity;
 import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;
 import pl.polsl.repairmanagementdesktop.utils.TableColumnFactory;
 import pl.polsl.repairmanagementdesktop.utils.TextFormatterFactory;
+import pl.polsl.repairmanagementdesktop.utils.search.ParamBinding;
 import pl.polsl.repairmanagementdesktop.utils.search.TextFieldParamBinding;
 import pl.polsl.repairmanagementdesktop.utils.search.UriSearchQuery;
 import uk.co.blackpepper.bowman.Page;
@@ -93,6 +94,13 @@ public class ItemsTabController {
             column.setStyle("-fx-alignment: CENTER;");
         }
 
+    }
+
+    public void addParamBindings(ParamBinding... bindings){
+        for (var binding : bindings){
+            uriSearchQuery.getBindings().add(binding);
+        }
+        uriSearchQuery.update();
     }
 
     private void initQueryFields() {
