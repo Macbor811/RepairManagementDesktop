@@ -2,9 +2,13 @@ package pl.polsl.repairmanagementdesktop.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -168,8 +172,23 @@ public class EmployeesTabController {
         //TODO
     }
 
-    public void addUser(ActionEvent event)  {
-        //TODO
+    public void addUser(ActionEvent event) {
+        try {
+            FXMLLoader loader = loaderFactory.load("/fxml/addEmployeeScreen.fxml");
+
+            Parent adminMainScreen = loader.load();
+
+            Scene nextScene = new Scene(adminMainScreen);
+
+            Stage window = new Stage();
+
+            window.setScene(nextScene);
+            window.setResizable(false);
+            window.show();
+        }
+        catch (Exception e){
+
+        }
     }
 
     @FXML
