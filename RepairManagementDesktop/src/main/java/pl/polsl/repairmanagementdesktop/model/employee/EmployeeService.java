@@ -33,6 +33,10 @@ public class EmployeeService {
             return client.getPage(page, size);
         }
 
+    public EmployeeEntity findById(String id){
+        String baseUriStr = client.getBaseUri().toString();
+        return client.get(URI.create(baseUriStr + "/" + id));
+    }
 
         public Page<EmployeeEntity> findAllMatching(SearchQuery query, int page, int size){
             URI uri = UriComponentsBuilder.fromUri(client.getBaseUri()).query(query.getQueryString()).build().toUri();

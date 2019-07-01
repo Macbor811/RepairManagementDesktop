@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 
 import org.springframework.stereotype.Controller;
 
+import java.io.IOException;
+
 @Controller
 public class ManagerMainScreenController {
 
@@ -22,7 +24,15 @@ public class ManagerMainScreenController {
 
     @FXML
     private void createActivityButtonClicked(ActionEvent event) {
+        try
+        {
         activitiesTabController.addActivity(event);
+        }
+        catch(IOException e)
+        {
+
+
+        }
     }
 
     @FXML
@@ -47,7 +57,15 @@ public class ManagerMainScreenController {
 
     @FXML
     private void addRequestButtonClicked(ActionEvent event) {
+        try{
         requestsTabController.addRequest(event);
+        }
+        catch(IOException e)
+        {
+
+
+        }
+
     }
 
     @FXML
@@ -64,6 +82,7 @@ public class ManagerMainScreenController {
     @FXML
     private void manageRequestActivitiesButtonClicked(ActionEvent event) {
         requestsTabController.manageRequestActivities(event);
+
     }
 
 

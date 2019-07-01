@@ -24,6 +24,10 @@ public class ActivityTypeService {
         client.post(entity);
     }
 
+    public ActivityTypeEntity findById(String id){
+        String baseUriStr = client.getBaseUri().toString();
+        return client.get(URI.create(baseUriStr + "/" + id));
+    }
 
     public Page<ActivityTypeEntity> findAll(int page, int size){
 

@@ -29,7 +29,7 @@ import java.util.Arrays;
 
 @Scope("prototype")
 @Controller
-public class ActivitiesTabController {
+public class ActivitiesTabController2 {
 
 
 
@@ -64,6 +64,10 @@ public class ActivitiesTabController {
 
     private boolean isInitialized = false;
 
+    SelectRequestScreenController selectRequestScreenController;
+
+    String idReq="1";
+
     @FXML
     private TableView<ActivityTableRow> activityTableView;
 
@@ -72,12 +76,25 @@ public class ActivitiesTabController {
     private final EmployeeService employeeService;
 
     private final LoaderFactory loaderFactory;
+    private final RequestsTabController requestsTabController;
 
     @Autowired
-    public ActivitiesTabController(ActivityService activityService, EmployeeService employeeService, LoaderFactory loaderFactory) {
+    public ActivitiesTabController2(ActivityService activityService, EmployeeService employeeService,RequestsTabController requestsTabController, LoaderFactory loaderFactory) {
         this.activityService = activityService;
         this.employeeService = employeeService;
         this.loaderFactory = loaderFactory;
+        this.requestsTabController=requestsTabController;
+
+        try {
+            FXMLLoader loader = loaderFactory.load("/fxml/requestsTab.fxml");
+
+            selectRequestScreenController = loader.getController();
+            idReq = selectRequestScreenController.getCurrentSelection().getId().toString();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void initActivityTableView() {
@@ -146,6 +163,13 @@ public class ActivitiesTabController {
 
     @FXML
     public void initialize() {
+
+//        selectRequestScreenController = loader.getController();
+
+        System.out.println("idReq ");
+        //idReq = requestsTabController.getCurrentSelection().getId().toString();
+        System.out.println(idReq);
+        addParamBindings(new ConstantParamBinding("request.id", idReq));
         initQueryFields();
         initPagination();
         initActivityTableView();
@@ -158,10 +182,12 @@ public class ActivitiesTabController {
         return new Pane();
     }
 
+
     public void addActivity(ActionEvent event) throws IOException  {
         FXMLLoader loader = loaderFactory.load("/fxml/addActivityScreen.fxml");
 
         Parent managerMainScreen = loader.load();
+
 
         Scene nextScene = new Scene(managerMainScreen);
 

@@ -180,6 +180,9 @@ public class EmployeesTabController {
     }
 
 
+    EmployeeTableRow getCurrentSelection(){
+        return employeesTableView.getSelectionModel().getSelectedItem();
+    }
 
     @FXML
     private void clearDeactivationDateButtonClicked(ActionEvent event) {

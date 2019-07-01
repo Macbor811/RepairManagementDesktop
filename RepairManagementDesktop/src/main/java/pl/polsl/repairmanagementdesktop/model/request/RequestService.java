@@ -31,6 +31,10 @@ public class RequestService {
 
         return client.getPage(page, size);
     }
+    public RequestEntity findById(String id){
+        String baseUriStr = client.getBaseUri().toString();
+        return client.get(URI.create(baseUriStr + "/" + id));
+    }
 
 
     public Page<RequestEntity> findAllMatching(SearchQuery query, int page, int size){

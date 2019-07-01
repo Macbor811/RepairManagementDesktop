@@ -2,6 +2,7 @@ package pl.polsl.repairmanagementdesktop.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,6 +17,7 @@ import pl.polsl.repairmanagementdesktop.model.activity.ActivityEntity;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityService;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityTableRow;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
+import pl.polsl.repairmanagementdesktop.model.customer.CustomerTableRow;
 import pl.polsl.repairmanagementdesktop.model.item.ItemTableRow;
 import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
 import pl.polsl.repairmanagementdesktop.model.request.RequestService;
@@ -23,10 +25,7 @@ import pl.polsl.repairmanagementdesktop.model.request.RequestTableRow;
 import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;
 import pl.polsl.repairmanagementdesktop.utils.TableColumnFactory;
 import pl.polsl.repairmanagementdesktop.utils.TextFormatterFactory;
-import pl.polsl.repairmanagementdesktop.utils.search.DatePickerParamBinding;
-import pl.polsl.repairmanagementdesktop.utils.search.ParamBinding;
-import pl.polsl.repairmanagementdesktop.utils.search.TextFieldParamBinding;
-import pl.polsl.repairmanagementdesktop.utils.search.UriSearchQuery;
+import pl.polsl.repairmanagementdesktop.utils.search.*;
 import uk.co.blackpepper.bowman.Page;
 
 import java.io.IOException;
@@ -65,6 +64,9 @@ public class RequestsTabController {
     private TextField itemTextField;
 
     private final UriSearchQuery uriSearchQuery = new UriSearchQuery();
+
+
+    SelectRequestScreenController selectRequestScreenController;
 
     @FXML
     private TableView<RequestTableRow> requestTableView;
@@ -168,8 +170,18 @@ public class RequestsTabController {
     }
 
 
-    public void addRequest(ActionEvent event) {
-        //TODO
+    public void addRequest(ActionEvent event) throws IOException  {
+        FXMLLoader loader = loaderFactory.load("/fxml/addRequestScreen.fxml");
+
+        Parent managerMainScreen = loader.load();
+
+        Scene nextScene = new Scene(managerMainScreen);
+
+        Stage window = new Stage();
+
+        window.setScene(nextScene);
+        window.setResizable(false);
+        window.show();
     }
 
     public void updateRequest(ActionEvent event) {
@@ -183,8 +195,28 @@ public class RequestsTabController {
         //TODO
     }
 
-    public void manageRequestActivities(ActionEvent event) {
-        //TODO
+    public void manageRequestActivities(ActionEvent event)  {
+        try {
+
+            FXMLLoader loader = loaderFactory.load("/fxml/activitiesTab2.fxml");
+            Parent managerMainScreen = loader.load();
+
+            Scene nextScene = new Scene(managerMainScreen);
+
+            Stage window = new Stage();
+
+            window.setScene(nextScene);
+            window.setResizable(false);
+            window.show();
+        }
+        catch (IOException e)
+        {
+
+
+        }
+
+
+
     }
 
     private void updateTable() {
@@ -216,6 +248,8 @@ public class RequestsTabController {
         finalizedDatePicker.setValue(null);
     }
 
-
+    RequestTableRow getCurrentSelection(){
+        return requestTableView.getSelectionModel().getSelectedItem();
+    }
 
 }
