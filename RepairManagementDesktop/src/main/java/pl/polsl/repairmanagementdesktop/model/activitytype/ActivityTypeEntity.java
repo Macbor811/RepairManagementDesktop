@@ -18,6 +18,7 @@ public class ActivityTypeEntity {
     private String type;
     private Collection<ActivityEntity> activities;
 
+    public ActivityTypeEntity () {}
 
     public ActivityTypeEntity(String type) {
         this.type = type;

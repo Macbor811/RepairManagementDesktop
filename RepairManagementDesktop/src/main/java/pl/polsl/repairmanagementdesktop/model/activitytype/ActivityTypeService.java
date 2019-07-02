@@ -2,6 +2,7 @@ package pl.polsl.repairmanagementdesktop.model.activitytype;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 import uk.co.blackpepper.bowman.Client;
 import uk.co.blackpepper.bowman.ClientFactory;
 import uk.co.blackpepper.bowman.Page;
@@ -34,4 +35,8 @@ public class ActivityTypeService {
         return client.getPage(page, size);
     }
 
+    public ActivityTypeEntity findByType(String type) {
+        String baseUriStr = client.getBaseUri().toString();
+        return client.getAll(UriComponentsBuilder.fromUri(client.getBaseUri()).queryParam("type", type).build().toUri()).iterator().next();
+    }
 }

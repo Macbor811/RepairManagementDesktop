@@ -120,8 +120,7 @@ public class AddActivityScreenController {
 								.getResources()
 								.stream()
 								.map(entity -> {
-									String uriString = entity.getUri().toString();
-									return uriString.substring(uriString.lastIndexOf("/") + 1); //extract ID from URI
+									return entity.getType(); //extract ID from URI
 								})
 								.collect(Collectors.toList())
 				);
@@ -132,7 +131,7 @@ public class AddActivityScreenController {
 
 	@FXML
 	public void initialize(){
-		//initActivityTypeListView();
+		initActivityTypeListView();
 	}
 
 
@@ -184,6 +183,8 @@ public class AddActivityScreenController {
 		//ActivityTypeEntity type = activityTypeService.findById((String) activityTypeListView.getSelectionModel().getSelectedItem());
 		EmployeeEntity employee = employeeService.findById(employeeTableRow.getId());
 		RequestEntity request = requestService.findById(requestTableRow.getId());
+		ActivityTypeEntity type = activityTypeService.findByType((String) activityTypeListView.getSelectionModel().getSelectedItem());
+
 //Integer sequenceNum, String description, String result, String status, Instant registerDate, Instant endDate, ActivityTypeEntity activityType, RequestEntity request, EmployeeEntity worker) {
 
 		//ActivityEntity activity = new ActivityEntity(Integer.parseInt(sequenceNumberTextField.getText()),descriptionTextField.getText(),"","Open"
