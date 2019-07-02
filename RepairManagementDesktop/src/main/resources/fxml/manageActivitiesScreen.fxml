@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="activitiesTab" minHeight="0.0" minWidth="0.0" prefHeight="531.0" prefWidth="931.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.ActivitiesTabController2">
+<AnchorPane fx:id="activitiesTab" minHeight="0.0" minWidth="0.0" prefHeight="531.0" prefWidth="931.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.ManageActivitiesScreenController">
     <children>
         <TableView fx:id="activityTableView" minHeight="-Infinity" minWidth="-Infinity" prefHeight="525.0" prefWidth="915.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="44.0">
             <columns>

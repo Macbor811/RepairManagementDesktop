@@ -29,7 +29,7 @@ import java.util.Arrays;
 
 @Scope("prototype")
 @Controller
-public class ActivitiesTabController2 {
+public class ManageActivitiesScreenController {
 
 
 
@@ -66,7 +66,7 @@ public class ActivitiesTabController2 {
 
    // SelectRequestScreenController selectRequestScreenController;
 
-    String idReq="1";
+    private String requestId;
 
     @FXML
     private TableView<ActivityTableRow> activityTableView;
@@ -79,7 +79,7 @@ public class ActivitiesTabController2 {
     private final RequestsTabController requestsTabController;
 
     @Autowired
-    public ActivitiesTabController2(ActivityService activityService, EmployeeService employeeService,RequestsTabController requestsTabController, LoaderFactory loaderFactory) {
+    public ManageActivitiesScreenController(ActivityService activityService, EmployeeService employeeService, RequestsTabController requestsTabController, LoaderFactory loaderFactory) {
         this.activityService = activityService;
         this.employeeService = employeeService;
         this.loaderFactory = loaderFactory;
@@ -124,7 +124,7 @@ public class ActivitiesTabController2 {
                 Arrays.asList(
                         new TextFieldParamBinding(idTextField, "id"),
                         new DatePickerParamBinding(registeredDatePicker, "registerDate"),
-                        new TextFieldParamBinding(statusTextField, "statusText"),
+                        new TextFieldParamBinding(statusTextField, "status"),
                         new DatePickerParamBinding(finalizedDatePicker, "endDate"),
                         new TextFieldParamBinding(descriptionTextField, "description"),
                         new TextFieldParamBinding(clientTextField, "client"),
@@ -153,12 +153,6 @@ public class ActivitiesTabController2 {
     @FXML
     public void initialize() {
 
-//        selectRequestScreenController = loader.getController();
-
-        //System.out.println("idReq ");
-        //idReq = requestsTabController.getCurrentSelection().getId().toString();
-        //System.out.println(idReq);
-        //addParamBindings(new ConstantParamBinding("request.id", idReq));
         initQueryFields();
         initPagination();
         initActivityTableView();
@@ -242,4 +236,7 @@ public class ActivitiesTabController2 {
     }
 
 
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
+    }
 }

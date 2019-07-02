@@ -80,7 +80,7 @@ public class ManagerMainScreenController {
     }
 
     @FXML
-    private void manageRequestActivitiesButtonClicked(ActionEvent event) {
+    private void manageRequestActivitiesButtonClicked(ActionEvent event) throws IOException {
         requestsTabController.manageRequestActivities(event);
 
     }

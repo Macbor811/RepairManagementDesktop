@@ -13,12 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.ResourceAccessException;
-import pl.polsl.repairmanagementdesktop.model.activity.ActivityEntity;
-import pl.polsl.repairmanagementdesktop.model.activity.ActivityService;
-import pl.polsl.repairmanagementdesktop.model.activity.ActivityTableRow;
-import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
-import pl.polsl.repairmanagementdesktop.model.customer.CustomerTableRow;
-import pl.polsl.repairmanagementdesktop.model.item.ItemTableRow;
 import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
 import pl.polsl.repairmanagementdesktop.model.request.RequestService;
 import pl.polsl.repairmanagementdesktop.model.request.RequestTableRow;
@@ -29,7 +23,6 @@ import pl.polsl.repairmanagementdesktop.utils.search.*;
 import uk.co.blackpepper.bowman.Page;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 
 @Scope("prototype")
@@ -195,28 +188,31 @@ public class RequestsTabController {
         //TODO
     }
 
-    public void manageRequestActivities(ActionEvent event)  {
+    public void manageRequestActivities(ActionEvent event) throws IOException  {
 
 
+        RequestTableRow selection = requestTableView.getSelectionModel().getSelectedItem();
+        if (selection!= null){
 
-        try {
 
-            FXMLLoader loader = loaderFactory.load("/fxml/activitiesTab2.fxml");
-            Parent activitiesTab2 = loader.load();
+                FXMLLoader loader = loaderFactory.load("/fxml/manageActivitiesScreen.fxml");
+                Parent manageActivitiesScreen = loader.load();
 
-            Scene nextScene = new Scene(activitiesTab2);
+                ManageActivitiesScreenController manageActivitiesScreenController = loader.getController();
 
-            Stage window = new Stage();
+                manageActivitiesScreenController.setRequestId(selection.getId());
+                manageActivitiesScreenController.addParamBindings(new ConstantParamBinding("request.id", selection.getId()));
 
-            window.setScene(nextScene);
-            window.setResizable(false);
-            window.show();
+                Scene nextScene = new Scene(manageActivitiesScreen);
+
+                Stage window = new Stage();
+
+                window.setScene(nextScene);
+                window.setResizable(false);
+                window.show();
+
         }
-        catch (IOException e)
-        {
 
-
-        }
 
 
 

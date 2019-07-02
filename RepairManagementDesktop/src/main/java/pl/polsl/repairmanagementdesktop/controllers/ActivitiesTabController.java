@@ -118,7 +118,7 @@ public class ActivitiesTabController {
                 Arrays.asList(
                         new TextFieldParamBinding(idTextField, "id"),
                         new DatePickerParamBinding(registeredDatePicker, "registerDate"),
-                        new TextFieldParamBinding(statusTextField, "statusText"),
+                        new TextFieldParamBinding(statusTextField, "status"),
                         new DatePickerParamBinding(finalizedDatePicker, "endDate"),
                         new TextFieldParamBinding(descriptionTextField, "description"),
                         new TextFieldParamBinding(clientTextField, "client"),
