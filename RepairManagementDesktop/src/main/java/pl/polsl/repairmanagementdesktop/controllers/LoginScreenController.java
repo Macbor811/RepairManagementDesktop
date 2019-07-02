@@ -57,11 +57,11 @@ public class LoginScreenController {
     private void handleLogin() throws IOException {
         Stage window = (Stage) loginButton.getScene().getWindow();
         switch (authenticationManager.authenticate(usernameField.getText(), passwordField.getText())){
-            case AuthenticationManager.AuthorizedRole.FAILED:{
+            case FAILED:{
                 messageLabel.setText("Login failed. Wrong username or password.");
                 break;
             }
-            case MANAGER:{
+            case WORKER:{
                 loadMainScreen("/fxml/workerMainScreen.fxml", window);
                 break;
             }

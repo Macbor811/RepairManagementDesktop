@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.ResourceAccessException;
+import pl.polsl.repairmanagementdesktop.CurrentUser;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityTableRow;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
@@ -32,7 +33,10 @@ import java.util.Arrays;
 @Controller
 public class WorkerMainScreenController {
 
-    private Integer currentUserId = 2;
+    //private Integer currentUserId = 2;
+
+    @Autowired
+    private CurrentUser currentUser;
 
     @FXML
     private AnchorPane activitiesTab;
@@ -44,7 +48,7 @@ public class WorkerMainScreenController {
     @FXML
     public void initialize(){
         //add filter so he can only view his own activities
-        activitiesTabController.addParamBindings(new ConstantParamBinding("worker.id", currentUserId.toString()));
+        activitiesTabController.addParamBindings(new ConstantParamBinding("worker.id", currentUser.getId().toString()));
     }
 
     @FXML
