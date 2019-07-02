@@ -10,38 +10,29 @@ import java.util.stream.Stream;
 @Component
 public class CurrentUser {
 
-    private URI uri;
-
-
+    private Integer id;
     private String username;
+    private String password;
     private AuthenticationManager.AuthorizedRole role;
 
-    private OAuth2AccessToken token;
-
-
-    public void setEmployee(EmployeeEntity entity){
-        uri = entity.getUri();
-        username = entity.getUsername();
-
-        role = Stream.of(AuthenticationManager.AuthorizedRole.values())
-                .filter(role -> role.toString().equals("ROLE_" + entity.getRole()))
-                .findFirst().orElse(AuthenticationManager.AuthorizedRole.FAILED);
+    public void setData(Integer id, String username, String password, AuthenticationManager.AuthorizedRole role){
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
 
-    public void setToken(OAuth2AccessToken token) {
-        this.token = token;
-    }
 
-    public URI getUri() {
-        return uri;
+    public Integer getId() {
+        return id;
     }
     public String getUsername() {
         return username;
     }
+    public String getPassword() {
+        return password;
+    }
     public AuthenticationManager.AuthorizedRole getRole() {
         return role;
-    }
-    public OAuth2AccessToken getToken() {
-        return token;
     }
 }

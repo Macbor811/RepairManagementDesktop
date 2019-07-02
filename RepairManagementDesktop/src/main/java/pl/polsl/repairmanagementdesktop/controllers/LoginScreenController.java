@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import pl.polsl.repairmanagementdesktop.AuthenticationManager;
 
 import javafx.event.ActionEvent;
+import pl.polsl.repairmanagementdesktop.utils.ConfiguredClientFactory;
 import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;
 
 import java.io.IOException;
@@ -30,6 +31,8 @@ public class LoginScreenController {
 
     private final AuthenticationManager authenticationManager;
     private final LoaderFactory fxmlLoaderFactory;
+
+
 
     @Autowired
     public LoginScreenController(AuthenticationManager authenticationManager, LoaderFactory fxmlLoaderFactory) {

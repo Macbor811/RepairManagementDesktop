@@ -5,13 +5,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
-import org.springframework.security.oauth2.client.resource.OAuth2AccessDeniedException;
 import org.springframework.security.oauth2.client.token.DefaultAccessTokenRequest;
-import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeEntity;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeService;
+import pl.polsl.repairmanagementdesktop.utils.ConfiguredClientFactory;
+
+import java.util.stream.Stream;
 
 @Component
 public class AuthenticationManager {
@@ -20,7 +22,9 @@ public class AuthenticationManager {
 
 
     private final CurrentUser user;
-    private final EmployeeService employeeService;
+    //private final EmployeeService employeeService;
+
+    private final ConfiguredClientFactory configuredClientFactory;
 
     @Value("${server.address}")
     private String server;
@@ -28,9 +32,9 @@ public class AuthenticationManager {
     private final HttpComponentsClientHttpRequestFactory sslRequestFactory;
 
     @Autowired
-    public AuthenticationManager(CurrentUser user, EmployeeService employeeService, HttpComponentsClientHttpRequestFactory sslRequestFactory) {
+    public AuthenticationManager(CurrentUser user,  ConfiguredClientFactory configuredClientFactory, HttpComponentsClientHttpRequestFactory sslRequestFactory) {
         this.user = user;
-        this.employeeService = employeeService;
+        this.configuredClientFactory = configuredClientFactory;
         this.sslRequestFactory = sslRequestFactory;
     }
 
@@ -72,32 +76,29 @@ public class AuthenticationManager {
 
     }
 
+
     public AuthorizedRole authenticate(String username, String password){
 
-        var restTemplate = oAuth2RestTemplate(username, password);
-        restTemplate.setRequestFactory(sslRequestFactory);
+        var restTemplate = new RestTemplate();
+        restTemplate.getInterceptors().add(ConfiguredClientFactory.basicAuthInterceptor(username, password));
+
+        //restTemplate.setRequestFactory(sslRequestFactory);
+
+        UserData data = restTemplate.getForObject(server + "user/me", UserData.class);
+        if (data.getActive()){
 
 
+            var role  = Stream.of(AuthenticationManager.AuthorizedRole.values())
+                    .filter(r -> r.toString().equals("ROLE_" + data.getRole()))
+                    .findFirst().orElse(AuthenticationManager.AuthorizedRole.FAILED);
 
-        ResourceOwnerPasswordAccessTokenProvider provider = new ResourceOwnerPasswordAccessTokenProvider();
-        provider.setRequestFactory(sslRequestFactory);
-        restTemplate.setAccessTokenProvider(provider);
-        try{
-            var token = restTemplate.getAccessToken();
-
-            UserData data = restTemplate.getForObject(server + "oauth/user", UserData.class);
-
-            user.setToken(token);
-
-            var employee = employeeService.findById(data.getId());
-
-            user.setEmployee(employee);
+            user.setData(Integer.parseInt(data.getId()), username, password, role);
 
             return user.getRole();
-
-        } catch (OAuth2AccessDeniedException e) {
+        } else {
             return AuthorizedRole.FAILED;
         }
+
 
 
     }

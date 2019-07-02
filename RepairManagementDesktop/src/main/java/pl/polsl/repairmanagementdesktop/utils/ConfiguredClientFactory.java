@@ -1,5 +1,6 @@
 package pl.polsl.repairmanagementdesktop.utils;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
@@ -14,6 +15,7 @@ import org.apache.http.ssl.SSLContexts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -29,6 +31,7 @@ import uk.co.blackpepper.bowman.RestTemplateConfigurer;
 
 import javax.net.ssl.SSLContext;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -40,19 +43,43 @@ public class ConfiguredClientFactory {
     @Autowired
     private CurrentUser currentUser;
 
+    private String username;
+    private String password;
+
+    ClientHttpRequestInterceptor interceptor;
+
+    public void setCredentials(String username, String password){
+        this.username = username;
+        this.password = password;
+    }
+
+    public static ClientHttpRequestInterceptor basicAuthInterceptor(String username, String password){
+        return new ClientHttpRequestInterceptor() {
+
+            public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
+                    throws IOException {
+                request.getHeaders().setBasicAuth(username, password);
+                //request.getHeaders().add(createHeaders(currentUser.getUsername(), currentUser.getPassword()));
+                return execution.execute(request, body);
+            }
+        };
+    }
+
+
+
     @Bean
     public ClientFactory configuredClient(@Value("${server.address}") String server, RestErrorHandler handler) {
         ClientFactory factory = Configuration.builder()
                 .setRestTemplateConfigurer(restTemplate -> {
-                    restTemplate.setRequestFactory(sslRequestFactory());
+                    //restTemplate.setRequestFactory(sslRequestFactory());
                     restTemplate.setErrorHandler(handler);
 
-
-                    restTemplate.getInterceptors().add(new ClientHttpRequestInterceptor() {
+                    restTemplate.getInterceptors().add( new ClientHttpRequestInterceptor() {
 
                         public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
                                 throws IOException {
-                            request.getHeaders().add("Authorization", "Bearer" + currentUser.getToken().toString());
+                            request.getHeaders().setBasicAuth(currentUser.getUsername(), currentUser.getPassword());
+                            //request.getHeaders().add(createHeaders(currentUser.getUsername(), currentUser.getPassword()));
                             return execution.execute(request, body);
                         }
                     });

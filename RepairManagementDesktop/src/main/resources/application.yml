@@ -4,4 +4,4 @@ spring:
       web-application-type: none
       allow-bean-definition-overriding: true
 server:
-  address: https://localhost:8080/
+  address: http://localhost:8080/
