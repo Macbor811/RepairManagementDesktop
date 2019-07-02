@@ -3,18 +3,19 @@ package pl.polsl.repairmanagementdesktop.model.request;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityEntity;
+import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeEntity;
 import pl.polsl.repairmanagementdesktop.model.item.ItemEntity;
+import pl.polsl.repairmanagementdesktop.utils.InstantDeserializer;
 import uk.co.blackpepper.bowman.InlineAssociationDeserializer;
 import uk.co.blackpepper.bowman.annotation.LinkedResource;
 import uk.co.blackpepper.bowman.annotation.RemoteResource;
 import uk.co.blackpepper.bowman.annotation.ResourceId;
 
 import java.net.URI;
-//import java.sql.LocalDateTime;
-import java.time.LocalDateTime;
+//import java.sql.Instant;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -25,20 +26,20 @@ public class RequestEntity {
     private String description;
     private String result;
     private String status;
-    private LocalDateTime registerDate;
-    private LocalDateTime endDate;
+    private Instant registerDate;
+    private Instant endDate;
 
-    private Collection<ActivityEntity> activities;
+    private Collection<RequestEntity> requests;
     private ItemEntity item;
     private EmployeeEntity manager;
 
-    public RequestEntity(String description, String result, String status, LocalDateTime registerDate, LocalDateTime endDate, Collection<ActivityEntity> activities, ItemEntity item, EmployeeEntity manager) {
+    public RequestEntity(String description, String result, String status, Instant registerDate, Instant endDate, Collection<RequestEntity> requests, ItemEntity item, EmployeeEntity manager) {
         this.description = description;
         this.result = result;
         this.status = status;
         this.registerDate = registerDate;
         this.endDate = endDate;
-        this.activities = activities;
+        this.requests = requests;
         this.item = item;
         this.manager = manager;
     }
@@ -76,30 +77,30 @@ public class RequestEntity {
     }
 
     @JsonSerialize(using = ToStringSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    public LocalDateTime getRegisterDate() {
+    @JsonDeserialize(using = InstantDeserializer.class)
+    public Instant getRegisterDate() {
         return registerDate;
     }
-    public void setRegisterDate(LocalDateTime registerDate) {
+    public void setRegisterDate(Instant registerDate) {
         this.registerDate = registerDate;
     }
 
     @JsonSerialize(using = ToStringSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    public LocalDateTime getEndDate() {
+    @JsonDeserialize(using = InstantDeserializer.class)
+    public Instant getEndDate() {
         return endDate;
     }
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(Instant endDate) {
         this.endDate = endDate;
     }
 
 
     @JsonDeserialize(contentUsing = InlineAssociationDeserializer.class)
-    public Collection<ActivityEntity> getActivities() {
-        return activities;
+    public Collection<RequestEntity> getRequests() {
+        return requests;
     }
     public void setActivities(Collection<ActivityEntity> activities) {
-        this.activities = activities;
+        this.requests = requests;
     }
 
     @LinkedResource

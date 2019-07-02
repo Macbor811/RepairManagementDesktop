@@ -3,16 +3,18 @@ package pl.polsl.repairmanagementdesktop.model.activity;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.key.InstantKeyDeserializer;
+import org.springframework.format.annotation.DateTimeFormat;
 import pl.polsl.repairmanagementdesktop.model.activitytype.ActivityTypeEntity;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeEntity;
 import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
+import pl.polsl.repairmanagementdesktop.utils.InstantDeserializer;
 import uk.co.blackpepper.bowman.annotation.LinkedResource;
 import uk.co.blackpepper.bowman.annotation.RemoteResource;
 import uk.co.blackpepper.bowman.annotation.ResourceId;
 
 import java.net.URI;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Objects;
 
 @RemoteResource("/activity")
@@ -23,15 +25,15 @@ public class ActivityEntity  {
     private String description;
     private String result;
     private String status;
-    private LocalDateTime registerDate;
-    private LocalDateTime endDate;
+    private Instant registerDate;
+    private Instant endDate;
     private ActivityTypeEntity activityType;
     private RequestEntity request;
     private EmployeeEntity worker;
 
     public ActivityEntity(){};
 
-    public ActivityEntity(Integer sequenceNum, String description, String result, String status, LocalDateTime registerDate, LocalDateTime endDate, ActivityTypeEntity activityType, RequestEntity request, EmployeeEntity worker) {
+    public ActivityEntity(Integer sequenceNum, String description, String result, String status, Instant registerDate, Instant endDate, ActivityTypeEntity activityType, RequestEntity request, EmployeeEntity worker) {
         this.sequenceNum = sequenceNum;
         this.description = description;
         this.result = result;
@@ -81,20 +83,20 @@ public class ActivityEntity  {
     }
 
     @JsonSerialize(using = ToStringSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    public LocalDateTime getRegisterDate() {
+    @JsonDeserialize(using = InstantDeserializer.class)
+    public Instant getRegisterDate() {
         return registerDate;
     }
-    public void setRegisterDate(LocalDateTime registerDate) {
+    public void setRegisterDate(Instant registerDate) {
         this.registerDate = registerDate;
     }
 
     @JsonSerialize(using = ToStringSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    public LocalDateTime getEndDate() {
+    @JsonDeserialize(using = InstantDeserializer.class)
+    public Instant getEndDate() {
         return endDate;
     }
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(Instant endDate) {
         this.endDate = endDate;
     }
 

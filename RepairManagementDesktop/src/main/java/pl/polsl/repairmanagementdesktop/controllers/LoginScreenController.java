@@ -6,6 +6,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,38 +43,51 @@ public class LoginScreenController {
     }
 
 
-    @FXML
-    private void loginButtonClicked(ActionEvent event) throws IOException {
+    private void loadMainScreen(String fxml, Stage window) throws IOException {
+        FXMLLoader loader = fxmlLoaderFactory.load(fxml);
+        Parent workerMainScreen = loader.load();
+        Scene nextScene = new Scene(workerMainScreen);
 
-//        window.setScene(nextScene);
-//        window.setResizable(true);
-//        window.centerOnScreen();
-//        window.show();
+        window.setScene(nextScene);
+        window.setResizable(true);
+        window.centerOnScreen();
+        window.show();
+    }
 
+    private void handleLogin() throws IOException {
+        Stage window = (Stage) loginButton.getScene().getWindow();
         switch (authenticationManager.authenticate(usernameField.getText(), passwordField.getText())){
-            case FAILED:{
+            case AuthenticationManager.AuthorizedRole.FAILED:{
                 messageLabel.setText("Login failed. Wrong username or password.");
                 break;
             }
-            case WORKER:{
+            case MANAGER:{
+                loadMainScreen("/fxml/workerMainScreen.fxml", window);
+                break;
+            }
+            case ADMIN:{
+                loadMainScreen("/fxml/adminMainScreen.fxml", window);
                 break;
             }
             case MANAGER:{
-                FXMLLoader loader = fxmlLoaderFactory.load("/fxml/managerMainScreen.fxml");
-                Parent managerMainScreen = loader.load();
-                Scene nextScene = new Scene(managerMainScreen);
-
-                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                window.setScene(nextScene);
-                window.setResizable(true);
-                window.centerOnScreen();
-                window.show();
+                loadMainScreen("/fxml/managerMainScreen.fxml", window);
                 break;
             }
 
         }
 
-
     }
 
+
+    @FXML
+    private void loginButtonClicked(ActionEvent event) throws IOException {
+        handleLogin();
+    }
+
+    @FXML
+    private void keyPressed(KeyEvent keyEvent) throws IOException {
+        if (keyEvent.getCode() == KeyCode.ENTER){
+            handleLogin();
+        }
+    }
 }

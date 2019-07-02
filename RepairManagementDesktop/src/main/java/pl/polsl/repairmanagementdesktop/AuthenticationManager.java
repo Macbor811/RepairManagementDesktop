@@ -32,19 +32,19 @@ public class AuthenticationManager {
     private final HttpComponentsClientHttpRequestFactory sslRequestFactory;
 
     @Autowired
-    public AuthenticationManager(CurrentUser user,  ConfiguredClientFactory configuredClientFactory, HttpComponentsClientHttpRequestFactory sslRequestFactory) {
+    public AuthenticationManager(CurrentUser user, ConfiguredClientFactory configuredClientFactory, HttpComponentsClientHttpRequestFactory sslRequestFactory) {
         this.user = user;
         this.configuredClientFactory = configuredClientFactory;
         this.sslRequestFactory = sslRequestFactory;
     }
 
 
-    private OAuth2RestTemplate oAuth2RestTemplate(String username, String password){
+    private OAuth2RestTemplate oAuth2RestTemplate(String username, String password) {
         ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
 
         //List scopes = new ArrayList<String>(2);
         //scopes.add("write");
-       // scopes.add("read");
+        // scopes.add("read");
         resource.setAccessTokenUri(server + "/oauth/token");
         resource.setClientId("client-id");
         resource.setClientSecret("client-secret");
@@ -57,7 +57,7 @@ public class AuthenticationManager {
     }
 
 
-    public enum AuthorizedRole{
+    public enum AuthorizedRole {
         ADMIN("ROLE_ADM"),
         MANAGER("ROLE_MAN"),
         WORKER("ROLE_WRK"),
@@ -73,33 +73,31 @@ public class AuthenticationManager {
         public String toString() {
             return text;
         }
-
     }
 
+        public AuthorizedRole authenticate(String username, String password) {
 
-    public AuthorizedRole authenticate(String username, String password){
+            var restTemplate = new RestTemplate();
+            restTemplate.getInterceptors().add(ConfiguredClientFactory.basicAuthInterceptor(username, password));
 
-        var restTemplate = new RestTemplate();
-        restTemplate.getInterceptors().add(ConfiguredClientFactory.basicAuthInterceptor(username, password));
+            //restTemplate.setRequestFactory(sslRequestFactory);
 
-        //restTemplate.setRequestFactory(sslRequestFactory);
-
-        UserData data = restTemplate.getForObject(server + "user/me", UserData.class);
-        if (data.getActive()){
+            UserData data = restTemplate.getForObject(server + "user/me", UserData.class);
+            if (data.getActive()) {
 
 
-            var role  = Stream.of(AuthenticationManager.AuthorizedRole.values())
-                    .filter(r -> r.toString().equals("ROLE_" + data.getRole()))
-                    .findFirst().orElse(AuthenticationManager.AuthorizedRole.FAILED);
+                var role = Stream.of(AuthenticationManager.AuthorizedRole.values())
+                        .filter(r -> r.toString().equals("ROLE_" + data.getRole()))
+                        .findFirst().orElse(AuthenticationManager.AuthorizedRole.FAILED);
 
-            user.setData(Integer.parseInt(data.getId()), username, password, role);
+                user.setData(Integer.parseInt(data.getId()), username, password, role);
 
-            return user.getRole();
-        } else {
-            return AuthorizedRole.FAILED;
+                return user.getRole();
+            } else {
+                return AuthorizedRole.FAILED;
+            }
+
+
         }
-
-
-
-    }
 }
+

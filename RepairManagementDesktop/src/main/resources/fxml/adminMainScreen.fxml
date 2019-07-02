@@ -8,20 +8,20 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="693.0" prefWidth="1176.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.WorkerMainScreenController">
+<AnchorPane prefHeight="693.0" prefWidth="1176.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.AdminMainScreenController">
         <children>
             <TabPane layoutX="14.0" layoutY="36.0" prefHeight="553.0" prefWidth="774.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                 <tabs>
-            <Tab text="Your activities">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <Tab text="Users">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <fx:include fx:id="activitiesTab" source="activitiesTab.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <Button fx:id="updateActivityButton" mnemonicParsing="false" onAction="#updateActivityButtonClicked" text="Update" AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="8.0" />
-                        <Button layoutX="176.0" layoutY="8.0" mnemonicParsing="false" onAction="#finalizeActivityButtonClicked"  text="Finalize" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="8.0" />
+                        <fx:include fx:id="employeesTab" source="employeesTab.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Button layoutX="64.0" layoutY="14.0" mnemonicParsing="false" onAction="#addUserButtonClicked" text="Add" AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="8.0" />
+                        <Button layoutX="99.0" layoutY="8.0" mnemonicParsing="false" onAction="#updateUserButtonClicked" text="Update" AnchorPane.leftAnchor="97.0" AnchorPane.topAnchor="8.0" />
                      </children>
                   </AnchorPane>
-              </content>
+               </content>
             </Tab>
                 </tabs>
             </TabPane>

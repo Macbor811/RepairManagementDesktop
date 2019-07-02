@@ -13,6 +13,7 @@ import java.net.URI;
 @Service
 public class EmployeeService {
 
+
     private final Client<EmployeeEntity> client;
 
     @Autowired

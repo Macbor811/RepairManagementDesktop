@@ -16,6 +16,7 @@ import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerService;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerTableRow;
 import pl.polsl.repairmanagementdesktop.utils.*;
+import pl.polsl.repairmanagementdesktop.utils.search.ParamBinding;
 import pl.polsl.repairmanagementdesktop.utils.search.TextFieldParamBinding;
 import pl.polsl.repairmanagementdesktop.utils.search.UriSearchQuery;
 import uk.co.blackpepper.bowman.Page;
@@ -139,6 +140,13 @@ public class CustomersTabController {
         return new Pane();
     }
 
+
+    public void addParamBindings(ParamBinding... bindings){
+        for (var binding : bindings){
+            uriSearchQuery.getBindings().add(binding);
+        }
+        uriSearchQuery.update();
+    }
 
     @FXML
     private void addCustomerButtonClicked(ActionEvent event) throws IOException {

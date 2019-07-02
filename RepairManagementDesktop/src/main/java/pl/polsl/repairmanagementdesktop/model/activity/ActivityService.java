@@ -1,4 +1,4 @@
-package pl.polsl.repairmanagementdesktop.model.request;
+package pl.polsl.repairmanagementdesktop.model.activity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,29 +11,33 @@ import uk.co.blackpepper.bowman.Page;
 import java.net.URI;
 
 @Service
-public class RequestService {
+public class ActivityService {
 
-    private final Client<RequestEntity> client;
+    private final Client<ActivityEntity> client;
 
     @Autowired
-    public RequestService(ClientFactory factory){
+    public ActivityService(ClientFactory factory){
 
-        client = factory.create(RequestEntity.class);
+        client = factory.create(ActivityEntity.class);
 
     }
 
-    public void save(RequestEntity entity){
-        client.post(entity);
+    public void save(ActivityEntity activity){
+        client.post(activity);
+    }
+
+    public ActivityEntity findById(String id){
+        String baseUriStr = client.getBaseUri().toString();
+        return client.get(URI.create(baseUriStr + "/" + id));
     }
 
 
-    public Page<RequestEntity> findAll(int page, int size){
+    public Page<ActivityEntity> findAll(int page, int size){
 
         return client.getPage(page, size);
     }
 
-
-    public Page<RequestEntity> findAllMatching(SearchQuery query, int page, int size){
+    public Page<ActivityEntity> findAllMatching(SearchQuery query, int page, int size){
         URI uri = UriComponentsBuilder.fromUri(client.getBaseUri()).query(query.getQueryString()).build().toUri();
         return client.getPage(uri, page, size);
     }

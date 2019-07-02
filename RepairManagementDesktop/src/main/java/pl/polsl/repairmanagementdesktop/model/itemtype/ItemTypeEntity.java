@@ -43,6 +43,6 @@ public class ItemTypeEntity{
 
     @Override
     public String toString(){
-        return type;
+        return getType();
     }
 }

@@ -3,5 +3,8 @@ spring:
       web:
       web-application-type: none
       allow-bean-definition-overriding: true
+#    jackson:
+#      serialization:
+#        write-dates-as-timestamps: false
 server:
   address: http://localhost:8080/

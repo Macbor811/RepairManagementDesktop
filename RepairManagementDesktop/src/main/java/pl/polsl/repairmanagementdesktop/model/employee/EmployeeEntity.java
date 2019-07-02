@@ -3,17 +3,17 @@ package pl.polsl.repairmanagementdesktop.model.employee;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityEntity;
 import pl.polsl.repairmanagementdesktop.model.address.AddressEntity;
+import pl.polsl.repairmanagementdesktop.utils.InstantDeserializer;
 import uk.co.blackpepper.bowman.InlineAssociationDeserializer;
 import uk.co.blackpepper.bowman.annotation.LinkedResource;
 import uk.co.blackpepper.bowman.annotation.RemoteResource;
 import uk.co.blackpepper.bowman.annotation.ResourceId;
 
 import java.net.URI;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -28,7 +28,7 @@ public class EmployeeEntity {
     private String role;
     private String username;
     private String password;
-    private LocalDateTime deactivationDate;
+    private Instant deactivationDate;
     private Collection<ActivityEntity> activities;
     private AddressEntity address;
     private Collection<RequestEntity> requests;
@@ -95,11 +95,11 @@ public class EmployeeEntity {
     }
 
     @JsonSerialize(using = ToStringSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    public LocalDateTime getDeactivationDate() {
+    @JsonDeserialize(using = InstantDeserializer.class)
+    public Instant getDeactivationDate() {
         return deactivationDate;
     }
-    public void setDeactivationDate(LocalDateTime deactivationDate) {
+    public void setDeactivationDate(Instant deactivationDate) {
         this.deactivationDate = deactivationDate;
     }
 
