@@ -10,14 +10,14 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="609.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.AddCustomerScreenController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="609.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.AddRequestScreenController">
    <children>
       <Label layoutX="35.0" layoutY="40.0" text="Add request">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Button fx:id="addCustomerButton" layoutX="389.0" layoutY="563.0" mnemonicParsing="false" onAction="#addCustomerButtonClicked" text="Add" />
+      <Button fx:id="addCustomerButton" layoutX="389.0" layoutY="563.0" mnemonicParsing="false" onAction="#addRequestButtonClicked" text="Add" />
       <Button layoutX="34.0" layoutY="563.0" mnemonicParsing="false" text="Cancel" />
       <Label fx:id="messageLabel" layoutX="216.0" layoutY="555.0" />
       <GridPane alignment="CENTER" layoutX="95.0" layoutY="101.0" prefHeight="254.0" prefWidth="319.0">
@@ -34,12 +34,12 @@
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" text="Item:" textAlignment="CENTER" GridPane.halignment="RIGHT" />
             <Label layoutX="10.0" layoutY="249.0" text="Current selection:" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-            <Button fx:id="selectWorkerButton" mnemonicParsing="false" onAction="#selectWorkerButtonClicked" text="Select" GridPane.columnIndex="1">
+            <Button fx:id="selectItemButton" mnemonicParsing="false" onAction="#selectItemButtonClicked" text="Select" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
             </Button>
-            <Label fx:id="currentWorkerSelectionLabel" text="PLACEHOLDER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Label fx:id="currentItemSelectionLabel" text="PLACEHOLDER" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
