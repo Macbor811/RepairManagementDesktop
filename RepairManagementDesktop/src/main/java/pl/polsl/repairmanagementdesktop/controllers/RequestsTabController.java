@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.ResourceAccessException;
+import pl.polsl.repairmanagementdesktop.model.activity.ActivityEntity;
 import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
 import pl.polsl.repairmanagementdesktop.model.request.RequestService;
 import pl.polsl.repairmanagementdesktop.model.request.RequestTableRow;
@@ -183,6 +184,12 @@ public class RequestsTabController {
 
     public void finalizeRequest(ActionEvent event){
         //TODO
+        RequestTableRow selection = requestTableView.getSelectionModel().getSelectedItem();
+        RequestEntity re = requestService.findById(selection.getId());
+        re.setStatus("Finish");
+        for (ActivityEntity activity: re.getActivities()) {
+            activity.setStatus("Finish");
+        }
     }
     public void showRequestDetails(ActionEvent event) {
         //TODO

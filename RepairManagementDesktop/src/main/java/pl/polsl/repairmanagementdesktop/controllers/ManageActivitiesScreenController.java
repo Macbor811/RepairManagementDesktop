@@ -170,9 +170,9 @@ public class ManageActivitiesScreenController {
         FXMLLoader loader = loaderFactory.load("/fxml/addActivityScreen.fxml");
 
         Parent addActivityScreen = loader.load();
-
         Scene nextScene = new Scene(addActivityScreen);
-
+        AddActivityScreenController addActivityScreenController = loader.getController();
+        addActivityScreenController.setRequest(requestId);
         Stage window = new Stage();
 
         window.setScene(nextScene);

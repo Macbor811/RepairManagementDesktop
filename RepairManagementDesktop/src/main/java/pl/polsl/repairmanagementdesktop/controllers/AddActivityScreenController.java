@@ -76,6 +76,7 @@ public class AddActivityScreenController {
 	private EmployeeTableRow employeeTableRow;
 	private RequestTableRow requestTableRow;
 
+
 	@Autowired
 	public AddActivityScreenController(LoaderFactory fxmlLoaderFactory, RequestService requestService,ActivityTypeService activityTypeService,ActivityService activityService, EmployeeService employeeService) {
 		this.fxmlLoaderFactory = fxmlLoaderFactory;
@@ -103,7 +104,6 @@ public class AddActivityScreenController {
 			Parent selectRequestScreen = loader.load();
 
 			selectRequestScreenController = loader.getController();
-
 			selectRequestScene = new Scene(selectRequestScreen);
 
 
@@ -200,4 +200,13 @@ public class AddActivityScreenController {
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		window.close();
 	}
+
+
+	public void setRequest(String requestId) {
+		this.requestTableRow =new RequestTableRow( requestService.findById(requestId));
+		if (requestTableRow != null) {
+			currentRequestSelectionLabel.setText(requestTableRow.getId());
+		}
+	}
+
 }

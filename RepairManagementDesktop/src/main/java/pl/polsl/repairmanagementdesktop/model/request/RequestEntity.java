@@ -29,17 +29,17 @@ public class RequestEntity {
     private Instant registerDate;
     private Instant endDate;
 
-    private Collection<RequestEntity> requests;
+    private Collection<ActivityEntity> activities;
     private ItemEntity item;
     private EmployeeEntity manager;
 
-    public RequestEntity(String description, String result, String status, Instant registerDate, Instant endDate, Collection<RequestEntity> requests, ItemEntity item, EmployeeEntity manager) {
+    public RequestEntity(String description, String result, String status, Instant registerDate, Instant endDate, Collection<ActivityEntity> activities, ItemEntity item, EmployeeEntity manager) {
         this.description = description;
         this.result = result;
         this.status = status;
         this.registerDate = registerDate;
         this.endDate = endDate;
-        this.requests = requests;
+        this.activities = activities;
         this.item = item;
         this.manager = manager;
     }
@@ -96,11 +96,11 @@ public class RequestEntity {
 
 
     @JsonDeserialize(contentUsing = InlineAssociationDeserializer.class)
-    public Collection<RequestEntity> getRequests() {
-        return requests;
+    public Collection<ActivityEntity> getActivities() {
+        return activities;
     }
     public void setActivities(Collection<ActivityEntity> activities) {
-        this.requests = requests;
+        this.activities = activities;
     }
 
     @LinkedResource
