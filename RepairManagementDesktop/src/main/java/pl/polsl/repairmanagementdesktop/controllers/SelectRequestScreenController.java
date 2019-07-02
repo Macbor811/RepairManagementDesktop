@@ -45,11 +45,7 @@ public class SelectRequestScreenController {
 
 
 
-
-
-
-
         public RequestTableRow getCurrentSelection() {
-            return null;
+            return currentSelection;
     }
 }

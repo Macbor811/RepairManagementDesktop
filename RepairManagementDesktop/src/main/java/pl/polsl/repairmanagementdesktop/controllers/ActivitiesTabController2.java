@@ -158,7 +158,7 @@ public class ActivitiesTabController2 {
         //System.out.println("idReq ");
         //idReq = requestsTabController.getCurrentSelection().getId().toString();
         //System.out.println(idReq);
-        addParamBindings(new ConstantParamBinding("request.id", idReq));
+        //addParamBindings(new ConstantParamBinding("request.id", idReq));
         initQueryFields();
         initPagination();
         initActivityTableView();
