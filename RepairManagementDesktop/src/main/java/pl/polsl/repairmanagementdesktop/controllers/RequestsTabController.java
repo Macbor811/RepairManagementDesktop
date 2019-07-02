@@ -196,12 +196,15 @@ public class RequestsTabController {
     }
 
     public void manageRequestActivities(ActionEvent event)  {
+
+
+
         try {
 
             FXMLLoader loader = loaderFactory.load("/fxml/activitiesTab2.fxml");
-            Parent managerMainScreen = loader.load();
+            Parent activitiesTab2 = loader.load();
 
-            Scene nextScene = new Scene(managerMainScreen);
+            Scene nextScene = new Scene(activitiesTab2);
 
             Stage window = new Stage();
 

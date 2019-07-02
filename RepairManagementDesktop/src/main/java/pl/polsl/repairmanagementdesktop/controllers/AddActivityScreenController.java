@@ -99,9 +99,13 @@ public class AddActivityScreenController {
 
 		//prepare request selection screen
 		try {
-			FXMLLoader loader = fxmlLoaderFactory.load("/fxml/activitiesTab2.fxml");
+			FXMLLoader loader = fxmlLoaderFactory.load("/fxml/selectRequestScreen.fxml");
+			Parent selectRequestScreen = loader.load();
 
 			selectRequestScreenController = loader.getController();
+
+			selectRequestScene = new Scene(selectRequestScreen);
+
 
 		} catch (IOException e) {
 			e.printStackTrace();

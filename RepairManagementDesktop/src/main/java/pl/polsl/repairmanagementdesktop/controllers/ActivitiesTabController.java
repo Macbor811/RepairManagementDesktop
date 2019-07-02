@@ -161,9 +161,9 @@ public class ActivitiesTabController {
     public void addActivity(ActionEvent event) throws IOException  {
         FXMLLoader loader = loaderFactory.load("/fxml/addActivityScreen.fxml");
 
-        Parent managerMainScreen = loader.load();
+        Parent addActivityScreen = loader.load();
 
-        Scene nextScene = new Scene(managerMainScreen);
+        Scene nextScene = new Scene(addActivityScreen);
 
         Stage window = new Stage();
 

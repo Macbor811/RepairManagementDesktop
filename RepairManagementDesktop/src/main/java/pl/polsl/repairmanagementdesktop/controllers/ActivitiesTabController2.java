@@ -64,7 +64,7 @@ public class ActivitiesTabController2 {
 
     private boolean isInitialized = false;
 
-    SelectRequestScreenController selectRequestScreenController;
+   // SelectRequestScreenController selectRequestScreenController;
 
     String idReq="1";
 
@@ -84,17 +84,6 @@ public class ActivitiesTabController2 {
         this.employeeService = employeeService;
         this.loaderFactory = loaderFactory;
         this.requestsTabController=requestsTabController;
-
-        try {
-            FXMLLoader loader = loaderFactory.load("/fxml/requestsTab.fxml");
-
-            selectRequestScreenController = loader.getController();
-            idReq = selectRequestScreenController.getCurrentSelection().getId().toString();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 
     private void initActivityTableView() {
@@ -166,9 +155,9 @@ public class ActivitiesTabController2 {
 
 //        selectRequestScreenController = loader.getController();
 
-        System.out.println("idReq ");
+        //System.out.println("idReq ");
         //idReq = requestsTabController.getCurrentSelection().getId().toString();
-        System.out.println(idReq);
+        //System.out.println(idReq);
         addParamBindings(new ConstantParamBinding("request.id", idReq));
         initQueryFields();
         initPagination();
@@ -186,10 +175,9 @@ public class ActivitiesTabController2 {
     public void addActivity(ActionEvent event) throws IOException  {
         FXMLLoader loader = loaderFactory.load("/fxml/addActivityScreen.fxml");
 
-        Parent managerMainScreen = loader.load();
+        Parent addActivityScreen = loader.load();
 
-
-        Scene nextScene = new Scene(managerMainScreen);
+        Scene nextScene = new Scene(addActivityScreen);
 
         Stage window = new Stage();
 
