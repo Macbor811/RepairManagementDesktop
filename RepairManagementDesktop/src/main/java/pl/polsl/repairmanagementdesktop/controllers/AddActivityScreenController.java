@@ -180,17 +180,14 @@ public class AddActivityScreenController {
 
 	@FXML
 	private void addActivityButtonClicked(ActionEvent event) {
-		//ActivityTypeEntity type = activityTypeService.findById((String) activityTypeListView.getSelectionModel().getSelectedItem());
 		EmployeeEntity employee = employeeService.findById(employeeTableRow.getId());
 		RequestEntity request = requestService.findById(requestTableRow.getId());
 		ActivityTypeEntity type = activityTypeService.findByType((String) activityTypeListView.getSelectionModel().getSelectedItem());
 
-//Integer sequenceNum, String description, String result, String status, Instant registerDate, Instant endDate, ActivityTypeEntity activityType, RequestEntity request, EmployeeEntity worker) {
+		ActivityEntity activity = new ActivityEntity(Integer.parseInt(sequenceNumberTextField.getText()),descriptionTextField.getText(),"","Open"
+				,request.getRegisterDate(),request.getEndDate(),type,request,employee);
 
-		//ActivityEntity activity = new ActivityEntity(Integer.parseInt(sequenceNumberTextField.getText()),descriptionTextField.getText(),"","Open"
-			//	,request.getRegisterDate(),request.getEndDate(),type,request,employee);
-
-		//activityService.save(activity);
+		activityService.save(activity);
 
 
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
