@@ -79,19 +79,21 @@ public class AddEmployeeScreenController {
     @FXML
     public void addButtonClicked(ActionEvent event) {
         AddressEntity addressEntity = new AddressEntity(
-                postCodeTextField.toString(),
-                cityTextField.toString(),
-                streetTextField.toString(),
-                numberTextField.toString()
+                postCodeTextField.getText(),
+                cityTextField.getText(),
+                streetTextField.getText(),
+                numberTextField.getText()
                 );
 
+        addressService.save(addressEntity);
+
         EmployeeEntity employeeEntity = new EmployeeEntity(
-                firstNameTextField.toString(),
-                lastNameTextField.toString(),
-                phoneNumTextField.toString(),
+                firstNameTextField.getText(),
+                lastNameTextField.getText(),
+                phoneNumTextField.getText(),
                 roleChoiceBox.getSelectionModel().getSelectedItem().toString(),
-                usernameTextField.toString(),
-                passwordField.toString(),
+                usernameTextField.getText(),
+                passwordField.getText(),
                 addressEntity
         );
 
