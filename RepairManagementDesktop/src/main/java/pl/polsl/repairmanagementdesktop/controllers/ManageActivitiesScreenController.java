@@ -181,7 +181,8 @@ public class ManageActivitiesScreenController {
     }
 
     public void finalizeActivity(ActionEvent event){
-        //TODO
+       ActivityEntity ae= activityService.findById(getCurrentSelection().getId());
+       ae.setStatus("FIN");
     }
 
     public void updateActivity(ActionEvent event) {
@@ -235,6 +236,9 @@ public class ManageActivitiesScreenController {
         finalizedDatePicker.setValue(null);
     }
 
+    ActivityTableRow getCurrentSelection(){
+        return activityTableView.getSelectionModel().getSelectedItem();
+    }
 
     public void setRequestId(String requestId) {
         this.requestId = requestId;

@@ -191,5 +191,7 @@ public class ItemsTabController {
         window.setResizable(false);
         window.show();
     }
-
+    ItemTableRow getCurrentSelection(){
+        return itemTableView.getSelectionModel().getSelectedItem();
+    }
 }

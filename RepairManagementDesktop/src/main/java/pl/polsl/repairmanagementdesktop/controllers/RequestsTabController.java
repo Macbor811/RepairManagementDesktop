@@ -167,9 +167,9 @@ public class RequestsTabController {
     public void addRequest(ActionEvent event) throws IOException  {
         FXMLLoader loader = loaderFactory.load("/fxml/addRequestScreen.fxml");
 
-        Parent managerMainScreen = loader.load();
+        Parent addRequestScreen = loader.load();
 
-        Scene nextScene = new Scene(managerMainScreen);
+        Scene nextScene = new Scene(addRequestScreen);
 
         Stage window = new Stage();
 
@@ -186,9 +186,13 @@ public class RequestsTabController {
         //TODO
         RequestTableRow selection = requestTableView.getSelectionModel().getSelectedItem();
         RequestEntity re = requestService.findById(selection.getId());
-        re.setStatus("Finish");
-        for (ActivityEntity activity: re.getActivities()) {
-            activity.setStatus("Finish");
+        re.setStatus("FIN");
+        if(re.getActivities() != null) {
+
+
+            for (ActivityEntity activity : re.getActivities()) {
+                activity.setStatus("FIN");
+            }
         }
     }
     public void showRequestDetails(ActionEvent event) {

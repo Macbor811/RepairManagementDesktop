@@ -34,7 +34,7 @@
             <items>
                 <Button fx:id="showActivityButton" mnemonicParsing="false" onAction="#showActivityButtonClicked" text="Show" />
             <Button fx:id="add" mnemonicParsing="false" onAction="#addActivity" text="Add" />
-            <Button mnemonicParsing="false" text="Button" />
+            <Button fx:id="finalizeButton" mnemonicParsing="false" onAction="#finalizeActivity" text="Finalize" />
             </items>
         </ToolBar>
         <Pagination fx:id="pagination" maxPageIndicatorCount="2" prefHeight="51.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />

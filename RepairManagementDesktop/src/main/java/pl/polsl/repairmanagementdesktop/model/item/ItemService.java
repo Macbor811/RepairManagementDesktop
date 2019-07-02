@@ -40,7 +40,13 @@ public class ItemService {
 
     public ItemEntity findById(Integer id){
         return client.get();
+
     }
+    public ItemEntity findById(String id){
+        String baseUriStr = client.getBaseUri().toString();
+        return client.get(URI.create(baseUriStr + "/" + id));
+    }
+
 
 
     public Page<ItemEntity> findAll(int page, int size){
