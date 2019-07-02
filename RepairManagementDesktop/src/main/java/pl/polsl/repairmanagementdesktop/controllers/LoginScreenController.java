@@ -11,6 +11,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.client.HttpClientErrorException;
 import pl.polsl.repairmanagementdesktop.AuthenticationManager;
 
 import javafx.event.ActionEvent;
@@ -56,25 +57,27 @@ public class LoginScreenController {
 
     private void handleLogin() throws IOException {
         Stage window = (Stage) loginButton.getScene().getWindow();
-        switch (authenticationManager.authenticate(usernameField.getText(), passwordField.getText())){
-            case FAILED:{
-                messageLabel.setText("Login failed. Wrong username or password.");
-                break;
-            }
-            case WORKER:{
-                loadMainScreen("/fxml/workerMainScreen.fxml", window);
-                break;
-            }
-            case ADMIN:{
-                loadMainScreen("/fxml/adminMainScreen.fxml", window);
-                break;
-            }
-            case MANAGER:{
-                loadMainScreen("/fxml/managerMainScreen.fxml", window);
-                break;
-            }
 
+        try {
+            switch (authenticationManager.authenticate(usernameField.getText(), passwordField.getText())){
+                case WORKER:{
+                    loadMainScreen("/fxml/workerMainScreen.fxml", window);
+                    break;
+                }
+                case ADMIN:{
+                    loadMainScreen("/fxml/adminMainScreen.fxml", window);
+                    break;
+                }
+                case MANAGER:{
+                    loadMainScreen("/fxml/managerMainScreen.fxml", window);
+                    break;
+                }
+
+            }
+        } catch (AuthenticationManager.LoginException e){
+            messageLabel.setText(e.getMessage());
         }
+
 
     }
 

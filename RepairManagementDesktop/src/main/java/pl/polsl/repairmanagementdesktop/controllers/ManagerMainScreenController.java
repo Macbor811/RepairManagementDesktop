@@ -4,10 +4,17 @@ package pl.polsl.repairmanagementdesktop.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import pl.polsl.repairmanagementdesktop.CurrentUser;
 
 @Controller
 public class ManagerMainScreenController {
+
+    @FXML
+    private Menu fileMenu;
 
     @FXML
     private CustomersTabController customersTabController;
@@ -18,7 +25,18 @@ public class ManagerMainScreenController {
     @FXML
     private ActivitiesTabController activitiesTabController;
 
+    @Autowired
+    private CurrentUser currentUser;
 
+
+    @FXML
+    public void initialize(){
+        fileMenu.getItems().clear();
+        var logoutItem = new MenuItem("Sign out");
+        fileMenu.getItems().add(logoutItem);
+
+        logoutItem.setOnAction((event) -> { currentUser.signOut(event); });
+    }
 
     @FXML
     private void createActivityButtonClicked(ActionEvent event) {

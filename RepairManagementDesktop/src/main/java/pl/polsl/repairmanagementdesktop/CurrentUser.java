@@ -1,9 +1,18 @@
 package pl.polsl.repairmanagementdesktop;
 
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.stereotype.Component;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeEntity;
+import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.stream.Stream;
 
@@ -22,6 +31,13 @@ public class CurrentUser {
         this.role = role;
     }
 
+    private final LoaderFactory fxmlLoaderFactory;
+
+    @Autowired
+    public CurrentUser(LoaderFactory fxmlLoaderFactory) {
+        this.fxmlLoaderFactory = fxmlLoaderFactory;
+    }
+
 
     public Integer getId() {
         return id;
@@ -34,5 +50,31 @@ public class CurrentUser {
     }
     public AuthenticationManager.AuthorizedRole getRole() {
         return role;
+    }
+
+    public void signOut(ActionEvent event){
+        id = null;
+        username = null;
+        password = null;
+        role = null;
+
+        try {
+            FXMLLoader loader = fxmlLoaderFactory.load("/fxml/loginScreen.fxml");
+            Parent loginScreen = loader.load();
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene nextScene = new Scene(loginScreen);
+
+            window.setScene(nextScene);
+            window.setResizable(true);
+            window.centerOnScreen();
+            window.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
     }
 }
