@@ -154,6 +154,20 @@ public class ItemsTabController {
 
     @FXML
     private void updateItemsButtonClicked() {
+        try{
+            FXMLLoader loader = fxmlLoaderFactory.load("/fxml/updateItemScreen.fxml");
+
+            Parent updateItemScreen = loader.load();
+            Scene nextScene = new Scene(updateItemScreen);
+            UpdateItemScreenController addItemScreenController = loader.getController();
+            addItemScreenController.setItem(itemService.findById(getCurrentSelection().getId()));
+            Stage window = new Stage();
+
+            window.setScene(nextScene);
+            window.setResizable(false);
+            window.show();
+        }catch (IOException e){}
+
     }
 
     private void updateTable() {
@@ -175,7 +189,6 @@ public class ItemsTabController {
         }
 
     }
-
 
     @FXML
     private void addItemButtonClicked(ActionEvent event) throws IOException {

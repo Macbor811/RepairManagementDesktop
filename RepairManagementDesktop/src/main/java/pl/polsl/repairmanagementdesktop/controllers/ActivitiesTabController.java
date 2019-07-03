@@ -177,7 +177,20 @@ public class ActivitiesTabController {
     }
 
     public void updateActivity(ActionEvent event) {
-        //TODO
+        try{
+            FXMLLoader loader = loaderFactory.load("/fxml/updateActivityScreen.fxml");
+
+            Parent updateActivityScreen = loader.load();
+            Scene nextScene = new Scene(updateActivityScreen);
+            UpdateActivityScreenController addActivityScreenController = loader.getController();
+            addActivityScreenController.setActivity(activityService.findById(getCurrentSelection().getId()));
+            Stage window = new Stage();
+
+            window.setScene(nextScene);
+            window.setResizable(false);
+            window.show();
+        }catch (IOException e){}
+
     }
 
     public void showActivityDetails(ActionEvent event) {

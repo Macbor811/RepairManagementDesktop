@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="609.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.UpdateCustomerScreenController">
+   <children>
+      <Label layoutX="35.0" layoutY="40.0" text="Enter customer data">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <GridPane alignment="CENTER" layoutX="85.0" layoutY="91.0" prefHeight="149.0" prefWidth="319.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="211.0" minWidth="10.0" prefWidth="96.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="307.0" minWidth="10.0" prefWidth="223.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" text="First name:" textAlignment="CENTER" GridPane.halignment="RIGHT" />
+            <Label text="Last name:" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+            <Label text="Phone number:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+            <TextField fx:id="firstNameTextField" prefHeight="25.0" prefWidth="213.0" scaleShape="false" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </TextField>
+            <TextField fx:id="lastNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </TextField>
+            <TextField fx:id="phoneNumTextField" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </TextField>
+         </children>
+      </GridPane>
+      <Line endX="292.5" layoutX="134.0" layoutY="270.0" startX="-100.0" />
+      <Label layoutX="35.0" layoutY="302.0" text="Address">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <GridPane alignment="CENTER" layoutX="85.0" layoutY="340.0" prefHeight="171.0" prefWidth="319.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="211.0" minWidth="10.0" prefWidth="96.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="307.0" minWidth="10.0" prefWidth="223.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" text="Postal code:" textAlignment="CENTER" GridPane.halignment="RIGHT" />
+            <Label text="City:" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+            <Label text="Street:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+            <TextField fx:id="postCodeTextField" prefHeight="25.0" prefWidth="213.0" scaleShape="false" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </TextField>
+            <TextField fx:id="cityTextField" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </TextField>
+            <TextField fx:id="streetTextField" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </TextField>
+            <Label text="Number:" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+            <TextField fx:id="numberTextField" prefHeight="25.0" prefWidth="92.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets left="10.0" right="180.0" />
+               </GridPane.margin>
+            </TextField>
+         </children>
+      </GridPane>
+      <Button fx:id="updateCustomerButton" layoutX="389.0" layoutY="563.0" mnemonicParsing="false" onAction="#updateCustomerButtonClicked" text="Update" />
+      <Button layoutX="34.0" layoutY="563.0" mnemonicParsing="false" text="Cancel" />
+      <Label fx:id="messageLabel" layoutX="216.0" layoutY="555.0" />
+   </children>
+</Pane>

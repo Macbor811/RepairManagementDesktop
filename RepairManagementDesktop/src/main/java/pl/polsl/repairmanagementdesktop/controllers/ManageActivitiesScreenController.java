@@ -186,13 +186,27 @@ public class ManageActivitiesScreenController {
     }
 
     public void updateActivity(ActionEvent event) {
-        //TODO
+        try{
+        FXMLLoader loader = loaderFactory.load("/fxml/updateActivityScreen.fxml");
+
+        Parent updateActivityScreen = loader.load();
+        Scene nextScene = new Scene(updateActivityScreen);
+        UpdateActivityScreenController addActivityScreenController = loader.getController();
+        addActivityScreenController.setRequest(requestId);
+        addActivityScreenController.setActivity(activityService.findById(getCurrentSelection().getId()));
+        Stage window = new Stage();
+
+        window.setScene(nextScene);
+        window.setResizable(false);
+        window.show();
+    }catch (IOException e){}
+
     }
 
     public void showActivityDetails(ActionEvent event) {
-        //TODO
+        updateTable();
     }
-    public void cancelButtonClicked(ActionEvent event) {
+    public void CancelButtonClicked(ActionEvent event) {
         //TODO
         ActivityEntity ae= activityService.findById(getCurrentSelection().getId());
         ae.setStatus("CAN");
@@ -248,4 +262,7 @@ public class ManageActivitiesScreenController {
     public void setRequestId(String requestId) {
         this.requestId = requestId;
     }
+
+
+
 }

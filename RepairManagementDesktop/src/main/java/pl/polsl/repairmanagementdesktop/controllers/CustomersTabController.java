@@ -2,6 +2,7 @@ package pl.polsl.repairmanagementdesktop.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -158,6 +159,23 @@ public class CustomersTabController {
         window.setScene(nextScene);
         window.setResizable(false);
         window.show();
+    }
+
+    public void updateCustomer(ActionEvent event) {
+        try{
+            FXMLLoader loader = loaderFactory.load("/fxml/updateCustomerScreen.fxml");
+
+            Parent updateCustomerScreen = loader.load();
+            Scene nextScene = new Scene(updateCustomerScreen);
+            UpdateCustomerScreenController addCustomerScreenController = loader.getController();
+            addCustomerScreenController.setCustomer(customerService.findById(getCurrentSelection().getId()));
+            Stage window = new Stage();
+
+            window.setScene(nextScene);
+            window.setResizable(false);
+            window.show();
+        }catch (IOException e){}
+
     }
 
     /**

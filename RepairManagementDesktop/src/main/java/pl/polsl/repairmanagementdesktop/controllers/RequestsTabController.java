@@ -179,8 +179,22 @@ public class RequestsTabController {
     }
 
     public void updateRequest(ActionEvent event) {
-        //TODO
-    }
+            try{
+                FXMLLoader loader = loaderFactory.load("/fxml/updateRequestScreen.fxml");
+
+                Parent updateRequestScreen = loader.load();
+                Scene nextScene = new Scene(updateRequestScreen);
+                UpdateRequestScreenController addRequestScreenController = loader.getController();
+                addRequestScreenController.setRequest(requestService.findById(getCurrentSelection().getId()));
+                Stage window = new Stage();
+
+                window.setScene(nextScene);
+                window.setResizable(false);
+                window.show();
+            }catch (IOException e){}
+
+        }
+
 
     public void finalizeRequest(ActionEvent event){
         //TODO
