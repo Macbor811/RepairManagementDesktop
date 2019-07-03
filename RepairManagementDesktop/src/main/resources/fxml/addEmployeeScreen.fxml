@@ -116,8 +116,8 @@
             </TextField>
          </children>
       </GridPane>
-      <Button fx:id="addEmployeeButton" layoutX="389.0" layoutY="563.0" mnemonicParsing="false" text="Add" />
-      <Button fx:id="cancelEmployeeButton" layoutX="34.0" layoutY="563.0" mnemonicParsing="false" text="Cancel" />
+      <Button fx:id="addEmployeeButton" layoutX="389.0" layoutY="563.0" mnemonicParsing="false" text="Add" onAction="#addButtonClicked"/>
+      <Button fx:id="cancelEmployeeButton" layoutX="34.0" layoutY="563.0" mnemonicParsing="false" text="Cancel" onAction="#cancelButtonClidked"/>
       <Label fx:id="messageLabel" layoutX="216.0" layoutY="555.0" />
    </children>
 </Pane>
