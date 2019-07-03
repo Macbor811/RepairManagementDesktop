@@ -11,9 +11,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.client.HttpClientErrorException;
 import pl.polsl.repairmanagementdesktop.AuthenticationManager;
 
 import javafx.event.ActionEvent;
+import pl.polsl.repairmanagementdesktop.utils.ConfiguredClientFactory;
 import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;
 
 import java.io.IOException;
@@ -33,11 +35,14 @@ public class LoginScreenController {
     private final AuthenticationManager authenticationManager;
     private final LoaderFactory fxmlLoaderFactory;
 
+
+
     @Autowired
     public LoginScreenController(AuthenticationManager authenticationManager, LoaderFactory fxmlLoaderFactory) {
         this.authenticationManager = authenticationManager;
         this.fxmlLoaderFactory = fxmlLoaderFactory;
     }
+
 
     private void loadMainScreen(String fxml, Stage window) throws IOException {
         FXMLLoader loader = fxmlLoaderFactory.load(fxml);
@@ -52,25 +57,28 @@ public class LoginScreenController {
 
     private void handleLogin() throws IOException {
         Stage window = (Stage) loginButton.getScene().getWindow();
-        switch (authenticationManager.authorizeForRole(usernameField.getText(), passwordField.getText())){
-            case FAILED:{
-                messageLabel.setText("Login failed. Wrong username or password.");
-                break;
-            }
-            case WORKER:{
-                loadMainScreen("/fxml/workerMainScreen.fxml", window);
-                break;
-            }
-            case ADMIN:{
-                loadMainScreen("/fxml/adminMainScreen.fxml", window);
-                break;
-            }
-            case MANAGER:{
-                loadMainScreen("/fxml/managerMainScreen.fxml", window);
-                break;
-            }
 
+        try {
+            switch (authenticationManager.authenticate(usernameField.getText(), passwordField.getText())){
+                case WORKER:{
+                    loadMainScreen("/fxml/workerMainScreen.fxml", window);
+                    break;
+                }
+                case ADMIN:{
+                    loadMainScreen("/fxml/adminMainScreen.fxml", window);
+                    break;
+                }
+                case MANAGER:{
+                    loadMainScreen("/fxml/managerMainScreen.fxml", window);
+                    break;
+                }
+
+            }
+        } catch (AuthenticationManager.LoginException e){
+            messageLabel.setText(e.getMessage());
         }
+
+
     }
 
 

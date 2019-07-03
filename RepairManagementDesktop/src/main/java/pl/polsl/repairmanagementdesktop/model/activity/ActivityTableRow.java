@@ -30,6 +30,7 @@ public class ActivityTableRow {
         //processes URI string to get resource index(ex. api/customer/3)
         this.id = uriString.substring(uriString.lastIndexOf("/") + 1);
 
+        var requestId = entity.getRequest().getUri().toString().substring(uriString.lastIndexOf("/") + 1);
 
         this.registeredDate = entity.getRegisterDate() != null ? entity.getRegisterDate().atZone(ZoneId.systemDefault()).toLocalDateTime() : null;
         this.status = entity.getStatus();

@@ -17,7 +17,6 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.Objects;
 
-
 @RemoteResource("/employee")
 public class EmployeeEntity {
 
