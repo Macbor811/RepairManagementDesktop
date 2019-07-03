@@ -184,8 +184,23 @@ public class EmployeesTabController {
         }catch (IOException e){}
     }
 
-    public void addUser(ActionEvent event)  {
-        //TODO
+    public void addUser(ActionEvent event) {
+        try {
+            FXMLLoader loader = loaderFactory.load("/fxml/addEmployeeScreen.fxml");
+
+            Parent adminMainScreen = loader.load();
+
+            Scene nextScene = new Scene(adminMainScreen);
+
+            Stage window = new Stage();
+
+            window.setScene(nextScene);
+            window.setResizable(false);
+            window.show();
+        }
+        catch (Exception e){
+
+        }
     }
 
     @FXML
