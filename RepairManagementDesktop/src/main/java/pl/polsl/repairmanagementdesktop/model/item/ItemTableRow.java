@@ -37,4 +37,9 @@ public class ItemTableRow {
         return client.getFirstName() + " " + client.getLastName();
     }
 
+    @Override
+    public String toString(){
+        return  "ID: " + id + ", " + type + " " + name;
+    }
+
 }

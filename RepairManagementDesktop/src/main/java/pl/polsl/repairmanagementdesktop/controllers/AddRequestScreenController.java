@@ -107,19 +107,17 @@ public class AddRequestScreenController {
 
             itemTableRow = selectItemScreenController.getCurrentSelection();
             if (itemTableRow != null) {
-                currentItemSelectionLabel.setText(itemTableRow.getId());
+                currentItemSelectionLabel.setText(itemTableRow.toString());
             }
 
         }
 
         @FXML
         private void addRequestButtonClicked(ActionEvent event) {
-// public RequestEntity(String description, String result, String status, Instant registerDate, Instant endDate, Collection<ActivityEntity> activities, ItemEntity item, EmployeeEntity manager) {
             ItemEntity ie = itemService.findById(itemTableRow.getId());
             EmployeeEntity ee = employeeService.findById("1");
-           // if(itemService==null)System.out.println("asdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdas");
 
-            RequestEntity request = new RequestEntity(descriptionTextField.getText(),"","OPN", Instant.now(),Instant.now(),null,ie,ee);
+            RequestEntity request = new RequestEntity(descriptionTextField.getText(),"","OPN", Instant.now(),null,null,ie,ee);
 
             requestService.save(request);
 
