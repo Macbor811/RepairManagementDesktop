@@ -197,20 +197,35 @@ public class RequestsTabController {
 
 
     public void finalizeRequest(ActionEvent event){
-        //TODO
+
         RequestTableRow selection = requestTableView.getSelectionModel().getSelectedItem();
-        RequestEntity re = requestService.findById(selection.getId());
-        re.setStatus("FIN");
-        if(re.getActivities() != null) {
 
+        if (selection != null){
+            try
+            {
+                FXMLLoader loader = loaderFactory.load("/fxml/finalizeRequestScreen.fxml");
 
-            for (ActivityEntity activity : re.getActivities()) {
-                activity.setStatus("FIN");
+                Parent detailsScreen = loader.load();
+                FinalizeRequestScreenController dsc = loader.getController();
+
+                dsc.setRequestTableRow(selection);
+
+                Scene nextScene = new Scene(detailsScreen);
+
+                Stage window = new Stage();
+
+                window.setScene(nextScene);
+                window.setResizable(false);
+                window.show();
             }
+            catch (IOException e)
+            {}
         }
+
     }
+
+
     public void showRequestDetails(ActionEvent event) {
-        //TODO
         try
         {
         FXMLLoader loader = loaderFactory.load("/fxml/detailsScreen.fxml");

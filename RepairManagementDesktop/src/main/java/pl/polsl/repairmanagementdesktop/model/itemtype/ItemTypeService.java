@@ -27,6 +27,8 @@ public class ItemTypeService {
     }
 
     public void save(ItemTypeEntity entity){
+        String baseUriStr = client.getBaseUri().toString();
+        entity.setUri(URI.create(baseUriStr + "/" + entity.getType()));
         client.post(entity);
     }
 

@@ -181,8 +181,29 @@ public class ManageActivitiesScreenController {
     }
 
     public void finalizeActivity(ActionEvent event){
-       ActivityEntity ae= activityService.findById(getCurrentSelection().getId());
-       ae.setStatus("FIN");
+        ActivityTableRow selection = activityTableView.getSelectionModel().getSelectedItem();
+
+        if (selection != null){
+            try
+            {
+                FXMLLoader loader = loaderFactory.load("/fxml/finalizeActivityScreen.fxml");
+
+                Parent detailsScreen = loader.load();
+                FinalizeActivityScreenController dsc = loader.getController();
+
+                dsc.setActivityTableRow(selection);
+
+                Scene nextScene = new Scene(detailsScreen);
+
+                Stage window = new Stage();
+
+                window.setScene(nextScene);
+                window.setResizable(false);
+                window.show();
+            }
+            catch (IOException e)
+            {}
+        }
     }
 
     public void updateActivity(ActionEvent event) {
@@ -206,11 +227,7 @@ public class ManageActivitiesScreenController {
     public void showActivityDetails(ActionEvent event) {
         updateTable();
     }
-    public void CancelButtonClicked(ActionEvent event) {
-        //TODO
-        ActivityEntity ae= activityService.findById(getCurrentSelection().getId());
-        ae.setStatus("CAN");
-    }
+
 
 
     /**

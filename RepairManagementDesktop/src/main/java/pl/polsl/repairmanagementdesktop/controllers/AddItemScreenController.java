@@ -27,11 +27,17 @@ import pl.polsl.repairmanagementdesktop.model.itemtype.ItemTypeEntity;
 import pl.polsl.repairmanagementdesktop.model.itemtype.ItemTypeService;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.stream.Collectors;
 
 @Scope("prototype")
 @Controller
 public class AddItemScreenController {
+
+
+
+    @FXML
+    private TextField itemTypeTextField;
 
     @FXML
     private Label currentOwnerSelectionLabel;
@@ -79,6 +85,7 @@ public class AddItemScreenController {
     }
 
     private void initItemTypeListView(){
+        itemTypeListView.setItems(null);
         ObservableList<String> itemTypes = FXCollections
                 .observableList(
                         itemTypeService
@@ -143,5 +150,14 @@ public class AddItemScreenController {
     private void cancelButtonClicked(ActionEvent event) {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.close();
+    }
+
+    @FXML
+    private void addItemTypeButtonClicked(ActionEvent event) {
+        var type = new ItemTypeEntity();
+        type.setType(itemTypeTextField.getText());
+
+        itemTypeService.save(type);
+        initItemTypeListView();
     }
 }

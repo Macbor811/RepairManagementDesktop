@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeTableRow;
+import pl.polsl.repairmanagementdesktop.utils.search.ConstantParamBinding;
 
 @Scope("prototype")
 @Controller
@@ -18,6 +19,12 @@ public class SelectEmployeeScreenController {
     private Button selectButton;
 
     private EmployeeTableRow currentSelection = null;
+
+
+    @FXML
+    public void initialize(){
+        employeesTabController.addParamBindings(new ConstantParamBinding("role", "WRK"));
+    }
 
 
     @FXML

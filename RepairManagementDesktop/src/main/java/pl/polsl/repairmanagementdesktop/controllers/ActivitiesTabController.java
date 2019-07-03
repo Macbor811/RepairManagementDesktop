@@ -17,6 +17,7 @@ import pl.polsl.repairmanagementdesktop.model.activity.ActivityEntity;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityService;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityTableRow;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeService;
+import pl.polsl.repairmanagementdesktop.model.request.RequestTableRow;
 import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;
 import pl.polsl.repairmanagementdesktop.utils.TableColumnFactory;
 import pl.polsl.repairmanagementdesktop.utils.TextFormatterFactory;
@@ -62,8 +63,6 @@ public class ActivitiesTabController {
 
     private final UriSearchQuery uriSearchQuery = new UriSearchQuery();
 
-    private boolean isInitialized = false;
-
     @FXML
     private TableView<ActivityTableRow> activityTableView;
 
@@ -84,20 +83,20 @@ public class ActivitiesTabController {
 
         activityTableView.getColumns().clear();
 
+        TableColumn<ActivityTableRow, Integer> sequenceNumDateColumn = TableColumnFactory.createColumn("Seq. no", "sequenceNum");
         TableColumn<ActivityTableRow, String> idColumn = TableColumnFactory.createColumn("ID", "id");
         TableColumn<ActivityTableRow, String> registeredDateColumn = TableColumnFactory.createColumn("Registered Date", "registeredDate");
         TableColumn<ActivityTableRow, String> statusColumn = TableColumnFactory.createColumn("Status", "status");
         TableColumn<ActivityTableRow, String> finalizedDateColumn = TableColumnFactory.createColumn("Finalized Date", "finalizedDate");
-        TableColumn<ActivityTableRow, Integer> sequenceNumDateColumn = TableColumnFactory.createColumn("Finalized Date", "sequenceNum");
         TableColumn<ActivityTableRow, String> descriptionColumn = TableColumnFactory.createColumn("Description", "description");
         TableColumn<ActivityTableRow, String> requestColumn = TableColumnFactory.createColumn("Result", "result");
 
         activityTableView.getColumns().addAll(
+                sequenceNumDateColumn,
                 idColumn,
                 registeredDateColumn,
                 statusColumn,
                 finalizedDateColumn,
-                sequenceNumDateColumn,
                 descriptionColumn,
                 requestColumn
 
@@ -123,7 +122,8 @@ public class ActivitiesTabController {
                         new TextFieldParamBinding(descriptionTextField, "description"),
                         new TextFieldParamBinding(clientTextField, "client"),
                         new TextFieldParamBinding(itemTextField, "item"),
-                        new TextFieldParamBinding(requestTextField, "request")
+                        new TextFieldParamBinding(requestTextField, "request"),
+                        new ConstantParamBinding("sort", "sequenceNum,asc")
                 )
         );
     }
@@ -173,7 +173,29 @@ public class ActivitiesTabController {
     }
 
     public void finalizeActivity(ActionEvent event){
-        //TODO
+        ActivityTableRow selection = activityTableView.getSelectionModel().getSelectedItem();
+
+        if (selection != null){
+            try
+            {
+                FXMLLoader loader = loaderFactory.load("/fxml/finalizeActivityScreen.fxml");
+
+                Parent detailsScreen = loader.load();
+                FinalizeActivityScreenController dsc = loader.getController();
+
+                dsc.setActivityTableRow(selection);
+
+                Scene nextScene = new Scene(detailsScreen);
+
+                Stage window = new Stage();
+
+                window.setScene(nextScene);
+                window.setResizable(false);
+                window.show();
+            }
+            catch (IOException e)
+            {}
+        }
     }
 
     public void updateActivity(ActionEvent event) {
@@ -194,7 +216,6 @@ public class ActivitiesTabController {
     }
 
     public void showActivityDetails(ActionEvent event) {
-        //TODO
 
         try
         {
