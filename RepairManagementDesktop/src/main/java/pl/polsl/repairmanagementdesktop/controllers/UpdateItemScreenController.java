@@ -129,7 +129,7 @@ public class UpdateItemScreenController {
 
         ItemEntity item = new ItemEntity(itemNameTextField.getText(), type, owner);
 
-        itemService.save(item);
+        //itemService.save(item);
 
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -145,8 +145,11 @@ public class UpdateItemScreenController {
 
     public void setItem(ItemEntity item) {
 
-        String id = item.getOwner().getUri().toString().substring(item.getUri().toString().lastIndexOf("/") + 1);
-        currentOwnerSelectionLabel.setText(id);
+        String id = item.getOwner().getUri().toString().substring(item.getOwner().getUri().toString().lastIndexOf("/") + 1);
+
+        currentOwnerSelectionLabel.setText(item.getOwner().getFirstName() + " " + item.getOwner().getLastName());
+
+        ownerTableRow =new CustomerTableRow( customerService.findById(id));
 itemNameTextField.setText(item.getName());
 
     }

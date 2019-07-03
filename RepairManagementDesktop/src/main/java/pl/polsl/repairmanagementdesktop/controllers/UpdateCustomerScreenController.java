@@ -79,7 +79,7 @@ public class UpdateCustomerScreenController {
                     numberTextField.getText()
             );
 
-            addressService.save(address);
+            //addressService.save(address);
 
             CustomerEntity customer = new CustomerEntity(
                     firstNameTextField.getText(),

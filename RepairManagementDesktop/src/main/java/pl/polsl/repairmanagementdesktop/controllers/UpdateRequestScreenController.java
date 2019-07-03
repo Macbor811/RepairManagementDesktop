@@ -105,14 +105,12 @@ public class UpdateRequestScreenController {
 
         @FXML
         private void updateRequestButtonClicked(ActionEvent event) {
-// public RequestEntity(String description, String result, String status, Instant registerDate, Instant endDate, Collection<ActivityEntity> activities, ItemEntity item, EmployeeEntity manager) {
             ItemEntity ie = itemService.findById(itemTableRow.getId());
             EmployeeEntity ee = employeeService.findById("1");
-           // if(itemService==null)System.out.println("asdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdas");
 
             RequestEntity request = new RequestEntity(descriptionTextField.getText(),"","OPN", Instant.now(),Instant.now(),null,ie,ee);
 
-            requestService.save(request);
+           // requestService.save(request);
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.close();
@@ -126,9 +124,11 @@ public class UpdateRequestScreenController {
         }
 
     public void setRequest(RequestEntity request) {
-        String id = request.getItem().getUri().toString().substring(request.getUri().toString().lastIndexOf("/") + 1);
+        String id = request.getItem().getUri().toString().substring(request.getItem().getUri().toString().lastIndexOf("/") + 1);
         currentItemSelectionLabel.setText(id);
         descriptionTextField.setText(request.getDescription());
+
+        itemTableRow = new ItemTableRow( itemService.findById(id));
 
     }
 }

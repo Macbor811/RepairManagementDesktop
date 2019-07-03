@@ -177,7 +177,7 @@ public class UpdateActivityScreenController {
 	}
 
 	@FXML
-	private void addActivityButtonClicked(ActionEvent event) {
+	private void updateActivityButtonClicked(ActionEvent event) {
 		EmployeeEntity employee = employeeService.findById(employeeTableRow.getId());
 		RequestEntity request = requestService.findById(requestTableRow.getId());
 		ActivityTypeEntity type = activityTypeService.findByType((String) activityTypeListView.getSelectionModel().getSelectedItem());
@@ -212,11 +212,15 @@ public class UpdateActivityScreenController {
 
 	public void setActivity(ActivityEntity activity) {
 
-		String requestId = activity.getRequest().getUri().toString().substring(activity.getUri().toString().lastIndexOf("/") + 1);
+		String requestId = activity.getRequest().getUri().toString().substring(activity.getRequest().getUri().toString().lastIndexOf("/") + 1);
+		String workerId = activity.getWorker().getUri().toString().substring(activity.getWorker().getUri().toString().lastIndexOf("/") + 1);
 
-			System.out.println(requestId);
-			currentRequestSelectionLabel.setText(requestId);
-			currentWorkerSelectionLabel.setText(activity.getWorker().getFirstName() + " " +activity.getWorker().getLastName());
+		currentRequestSelectionLabel.setText(requestId);
+		currentWorkerSelectionLabel.setText(activity.getWorker().getFirstName() + " " +activity.getWorker().getLastName());
+
+
+		requestTableRow =new RequestTableRow( requestService.findById(requestId));
+		employeeTableRow =new EmployeeTableRow( employeeService.findById(workerId));
 
 		sequenceNumberTextField.setText(activity.getSequenceNum().toString());
 		descriptionTextField.setText(activity.getDescription());
