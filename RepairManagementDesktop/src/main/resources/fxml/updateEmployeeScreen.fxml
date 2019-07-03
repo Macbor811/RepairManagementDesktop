@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="609.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.UpdateEmployeeScreenController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="609.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.UpdateEmployeeScreenController">
    <children>
       <Label layoutX="35.0" layoutY="40.0" text="Enter employee data">
          <font>
@@ -116,7 +116,7 @@
             </TextField>
          </children>
       </GridPane>
-      <Button fx:id="addEmployeeButton" layoutX="389.0" layoutY="563.0" mnemonicParsing="false" text="Add" />
+      <Button fx:id="updateEmployeeButton" layoutX="389.0" layoutY="563.0" mnemonicParsing="false" onAction="#updateEmployeeButtonClicked" text="Update" />
       <Button fx:id="cancelEmployeeButton" layoutX="34.0" layoutY="563.0" mnemonicParsing="false" text="Cancel" />
       <Label fx:id="messageLabel" layoutX="216.0" layoutY="555.0" />
    </children>
