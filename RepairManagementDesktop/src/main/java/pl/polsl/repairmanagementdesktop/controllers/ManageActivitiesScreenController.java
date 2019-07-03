@@ -192,6 +192,11 @@ public class ManageActivitiesScreenController {
     public void showActivityDetails(ActionEvent event) {
         //TODO
     }
+    public void cancelButtonClicked(ActionEvent event) {
+        //TODO
+        ActivityEntity ae= activityService.findById(getCurrentSelection().getId());
+        ae.setStatus("CAN");
+    }
 
 
     /**

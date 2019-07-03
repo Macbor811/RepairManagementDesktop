@@ -187,6 +187,7 @@ public class AddActivityScreenController {
 		ActivityEntity activity = new ActivityEntity(Integer.parseInt(sequenceNumberTextField.getText()),descriptionTextField.getText(),"","Open"
 				,request.getRegisterDate(),request.getEndDate(),type,request,employee);
 
+		//request.getActivities().add(activity);
 		activityService.save(activity);
 
 

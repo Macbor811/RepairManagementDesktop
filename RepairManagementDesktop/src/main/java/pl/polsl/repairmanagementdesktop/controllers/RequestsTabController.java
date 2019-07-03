@@ -197,7 +197,26 @@ public class RequestsTabController {
     }
     public void showRequestDetails(ActionEvent event) {
         //TODO
+        try
+        {
+        FXMLLoader loader = loaderFactory.load("/fxml/detailsScreen.fxml");
+
+        Parent detailsScreen = loader.load();
+        DetailsScreenController dsc = loader.getController();
+        RequestEntity re = requestService.findById(getCurrentSelection().getId());
+        dsc.setText(re.getDescription());
+        Scene nextScene = new Scene(detailsScreen);
+
+        Stage window = new Stage();
+
+        window.setScene(nextScene);
+        window.setResizable(false);
+        window.show();
+        }
+        catch (IOException e)
+        {}
     }
+
 
     public void manageRequestActivities(ActionEvent event) throws IOException  {
 

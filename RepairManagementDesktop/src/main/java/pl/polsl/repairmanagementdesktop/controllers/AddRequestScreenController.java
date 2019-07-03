@@ -115,9 +115,9 @@ public class AddRequestScreenController {
 // public RequestEntity(String description, String result, String status, Instant registerDate, Instant endDate, Collection<ActivityEntity> activities, ItemEntity item, EmployeeEntity manager) {
             ItemEntity ie = itemService.findById(itemTableRow.getId());
 
-            if(itemService==null)System.out.println("asdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdas");
+           // if(itemService==null)System.out.println("asdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdas");
 
-            RequestEntity request = new RequestEntity(descriptionTextField.getText(),"","OPN", Instant.now(),null,null,ie,null);
+            RequestEntity request = new RequestEntity(descriptionTextField.getText(),"","OPN", Instant.now(),Instant.now(),null,ie,null);
 
             requestService.save(request);
 

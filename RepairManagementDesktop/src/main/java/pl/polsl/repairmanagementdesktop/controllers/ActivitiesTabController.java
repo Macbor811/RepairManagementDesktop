@@ -182,6 +182,25 @@ public class ActivitiesTabController {
 
     public void showActivityDetails(ActionEvent event) {
         //TODO
+
+        try
+        {
+            FXMLLoader loader = loaderFactory.load("/fxml/detailsScreen.fxml");
+
+            Parent detailsScreen = loader.load();
+            DetailsScreenController dsc = loader.getController();
+            ActivityEntity ae = activityService.findById(getCurrentSelection().getId());
+            dsc.setText(ae.getDescription());
+            Scene nextScene = new Scene(detailsScreen);
+
+            Stage window = new Stage();
+
+            window.setScene(nextScene);
+            window.setResizable(false);
+            window.show();
+        }
+        catch (IOException e)
+        {}
     }
 
 
@@ -228,4 +247,7 @@ public class ActivitiesTabController {
     }
 
 
+    ActivityTableRow getCurrentSelection(){
+        return activityTableView.getSelectionModel().getSelectedItem();
+    }
 }
