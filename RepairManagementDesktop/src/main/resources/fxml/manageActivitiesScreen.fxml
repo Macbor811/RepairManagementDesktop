@@ -36,6 +36,8 @@
             <Button fx:id="add" mnemonicParsing="false" onAction="#addActivity" text="Add" />
             <Button fx:id="finalizeButton" mnemonicParsing="false" onAction="#finalizeActivity" text="Finalize" />
 
+           <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonClicked" text="Cancel" />
+
             </items>
         </ToolBar>
         <Pagination fx:id="pagination" maxPageIndicatorCount="2" prefHeight="51.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
