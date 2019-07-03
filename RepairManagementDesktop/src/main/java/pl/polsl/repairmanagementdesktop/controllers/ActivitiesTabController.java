@@ -190,7 +190,7 @@ public class ActivitiesTabController {
             Parent detailsScreen = loader.load();
             DetailsScreenController dsc = loader.getController();
             ActivityEntity ae = activityService.findById(getCurrentSelection().getId());
-            dsc.setText(ae.getDescription());
+            dsc.setText(ae.getDescription(),ae.getResult());
             Scene nextScene = new Scene(detailsScreen);
 
             Stage window = new Stage();

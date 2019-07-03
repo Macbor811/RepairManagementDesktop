@@ -15,11 +15,14 @@ import org.springframework.stereotype.Controller;
 public class DetailsScreenController {
 
     @FXML
-    private Text detailsText;
+    private Text descriptionText;
+    @FXML
+    private Text resultText;
 
-    public void setText(String text)
+    public void setText(String description,String result)
     {
-        detailsText.setText(text);
+        descriptionText.setText(description);
+        resultText.setText(result);
     }
 
     @FXML

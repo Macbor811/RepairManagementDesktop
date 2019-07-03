@@ -204,7 +204,7 @@ public class RequestsTabController {
         Parent detailsScreen = loader.load();
         DetailsScreenController dsc = loader.getController();
         RequestEntity re = requestService.findById(getCurrentSelection().getId());
-        dsc.setText(re.getDescription());
+        dsc.setText(re.getDescription(),re.getResult());
         Scene nextScene = new Scene(detailsScreen);
 
         Stage window = new Stage();

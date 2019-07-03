@@ -60,12 +60,14 @@ public class AddRequestScreenController {
         private ItemTableRow itemTableRow;
         private RequestTableRow requestTableRow;
 
+        private EmployeeService employeeService;
 
         @Autowired
-        public AddRequestScreenController(LoaderFactory fxmlLoaderFactory, RequestService requestService,ItemService itemService) {
+        public AddRequestScreenController(LoaderFactory fxmlLoaderFactory, RequestService requestService,ItemService itemService,EmployeeService employeeService) {
             this.fxmlLoaderFactory = fxmlLoaderFactory;
             this.requestService = requestService;
             this.itemService = itemService;
+            this.employeeService = employeeService;
 
             //prepare item selection screen
             try {
@@ -114,10 +116,10 @@ public class AddRequestScreenController {
         private void addRequestButtonClicked(ActionEvent event) {
 // public RequestEntity(String description, String result, String status, Instant registerDate, Instant endDate, Collection<ActivityEntity> activities, ItemEntity item, EmployeeEntity manager) {
             ItemEntity ie = itemService.findById(itemTableRow.getId());
-
+            EmployeeEntity ee = employeeService.findById("1");
            // if(itemService==null)System.out.println("asdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdasasdadssdas");
 
-            RequestEntity request = new RequestEntity(descriptionTextField.getText(),"","OPN", Instant.now(),Instant.now(),null,ie,null);
+            RequestEntity request = new RequestEntity(descriptionTextField.getText(),"","OPN", Instant.now(),Instant.now(),null,ie,ee);
 
             requestService.save(request);
 
