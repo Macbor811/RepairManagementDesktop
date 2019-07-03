@@ -1,5 +1,6 @@
 package pl.polsl.repairmanagementdesktop.controllers;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -60,6 +61,8 @@ public class UpdateEmployeeScreenController {
 
     @FXML
     public void initialize() {
+        roleChoiceBox.setItems(FXCollections.observableArrayList("ADM", "MAN", "WRK"));
+        roleChoiceBox.getSelectionModel().select("WRK");
         fieldsList = Arrays.asList(
                 firstNameTextField,
                 lastNameTextField,
@@ -118,7 +121,6 @@ public class UpdateEmployeeScreenController {
         phoneNumTextField.setText(employee.getPhoneNumber());
         postCodeTextField.setText(employee.getAddress().getPostCode());
         usernameTextField.setText(employee.getUsername());
-        passwordField.setText(employee.getPassword());
         cityTextField.setText(employee.getAddress().getCity());
         streetTextField.setText(employee.getAddress().getStreet());
         numberTextField.setText(employee.getAddress().getNumber());
