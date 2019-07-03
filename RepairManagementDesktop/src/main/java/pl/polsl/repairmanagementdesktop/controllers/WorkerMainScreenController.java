@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -49,6 +50,12 @@ public class WorkerMainScreenController {
     public void initialize(){
         //add filter so he can only view his own activities
         activitiesTabController.addParamBindings(new ConstantParamBinding("worker.id", currentUser.getId().toString()));
+
+        fileMenu.getItems().clear();
+        var logoutItem = new MenuItem("Sign out");
+        fileMenu.getItems().add(logoutItem);
+
+        logoutItem.setOnAction((event) -> {currentUser.signOut((Stage) activitiesTab.getScene().getWindow());});
     }
 
     @FXML
@@ -60,4 +67,10 @@ public class WorkerMainScreenController {
     private void finalizeActivityButtonClicked(ActionEvent event) {
         activitiesTabController.finalizeActivity(event);
     }
+
+
+    @FXML
+    private Menu fileMenu;
+
+
 }

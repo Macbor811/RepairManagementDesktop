@@ -52,7 +52,7 @@ public class CurrentUser {
         return role;
     }
 
-    public void signOut(ActionEvent event){
+    public void signOut(Stage window){
         id = null;
         username = null;
         password = null;
@@ -62,7 +62,7 @@ public class CurrentUser {
             FXMLLoader loader = fxmlLoaderFactory.load("/fxml/loginScreen.fxml");
             Parent loginScreen = loader.load();
 
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            //Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene nextScene = new Scene(loginScreen);
 
             window.setScene(nextScene);
