@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import pl.polsl.repairmanagementdesktop.model.item.ItemEntity;
 import pl.polsl.repairmanagementdesktop.model.address.AddressEntity;
+import pl.polsl.repairmanagementdesktop.model.socialuser.SocialUserEntity;
 import uk.co.blackpepper.bowman.InlineAssociationDeserializer;
 import uk.co.blackpepper.bowman.annotation.LinkedResource;
 import uk.co.blackpepper.bowman.annotation.RemoteResource;
@@ -23,6 +24,17 @@ public class CustomerEntity {
     private String lastName;
     private String phoneNumber;
     private AddressEntity address;
+
+    @LinkedResource
+    public SocialUserEntity getSocialUserEntity() {
+        return socialUserEntity;
+    }
+
+    public void setSocialUserEntity(SocialUserEntity socialUserEntity) {
+        this.socialUserEntity = socialUserEntity;
+    }
+
+    private SocialUserEntity socialUserEntity;
     private Collection<ItemEntity> items;
 
     public CustomerEntity(){}

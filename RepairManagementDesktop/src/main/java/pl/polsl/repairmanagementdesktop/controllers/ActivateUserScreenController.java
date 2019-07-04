@@ -111,7 +111,7 @@ public class ActivateUserScreenController {
 
         user.setCustomer(owner);
 
-        socialUserService.update(user);
+        socialUserService.update(user, owner);
 
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
