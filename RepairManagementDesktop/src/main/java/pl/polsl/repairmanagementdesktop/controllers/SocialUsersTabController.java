@@ -20,10 +20,7 @@ import pl.polsl.repairmanagementdesktop.model.socialuser.SocialUserTableRow;
 import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;
 import pl.polsl.repairmanagementdesktop.utils.TableColumnFactory;
 import pl.polsl.repairmanagementdesktop.utils.TextFormatterFactory;
-import pl.polsl.repairmanagementdesktop.utils.search.DatePickerParamBinding;
-import pl.polsl.repairmanagementdesktop.utils.search.ParamBinding;
-import pl.polsl.repairmanagementdesktop.utils.search.TextFieldParamBinding;
-import pl.polsl.repairmanagementdesktop.utils.search.UriSearchQuery;
+import pl.polsl.repairmanagementdesktop.utils.search.*;
 import uk.co.blackpepper.bowman.Page;
 
 import java.io.IOException;
@@ -166,7 +163,26 @@ public class SocialUsersTabController {
     }
 
     @FXML
-    private void activateSocialUserButtonClicked(ActionEvent event) {
+    private void activateSocialUserButtonClicked(ActionEvent event) throws IOException{
+        SocialUserTableRow selection = socialUsersTableView.getSelectionModel().getSelectedItem();
+        if (selection!= null){
+
+            FXMLLoader loader = loaderFactory.load("/fxml/activateUserScreen.fxml");
+            Parent manageActivitiesScreen = loader.load();
+
+            ActivateUserScreenController manageActivitiesScreenController = loader.getController();
+
+            manageActivitiesScreenController.setUser(selection);
+
+            Scene nextScene = new Scene(manageActivitiesScreen);
+
+            Stage window = new Stage();
+
+            window.setScene(nextScene);
+            window.setResizable(false);
+            window.show();
+
+        }
 
     }
 }

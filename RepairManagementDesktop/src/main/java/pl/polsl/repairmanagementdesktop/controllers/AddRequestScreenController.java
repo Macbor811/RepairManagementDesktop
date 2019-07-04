@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import pl.polsl.repairmanagementdesktop.CurrentUser;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityEntity;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityService;
 import pl.polsl.repairmanagementdesktop.model.activitytype.ActivityTypeEntity;
@@ -61,6 +62,9 @@ public class AddRequestScreenController {
         private RequestTableRow requestTableRow;
 
         private EmployeeService employeeService;
+
+        @Autowired
+        private CurrentUser currentUser;
 
         @Autowired
         public AddRequestScreenController(LoaderFactory fxmlLoaderFactory, RequestService requestService,ItemService itemService,EmployeeService employeeService) {
@@ -115,7 +119,7 @@ public class AddRequestScreenController {
         @FXML
         private void addRequestButtonClicked(ActionEvent event) {
             ItemEntity ie = itemService.findById(itemTableRow.getId());
-            EmployeeEntity ee = employeeService.findById("1");
+            EmployeeEntity ee = employeeService.findById(currentUser.getId().toString());
 
             RequestEntity request = new RequestEntity(descriptionTextField.getText(),"","OPN", Instant.now(),null,null,ie,ee);
 

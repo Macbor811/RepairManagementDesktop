@@ -1,15 +1,21 @@
 package pl.polsl.repairmanagementdesktop.model.activity;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.client.ClientHttpRequestExecution;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import pl.polsl.repairmanagementdesktop.CurrentUser;
 import pl.polsl.repairmanagementdesktop.FinalizationData;
 import pl.polsl.repairmanagementdesktop.utils.search.SearchQuery;
 import uk.co.blackpepper.bowman.Client;
 import uk.co.blackpepper.bowman.ClientFactory;
 import uk.co.blackpepper.bowman.Page;
 
+import java.io.IOException;
 import java.net.URI;
 
 @Service
@@ -44,15 +50,27 @@ public class ActivityService {
         return client.getPage(uri, page, size);
     }
 
-    public void finalize(String id, String result, String status) {
+    @Autowired
+    private CurrentUser currentUser;
+
+    public void finalize(String id, String result, String status){
         RestTemplate template = new RestTemplate();
+
+        template.getInterceptors().add( new ClientHttpRequestInterceptor() {
+
+            public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
+                    throws IOException {
+                request.getHeaders().setBasicAuth(currentUser.getUsername(), currentUser.getPassword());
+                //request.getHeaders().add(createHeaders(currentUser.getUsername(), currentUser.getPassword()));
+                return execution.execute(request, body);
+            }
+        });
 
         var data = new FinalizationData();
         data.setResult(result);
         data.setStatus(status);
 
         String baseUriStr = client.getBaseUri().toString();
-        //template.put(URI.create(baseUriStr + "/" + id + "/finalize"), data);
 
         template.put(
                 UriComponentsBuilder.fromUri(
@@ -61,5 +79,6 @@ public class ActivityService {
                         .buildAndExpand(id).toUri(),
                 data
         );
+
     }
 }

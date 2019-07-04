@@ -48,6 +48,9 @@ public class SocialUserService {
         return client.getPage(uri, page, size);
     }
 
+    public void update(SocialUserEntity entity){
+        client.put(entity);
+    }
    
 }
 
