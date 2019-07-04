@@ -101,6 +101,13 @@ public class UpdateCustomerScreenController {
             messageLabel.setText("All fields must be filled.");
         }
     }
+
+    @FXML
+    private void cancelButtonClicked(ActionEvent event) {
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.close();
+    }
+
         public void setCustomer(CustomerEntity customer)
         {
             firstNameTextField.setText(customer.getFirstName());

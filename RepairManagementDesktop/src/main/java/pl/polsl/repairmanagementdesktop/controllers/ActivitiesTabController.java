@@ -60,6 +60,8 @@ public class ActivitiesTabController {
     private TextField itemTextField;
     @FXML
     private TextField requestTextField;
+    @FXML
+    private TextField workerTextField;
 
     private final UriSearchQuery uriSearchQuery = new UriSearchQuery();
 
@@ -90,6 +92,7 @@ public class ActivitiesTabController {
         TableColumn<ActivityTableRow, String> finalizedDateColumn = TableColumnFactory.createColumn("Finalized Date", "finalizedDate");
         TableColumn<ActivityTableRow, String> descriptionColumn = TableColumnFactory.createColumn("Description", "description");
         TableColumn<ActivityTableRow, String> requestColumn = TableColumnFactory.createColumn("Result", "result");
+        TableColumn<ActivityTableRow, String> workerColumn = TableColumnFactory.createColumn("Worker", "worker");
 
         activityTableView.getColumns().addAll(
                 sequenceNumDateColumn,
@@ -98,7 +101,8 @@ public class ActivitiesTabController {
                 statusColumn,
                 finalizedDateColumn,
                 descriptionColumn,
-                requestColumn
+                requestColumn,
+                workerColumn
 
         );
 
@@ -123,7 +127,8 @@ public class ActivitiesTabController {
                         new TextFieldParamBinding(clientTextField, "client"),
                         new TextFieldParamBinding(itemTextField, "item"),
                         new TextFieldParamBinding(requestTextField, "request"),
-                        new ConstantParamBinding("sort", "sequenceNum,asc")
+                        new ConstantParamBinding("sort", "sequenceNum,asc"),
+                        new TextFieldParamBinding(workerTextField, "worker")
                 )
         );
     }

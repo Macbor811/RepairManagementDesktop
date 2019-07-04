@@ -69,6 +69,13 @@ public class AddCustomerScreenController {
 
     }
 
+
+    @FXML
+    private void cancelButtonClicked(ActionEvent event) {
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.close();
+    }
+
     @FXML
     void addCustomerButtonClicked(ActionEvent event){
 

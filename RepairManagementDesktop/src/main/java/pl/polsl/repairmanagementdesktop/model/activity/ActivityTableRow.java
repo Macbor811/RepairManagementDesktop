@@ -2,6 +2,7 @@ package pl.polsl.repairmanagementdesktop.model.activity;
 
 import pl.polsl.repairmanagementdesktop.model.activitytype.ActivityTypeEntity;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
+import pl.polsl.repairmanagementdesktop.model.employee.EmployeeEntity;
 import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
 import pl.polsl.repairmanagementdesktop.utils.StringUtils;
 
@@ -20,6 +21,7 @@ public class ActivityTableRow {
     private String description;
     private Integer sequenceNum;
     private String result;
+    private EmployeeEntity worker;
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
 
@@ -38,6 +40,7 @@ public class ActivityTableRow {
         this.description = entity.getDescription();
         this.sequenceNum = entity.getSequenceNum();
         this.result = entity.getResult();
+        this.worker = entity.getWorker();
     }
     public String getId() { return id;}
 
@@ -49,5 +52,6 @@ public class ActivityTableRow {
     public String getResult() {
         return StringUtils.trim(result, 20);
     }
+    public String getWorker(){return worker.getFirstName() + " " + worker.getLastName();}
 
 }

@@ -10,15 +10,15 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="609.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.FinalizeRequestScreenController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="609.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.FinalizeRequestScreenController">
    <children>
       <Label layoutX="35.0" layoutY="40.0" text="Finalize">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Button fx:id="cancelActivityButton" layoutX="35.0" layoutY="563.0" mnemonicParsing="false" onAction="#cancelButtonClicked" text="Cancel" />
-      <Button fx:id="addActivityButton" layoutX="389.0" layoutY="563.0" mnemonicParsing="false" onAction="#finalizeButtonClicked" text="Finalize" />
+      <Button fx:id="cancelActivityButton" layoutX="35.0" layoutY="563.0" mnemonicParsing="false" onAction="#cancelButtonClicked" text="Exit" />
+      <Button fx:id="addActivityButton" layoutX="389.0" layoutY="563.0" mnemonicParsing="false" onAction="#finalizeButtonClicked" text="Change" />
       <Label fx:id="messageLabel" layoutX="226.0" layoutY="565.0" />
       <GridPane layoutX="126.0" layoutY="91.0">
         <columnConstraints>

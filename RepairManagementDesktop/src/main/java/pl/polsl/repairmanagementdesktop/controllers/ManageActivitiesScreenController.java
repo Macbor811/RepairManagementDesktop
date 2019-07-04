@@ -166,6 +166,12 @@ public class ManageActivitiesScreenController {
     }
 
 
+    @FXML
+    private void cancelButtonClicked(ActionEvent event) {
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.close();
+    }
+
     public void addActivity(ActionEvent event) throws IOException  {
         FXMLLoader loader = loaderFactory.load("/fxml/addActivityScreen.fxml");
 

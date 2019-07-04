@@ -94,7 +94,7 @@
          </children>
       </GridPane>
       <Button fx:id="updateCustomerButton" layoutX="389.0" layoutY="563.0" mnemonicParsing="false" onAction="#updateCustomerButtonClicked" text="Update" />
-      <Button layoutX="34.0" layoutY="563.0" mnemonicParsing="false" text="Cancel" />
+      <Button fx:id="cancelButton" layoutX="34.0" layoutY="563.0" mnemonicParsing="false" onAction="#cancelButtonClicked" text="Cancel" />
       <Label fx:id="messageLabel" layoutX="216.0" layoutY="555.0" />
    </children>
 </Pane>
