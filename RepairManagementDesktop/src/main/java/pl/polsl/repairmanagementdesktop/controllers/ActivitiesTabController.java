@@ -26,6 +26,9 @@ import uk.co.blackpepper.bowman.Page;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.stream.Collectors;
 
 
 @Scope("prototype")
@@ -255,25 +258,39 @@ public class ActivitiesTabController {
     }
 
 
+    @Autowired
+    ThreadPoolExecutor executor;
+
 
     private void updateTable() {
-            try {
-                Page<ActivityEntity> page = activityService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
+        activityTableView.getItems().clear();
+
+        Page<ActivityEntity> page = activityService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
+
+        var resourcesIt = page.getResources().iterator();
+
+        activityTableView.getItems().add(new ActivityTableRow(resourcesIt.next()));
+
+        executor.submit(() -> {
+            try{
                 pagination.setPageCount((int) page.getTotalPages());
-                activityTableView.getItems().clear();
 
+                resourcesIt.forEachRemaining(entity -> activityTableView.getItems().add(new ActivityTableRow(entity)));
 
-                for (ActivityEntity activity: page.getResources()) {
-                    activityTableView.getItems().add(new ActivityTableRow(activity));
-                }
             } catch (ResourceAccessException e){
                 Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                 errorAlert.setHeaderText("Connection error");
                 errorAlert.setContentText(e.getMessage());
                 errorAlert.show();
             }
+        });
+
     }
 
+    @FXML
+    public void shutdown(){
+        executor.shutdownNow();
+    }
 
     @FXML
     private void clearRegisterDateButtonClicked(ActionEvent event) {

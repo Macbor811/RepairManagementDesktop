@@ -34,6 +34,12 @@ public class CustomerTableRow {
         this.number = address.getNumber();
     }
 
+    private CustomerTableRow(){}
+
+    public static CustomerTableRow empty(){
+        return new CustomerTableRow();
+    }
+
 
     public String getId() {
         return id;

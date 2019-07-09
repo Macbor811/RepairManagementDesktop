@@ -36,13 +36,13 @@ public class AuthenticationManager {
     @Value("${server.address}")
     private String server;
 
-    private final HttpComponentsClientHttpRequestFactory sslRequestFactory;
+    //private final HttpComponentsClientHttpRequestFactory sslRequestFactory;
 
     @Autowired
-    public AuthenticationManager(CurrentUser user, ConfiguredClientFactory configuredClientFactory, HttpComponentsClientHttpRequestFactory sslRequestFactory) {
+    public AuthenticationManager(CurrentUser user, ConfiguredClientFactory configuredClientFactory){//, HttpComponentsClientHttpRequestFactory sslRequestFactory) {
         this.user = user;
         this.configuredClientFactory = configuredClientFactory;
-        this.sslRequestFactory = sslRequestFactory;
+       // this.sslRequestFactory = sslRequestFactory;
     }
 
 

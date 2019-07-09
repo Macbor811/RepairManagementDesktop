@@ -66,7 +66,6 @@ public class ConfiguredClientFactory {
     }
 
 
-
     @Bean
     public ClientFactory configuredClient(@Value("${server.address}") String server, RestErrorHandler handler) {
         ClientFactory factory = Configuration.builder()
@@ -74,14 +73,9 @@ public class ConfiguredClientFactory {
                     //restTemplate.setRequestFactory(sslRequestFactory());
                     restTemplate.setErrorHandler(handler);
 
-                    restTemplate.getInterceptors().add( new ClientHttpRequestInterceptor() {
-
-                        public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
-                                throws IOException {
-                            request.getHeaders().setBasicAuth(currentUser.getUsername(), currentUser.getPassword());
-                            //request.getHeaders().add(createHeaders(currentUser.getUsername(), currentUser.getPassword()));
-                            return execution.execute(request, body);
-                        }
+                    restTemplate.getInterceptors().add((request, body, execution) -> {
+                        request.getHeaders().add("Authorization", currentUser.getBasicAuth());
+                        return execution.execute(request, body);
                     });
 
                 })
@@ -90,38 +84,6 @@ public class ConfiguredClientFactory {
                 .buildClientFactory();
         return factory;
     }
-
-    @Bean
-    public HttpComponentsClientHttpRequestFactory sslRequestFactory(){
-        TrustStrategy acceptingTrustStrategy = (cert, authType) -> true;
-        SSLContext sslContext = null;
-        try {
-            sslContext = SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy).build();
-        } catch (NoSuchAlgorithmException | KeyManagementException | KeyStoreException e) {
-            e.printStackTrace();
-        }
-        SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext,
-                NoopHostnameVerifier.INSTANCE);
-
-        Registry<ConnectionSocketFactory> socketFactoryRegistry =
-                RegistryBuilder.<ConnectionSocketFactory> create()
-                        .register("https", sslsf)
-                        .register("http", new PlainConnectionSocketFactory())
-                        .build();
-
-        BasicHttpClientConnectionManager connectionManager =
-                new BasicHttpClientConnectionManager(socketFactoryRegistry);
-        CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(sslsf)
-                .setConnectionManager(connectionManager).build();
-
-        HttpComponentsClientHttpRequestFactory requestFactory =
-                new HttpComponentsClientHttpRequestFactory(httpClient);
-        return requestFactory;
-
-    }
-
-
-
 
 
 }

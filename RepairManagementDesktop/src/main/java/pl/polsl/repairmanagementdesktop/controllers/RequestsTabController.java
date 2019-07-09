@@ -1,30 +1,33 @@
 package pl.polsl.repairmanagementdesktop.controllers;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.client.ResourceAccessException;
-import pl.polsl.repairmanagementdesktop.model.activity.ActivityEntity;
-import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
-import pl.polsl.repairmanagementdesktop.model.request.RequestService;
-import pl.polsl.repairmanagementdesktop.model.request.RequestTableRow;
-import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;
-import pl.polsl.repairmanagementdesktop.utils.TableColumnFactory;
-import pl.polsl.repairmanagementdesktop.utils.TextFormatterFactory;
-import pl.polsl.repairmanagementdesktop.utils.search.*;
-import uk.co.blackpepper.bowman.Page;
+        import javafx.event.ActionEvent;
+        import javafx.fxml.FXML;
+        import javafx.fxml.FXMLLoader;
+        import javafx.scene.Node;
+        import javafx.scene.Parent;
+        import javafx.scene.Scene;
+        import javafx.scene.control.*;
+        import javafx.scene.layout.Pane;
+        import javafx.stage.Stage;
+        import org.springframework.beans.factory.annotation.Autowired;
+        import org.springframework.context.annotation.Scope;
+        import org.springframework.stereotype.Controller;
+        import org.springframework.web.client.ResourceAccessException;
+        import pl.polsl.repairmanagementdesktop.model.activity.ActivityEntity;
+        import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
+        import pl.polsl.repairmanagementdesktop.model.request.RequestService;
+        import pl.polsl.repairmanagementdesktop.model.request.RequestTableRow;
+        import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;
+        import pl.polsl.repairmanagementdesktop.utils.TableColumnFactory;
+        import pl.polsl.repairmanagementdesktop.utils.TextFormatterFactory;
+        import pl.polsl.repairmanagementdesktop.utils.search.*;
+        import uk.co.blackpepper.bowman.Page;
 
-import java.io.IOException;
-import java.util.Arrays;
+        import java.io.IOException;
+        import java.util.Arrays;
+        import java.util.concurrent.Executors;
+        import java.util.concurrent.ThreadPoolExecutor;
+        import java.util.stream.Collectors;
 
 @Scope("prototype")
 @Controller
@@ -135,6 +138,8 @@ public class RequestsTabController {
         initQueryFields();
         initPagination();
 
+        addParamBindings(new ConstantParamBinding("sort", "registerDate,desc"));
+
     }
 
     //The parameter and return value are required by pagination control, but not needed in this case.
@@ -179,21 +184,21 @@ public class RequestsTabController {
     }
 
     public void updateRequest(ActionEvent event) {
-            try{
-                FXMLLoader loader = loaderFactory.load("/fxml/updateRequestScreen.fxml");
+        try{
+            FXMLLoader loader = loaderFactory.load("/fxml/updateRequestScreen.fxml");
 
-                Parent updateRequestScreen = loader.load();
-                Scene nextScene = new Scene(updateRequestScreen);
-                UpdateRequestScreenController addRequestScreenController = loader.getController();
-                addRequestScreenController.setRequest(requestService.findById(getCurrentSelection().getId()));
-                Stage window = new Stage();
+            Parent updateRequestScreen = loader.load();
+            Scene nextScene = new Scene(updateRequestScreen);
+            UpdateRequestScreenController addRequestScreenController = loader.getController();
+            addRequestScreenController.setRequest(requestService.findById(getCurrentSelection().getId()));
+            Stage window = new Stage();
 
-                window.setScene(nextScene);
-                window.setResizable(false);
-                window.show();
-            }catch (IOException e){}
+            window.setScene(nextScene);
+            window.setResizable(false);
+            window.show();
+        }catch (IOException e){}
 
-        }
+    }
 
 
     public void finalizeRequest(ActionEvent event){
@@ -228,19 +233,19 @@ public class RequestsTabController {
     public void showRequestDetails(ActionEvent event) {
         try
         {
-        FXMLLoader loader = loaderFactory.load("/fxml/detailsScreen.fxml");
+            FXMLLoader loader = loaderFactory.load("/fxml/detailsScreen.fxml");
 
-        Parent detailsScreen = loader.load();
-        DetailsScreenController dsc = loader.getController();
-        RequestEntity re = requestService.findById(getCurrentSelection().getId());
-        dsc.setText(re.getDescription(),re.getResult());
-        Scene nextScene = new Scene(detailsScreen);
+            Parent detailsScreen = loader.load();
+            DetailsScreenController dsc = loader.getController();
+            RequestEntity re = requestService.findById(getCurrentSelection().getId());
+            dsc.setText(re.getDescription(),re.getResult());
+            Scene nextScene = new Scene(detailsScreen);
 
-        Stage window = new Stage();
+            Stage window = new Stage();
 
-        window.setScene(nextScene);
-        window.setResizable(false);
-        window.show();
+            window.setScene(nextScene);
+            window.setResizable(false);
+            window.show();
         }
         catch (IOException e)
         {}
@@ -254,21 +259,21 @@ public class RequestsTabController {
         if (selection!= null){
 
 
-                FXMLLoader loader = loaderFactory.load("/fxml/manageActivitiesScreen.fxml");
-                Parent manageActivitiesScreen = loader.load();
+            FXMLLoader loader = loaderFactory.load("/fxml/manageActivitiesScreen.fxml");
+            Parent manageActivitiesScreen = loader.load();
 
-                ManageActivitiesScreenController manageActivitiesScreenController = loader.getController();
+            ManageActivitiesScreenController manageActivitiesScreenController = loader.getController();
 
-                manageActivitiesScreenController.setRequestId(selection.getId());
-                manageActivitiesScreenController.addParamBindings(new ConstantParamBinding("request.id", selection.getId()));
+            manageActivitiesScreenController.setRequestId(selection.getId());
+            manageActivitiesScreenController.addParamBindings(new ConstantParamBinding("request.id", selection.getId()));
 
-                Scene nextScene = new Scene(manageActivitiesScreen);
+            Scene nextScene = new Scene(manageActivitiesScreen);
 
-                Stage window = new Stage();
+            Stage window = new Stage();
 
-                window.setScene(nextScene);
-                window.setResizable(false);
-                window.show();
+            window.setScene(nextScene);
+            window.setResizable(false);
+            window.show();
 
         }
 
@@ -277,22 +282,32 @@ public class RequestsTabController {
 
     }
 
+    @Autowired
+    ThreadPoolExecutor executor;
+
+
     private void updateTable() {
-        try{
-            Page<RequestEntity> page = requestService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
-            pagination.setPageCount((int) page.getTotalPages());
-            requestTableView.getItems().clear();
+        requestTableView.getItems().clear();
 
+        Page<RequestEntity> page = requestService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
 
-            for (RequestEntity request: page.getResources()) {
-                requestTableView.getItems().add(new RequestTableRow(request));
+        var resourcesIt = page.getResources().iterator();
+
+        requestTableView.getItems().add(new RequestTableRow(resourcesIt.next()));
+
+        executor.submit(() -> {
+            try{
+                pagination.setPageCount((int) page.getTotalPages());
+
+                resourcesIt.forEachRemaining(entity -> requestTableView.getItems().add(new RequestTableRow(entity)));
+
+            } catch (ResourceAccessException e){
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setHeaderText("Connection error");
+                errorAlert.setContentText(e.getMessage());
+                errorAlert.show();
             }
-        } catch (ResourceAccessException e){
-            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-            errorAlert.setHeaderText("Connection error");
-            errorAlert.setContentText(e.getMessage());
-            errorAlert.show();
-        }
+        });
 
     }
 

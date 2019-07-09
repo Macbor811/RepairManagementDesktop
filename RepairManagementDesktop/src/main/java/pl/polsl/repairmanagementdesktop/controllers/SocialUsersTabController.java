@@ -26,6 +26,8 @@ import uk.co.blackpepper.bowman.Page;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.stream.Collectors;
 
 @Scope("prototype")
 @Controller
@@ -129,22 +131,28 @@ public class SocialUsersTabController {
         uriSearchQuery.update();
     }
 
+    @Autowired
+    ThreadPoolExecutor executor;
+
+
     private void updateTable() {
-        try{
-            Page<SocialUserEntity> page = socialUserService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
-            pagination.setPageCount((int) page.getTotalPages());
-            socialUsersTableView.getItems().clear();
+        executor.submit(() -> {
+            try{
+
+                Page<SocialUserEntity> page = socialUserService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
+
+                pagination.setPageCount((int) page.getTotalPages());
 
 
-            for (SocialUserEntity socialUser: page.getResources()) {
-                socialUsersTableView.getItems().add(new SocialUserTableRow(socialUser));
+                socialUsersTableView.getItems().setAll(page.getResources().stream().map(SocialUserTableRow::new).collect(Collectors.toList()));
+
+            } catch (ResourceAccessException e){
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setHeaderText("Connection error");
+                errorAlert.setContentText(e.getMessage());
+                errorAlert.show();
             }
-        } catch (ResourceAccessException e){
-            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-            errorAlert.setHeaderText("Connection error");
-            errorAlert.setContentText(e.getMessage());
-            errorAlert.show();
-        }
+        });
 
     }
 

@@ -23,7 +23,12 @@ import pl.polsl.repairmanagementdesktop.utils.search.UriSearchQuery;
 import uk.co.blackpepper.bowman.Page;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.stream.Collectors;
 
 @Scope("prototype")
 @Controller
@@ -56,6 +61,7 @@ public class CustomersTabController {
     private TextField numberTextField;
 
     private final UriSearchQuery uriSearchQuery = new UriSearchQuery();
+
 
     @FXML
     private TableView<CustomerTableRow> customersTableView;
@@ -95,7 +101,7 @@ public class CustomersTabController {
         for (var column : customersTableView.getColumns()) {
             column.setStyle("-fx-alignment: CENTER;");
         }
-
+        customersTableView.setColumnResizePolicy((param) -> true );
     }
 
     private void initQueryFields() {
@@ -174,7 +180,7 @@ public class CustomersTabController {
             window.setScene(nextScene);
             window.setResizable(false);
             window.show();
-        }catch (IOException e){}
+        } catch (IOException e){}
 
     }
 
@@ -183,39 +189,46 @@ public class CustomersTabController {
      */
     @FXML
     private void showCustomersButtonClicked() {
+
+
         rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
         uriSearchQuery.update();
         updateTable();
+
     }
+
+    @Autowired
+    ThreadPoolExecutor executor;// = (ThreadPoolExecutor ) Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+
 
     private void updateTable() {
-        try{
-            Page<CustomerEntity> page = customerService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
-            pagination.setPageCount((int) page.getTotalPages());
-            customersTableView.getItems().clear();
+        executor.submit(() -> {
+            try{
+
+                Page<CustomerEntity> page = customerService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
+
+                pagination.setPageCount((int) page.getTotalPages());
 
 
-            for (CustomerEntity customer : page.getResources()) {
-                customersTableView.getItems().add(new CustomerTableRow(customer));
+                customersTableView.getItems().setAll(page.getResources().stream().map(CustomerTableRow::new).collect(Collectors.toList()));
+
+            } catch (ResourceAccessException e){
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setHeaderText("Connection error");
+                errorAlert.setContentText(e.getMessage());
+                errorAlert.show();
             }
-        } catch (ResourceAccessException e){
-            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-            errorAlert.setHeaderText("Connection error");
-            errorAlert.setContentText(e.getMessage());
-            errorAlert.show();
-        }
+        });
+
 
     }
+
 
 
     CustomerTableRow getCurrentSelection(){
         return customersTableView.getSelectionModel().getSelectedItem();
     }
 
-//    @ExceptionHandler(ResourceAccessException.class)
-//    public void handleException(ResourceAccessException e) {
-//        System.out.println(e.getMessage());
-//    }
 
 }
 
