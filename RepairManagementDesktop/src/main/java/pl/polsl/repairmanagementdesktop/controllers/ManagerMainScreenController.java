@@ -2,11 +2,14 @@ package pl.polsl.repairmanagementdesktop.controllers;
 
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tab;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +20,11 @@ import java.io.IOException;
 @Controller
 public class ManagerMainScreenController {
 
+
+    public Tab socialUsersPaneTab;
+    public Tab activitiesPaneTab;
+    public Tab requestsPaneTab;
+    public Tab itemsPaneTab;
     @FXML
     private Button createRequestButton;
 
@@ -28,6 +36,8 @@ public class ManagerMainScreenController {
     private RequestsTabController requestsTabController;
     @FXML
     private ActivitiesTabController activitiesTabController;
+    @FXML
+    private SocialUsersTabController socialUsersTabController;
 
     @Autowired
     private CurrentUser currentUser;
@@ -107,8 +117,39 @@ public class ManagerMainScreenController {
 
     }
 
+    @FXML
+    private Tab customersPaneTab;
 
+    @FXML
+    private void customersTabSelected(Event event) {
+        if (customersPaneTab.isSelected()){
+            customersTabController.initView();
+        }
+    }
 
+    public void itemsTabSelected(Event event) {
+        if (itemsPaneTab.isSelected()){
+            itemsTabController.initView();
+        }
+    }
 
+    public void requestsTabSelected(Event event) {
+        if (requestsPaneTab.isSelected()){
+            requestsTabController.initView();
+        }
+
+    }
+
+    public void activitiesTabSelected(Event event) {
+        if (activitiesPaneTab.isSelected()){
+            activitiesTabController.initView();
+        }
+    }
+
+    public void socialUsersTabSelected(Event event) {
+        if (socialUsersPaneTab.isSelected()){
+            socialUsersTabController.initView();
+        }
+    }
 }
 

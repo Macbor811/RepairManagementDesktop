@@ -1,5 +1,6 @@
 package pl.polsl.repairmanagementdesktop.controllers;
 
+        import javafx.application.Platform;
         import javafx.event.ActionEvent;
         import javafx.fxml.FXML;
         import javafx.fxml.FXMLLoader;
@@ -25,6 +26,8 @@ package pl.polsl.repairmanagementdesktop.controllers;
 
         import java.io.IOException;
         import java.util.Arrays;
+        import java.util.List;
+        import java.util.Vector;
         import java.util.concurrent.Executors;
         import java.util.concurrent.ThreadPoolExecutor;
         import java.util.stream.Collectors;
@@ -75,6 +78,8 @@ public class RequestsTabController {
     public RequestsTabController(RequestService requestService, LoaderFactory loaderFactory) {
         this.requestService = requestService;
         this.loaderFactory = loaderFactory;
+        currentResources.setSize(1);
+
     }
 
     private void initActivityTableView() {
@@ -118,7 +123,8 @@ public class RequestsTabController {
                         new DatePickerParamBinding(finalizedDatePicker, "endDate"),
                         new TextFieldParamBinding(descriptionTextField, "description"),
                         new TextFieldParamBinding(clientTextField, "client"),
-                        new TextFieldParamBinding(itemTextField, "item.name")
+                        new TextFieldParamBinding(itemTextField, "item.name"),
+                        new ConstantParamBinding("sort", "registerDate,desc")
                 )
         );
     }
@@ -132,15 +138,12 @@ public class RequestsTabController {
         rowsPerPageTextField.setTextFormatter(TextFormatterFactory.numericTextFormatter());
     }
 
-    @FXML
-    public void initialize() {
-        initActivityTableView();
-        initQueryFields();
-        initPagination();
-
-        addParamBindings(new ConstantParamBinding("sort", "registerDate,desc"));
-
-    }
+//    @FXML
+//    public void initialize() {
+//        initActivityTableView();
+//        initQueryFields();
+//        initPagination();
+//    }
 
     //The parameter and return value are required by pagination control, but not needed in this case.
     private Node createPage(int pageIndex) {
@@ -155,17 +158,6 @@ public class RequestsTabController {
             uriSearchQuery.getBindings().add(binding);
         }
         uriSearchQuery.update();
-    }
-
-
-    /**
-     * Updates search settings from text fields to show new results.
-     */
-    @FXML
-    private void showRequestButtonClicked() {
-        rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
-        uriSearchQuery.update();
-        updateTable();
     }
 
 
@@ -282,33 +274,83 @@ public class RequestsTabController {
 
     }
 
+    @FXML
+    private void showRequestButtonClicked() {
+
+        if (!isUpdating){
+            executor.submit(() -> {
+
+                rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
+                uriSearchQuery.update();
+
+                currentResources.clear();
+                Page<RequestEntity> firstPage = requestService.findAllMatching(uriSearchQuery, 0, rowsPerPage);
+                currentResources.setSize((int) firstPage.getTotalPages());
+
+                currentResources.set(0, firstPage.getResources().stream().map(RequestTableRow::new).collect(Collectors.toList()));
+                Platform.runLater(() -> {
+                    pagination.setPageCount(-1); //workaround to force pageFactory call
+                    pagination.setPageCount((int) firstPage.getTotalPages());
+                });
+            });
+        }
+    }
+
+
+    private boolean isUpdating = false;
+
+    Vector<List<RequestTableRow>> currentResources = new Vector<>();
+
     @Autowired
     ThreadPoolExecutor executor;
 
 
     private void updateTable() {
-        requestTableView.getItems().clear();
-
-        Page<RequestEntity> page = requestService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
-
-        var resourcesIt = page.getResources().iterator();
-
-        requestTableView.getItems().add(new RequestTableRow(resourcesIt.next()));
-
-        executor.submit(() -> {
-            try{
-                pagination.setPageCount((int) page.getTotalPages());
-
-                resourcesIt.forEachRemaining(entity -> requestTableView.getItems().add(new RequestTableRow(entity)));
-
-            } catch (ResourceAccessException e){
-                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-                errorAlert.setHeaderText("Connection error");
-                errorAlert.setContentText(e.getMessage());
-                errorAlert.show();
+        if (!isUpdating) {
+            requestTableView.getItems().clear();
+            isUpdating = true;
+            int currentIndex = pagination.getCurrentPageIndex();
+            var page = currentResources.get(currentIndex);
+            if (page == null) {
+                currentResources.set(currentIndex, requestService
+                        .findAllMatching(uriSearchQuery, currentIndex, rowsPerPage)
+                        .getResources().stream().map(RequestTableRow::new)
+                        .collect(Collectors.toList())
+                );
+                page = currentResources.get(currentIndex);
             }
-        });
+            var resourcesIt = page.iterator();
+            if (resourcesIt.hasNext()){
+                requestTableView.getItems().add(resourcesIt.next());
+                executor.submit(() -> {
+                    try {
+                        resourcesIt.forEachRemaining(entity -> Platform.runLater(() -> {
+                            requestTableView.getItems().add(entity);
+                        }));
+                    } catch (ResourceAccessException e) {
+                        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                        errorAlert.setHeaderText("Connection error");
+                        errorAlert.setContentText(e.getMessage());
+                        errorAlert.show();
+                    } finally {
+                        isUpdating = false;
+                    }
 
+                });
+            }
+        }
+    }
+
+
+    private boolean isInitialized = false;
+
+    public void initView() {
+        if (!isInitialized){
+            initActivityTableView();
+            initQueryFields();
+            initPagination();
+            isInitialized = true;
+        }
     }
 
     @FXML

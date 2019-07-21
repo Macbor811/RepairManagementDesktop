@@ -1,6 +1,7 @@
 package pl.polsl.repairmanagementdesktop.controllers;
 
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,8 +25,9 @@ import pl.polsl.repairmanagementdesktop.utils.search.*;
 import uk.co.blackpepper.bowman.Page;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Vector;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
@@ -64,9 +66,11 @@ public class SocialUsersTabController {
     public SocialUsersTabController(SocialUserService socialUserService, LoaderFactory loaderFactory) {
         this.socialUserService = socialUserService;
         this.loaderFactory = loaderFactory;
+        currentResources.setSize(1);
+
     }
 
-    private void initActivityTableView() {
+    private void initTableView() {
         socialUsersTableView.getColumns().clear();
 
         TableColumn<SocialUserTableRow, String> idColumn = TableColumnFactory.createColumn("ID", "id");
@@ -110,12 +114,12 @@ public class SocialUsersTabController {
         rowsPerPageTextField.setTextFormatter(TextFormatterFactory.numericTextFormatter());
     }
 
-    @FXML
-    public void initialize() {
-        initActivityTableView();
-        initQueryFields();
-        initPagination();
-    }
+//    @FXML
+//    public void initialize() {
+//        initTableView();
+//        initQueryFields();
+//        initPagination();
+//    }
 
     //The parameter and return value are required by pagination control, but not needed in this case.
     private Node createPage(int pageIndex) {
@@ -131,38 +135,71 @@ public class SocialUsersTabController {
         uriSearchQuery.update();
     }
 
+    @FXML
+    private void showUsersButtonClicked() {
+
+        if (!isUpdating){
+            executor.submit(() -> {
+
+                rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
+                uriSearchQuery.update();
+
+                currentResources.clear();
+                Page<SocialUserEntity> firstPage = socialUserService.findAllMatching(uriSearchQuery, 0, rowsPerPage);
+                currentResources.setSize((int) firstPage.getTotalPages());
+
+                currentResources.set(0, firstPage.getResources().stream().map(SocialUserTableRow::new).collect(Collectors.toList()));
+                Platform.runLater(() -> {
+                    pagination.setPageCount(-1); //workaround to force pageFactory call
+                    pagination.setPageCount((int) firstPage.getTotalPages());
+                });
+            });
+        }
+    }
+
+
+    private boolean isUpdating = false;
+
+    Vector<List<SocialUserTableRow>> currentResources = new Vector<>();
+
     @Autowired
     ThreadPoolExecutor executor;
 
 
     private void updateTable() {
-        executor.submit(() -> {
-            try{
-
-                Page<SocialUserEntity> page = socialUserService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
-
-                pagination.setPageCount((int) page.getTotalPages());
-
-
-                socialUsersTableView.getItems().setAll(page.getResources().stream().map(SocialUserTableRow::new).collect(Collectors.toList()));
-
-            } catch (ResourceAccessException e){
-                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-                errorAlert.setHeaderText("Connection error");
-                errorAlert.setContentText(e.getMessage());
-                errorAlert.show();
+        if (!isUpdating) {
+            socialUsersTableView.getItems().clear();
+            isUpdating = true;
+            int currentIndex = pagination.getCurrentPageIndex();
+            var page = currentResources.get(currentIndex);
+            if (page == null) {
+                currentResources.set(currentIndex, socialUserService
+                        .findAllMatching(uriSearchQuery, currentIndex, rowsPerPage)
+                        .getResources().stream().map(SocialUserTableRow::new)
+                        .collect(Collectors.toList())
+                );
+                page = currentResources.get(currentIndex);
             }
-        });
+            var resourcesIt = page.iterator();
+            if (resourcesIt.hasNext()){
+                socialUsersTableView.getItems().add(resourcesIt.next());
+                executor.submit(() -> {
+                    try {
+                        resourcesIt.forEachRemaining(entity -> Platform.runLater(() -> {
+                            socialUsersTableView.getItems().add(entity);
+                        }));
+                    } catch (ResourceAccessException e) {
+                        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                        errorAlert.setHeaderText("Connection error");
+                        errorAlert.setContentText(e.getMessage());
+                        errorAlert.show();
+                    } finally {
+                        isUpdating = false;
+                    }
 
-    }
-
-
-
-    @FXML
-    private void showUsersButtonClicked() {
-        rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
-        uriSearchQuery.update();
-        updateTable();
+                });
+            }
+        }
     }
 
 
@@ -192,6 +229,17 @@ public class SocialUsersTabController {
 
         }
 
+    }
+
+    private boolean isInitialized = false;
+
+    public void initView() {
+        if (!isInitialized){
+            initTableView();
+            initQueryFields();
+            initPagination();
+            isInitialized = true;
+        }
     }
 }
 

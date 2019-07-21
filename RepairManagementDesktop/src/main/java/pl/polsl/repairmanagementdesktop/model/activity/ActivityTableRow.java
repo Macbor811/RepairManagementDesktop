@@ -8,6 +8,7 @@ import pl.polsl.repairmanagementdesktop.utils.StringUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -24,6 +25,21 @@ public class ActivityTableRow {
     private EmployeeEntity worker;
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+
+    private ActivityTableRow(){}
+    public static ActivityTableRow sizeSetter(){
+        var row = new ActivityTableRow();
+        row.id = "123";
+        row.result = "aaaaaaaaaaaaa";
+        row.status = row.result;
+        row.registeredDate = Instant.now().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        row.finalizedDate = row.registeredDate;
+        row.sequenceNum = 11;
+        var employee = new EmployeeEntity();
+        employee.setFirstName("aaaaaaaaaa");
+        employee.setLastName("aaaaaaaaaa");
+        return row;
+    }
 
 
     public ActivityTableRow(ActivityEntity entity) {

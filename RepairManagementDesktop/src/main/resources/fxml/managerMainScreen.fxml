@@ -12,7 +12,7 @@
    <children>
       <TabPane layoutX="14.0" layoutY="36.0" prefHeight="553.0" prefWidth="774.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
         <tabs>
-            <Tab text="Customers">
+            <Tab fx:id="customersPaneTab" onSelectionChanged="#customersTabSelected" text="Customers">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -21,7 +21,7 @@
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab text="Items">
+            <Tab fx:id="itemsPaneTab" onSelectionChanged="#itemsTabSelected" text="Items">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -30,7 +30,7 @@
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab text="Requests">
+            <Tab fx:id="requestsPaneTab" onSelectionChanged="#requestsTabSelected" text="Requests">
                <content>
                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                        <children>
@@ -44,7 +44,7 @@
                    </AnchorPane>
                </content>
             </Tab>
-            <Tab text="Activities">
+            <Tab fx:id="activitiesPaneTab" onSelectionChanged="#activitiesTabSelected" text="Activities">
                <content>
                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                        <children>
@@ -57,7 +57,7 @@
                    </AnchorPane>
                </content>
             </Tab>
-            <Tab text="Social users">
+            <Tab fx:id="socialUsersPaneTab" onSelectionChanged="#socialUsersTabSelected" text="Social users">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>

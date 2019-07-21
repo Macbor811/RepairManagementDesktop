@@ -1,5 +1,6 @@
 package pl.polsl.repairmanagementdesktop.controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +27,8 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Vector;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
@@ -73,6 +76,8 @@ public class CustomersTabController {
     public CustomersTabController(CustomerService customerService, LoaderFactory loaderFactory) {
         this.customerService = customerService;
         this.loaderFactory = loaderFactory;
+
+        currentResources.setSize(1);
     }
 
     private void initCustomersTableView() {
@@ -125,20 +130,19 @@ public class CustomersTabController {
 
     private void initPagination() {
         rowsPerPageTextField.setText(DEFAULT_ROWS_PER_PAGE.toString());
-        pagination.setPageFactory(this::createPage);
         pagination.setMaxPageIndicatorCount(10);
         pagination.setPageCount(1);
-
+        pagination.setPageFactory(this::createPage);
         rowsPerPageTextField.setTextFormatter(TextFormatterFactory.numericTextFormatter());
     }
 
-    @FXML
-    public void initialize() {
-        initCustomersTableView();
-        initQueryFields();
-        initPagination();
-
-    }
+//    @FXML
+//    public void initialize() {
+//        initCustomersTableView();
+//        initQueryFields();
+//        initPagination();
+//
+//    }
 
     //The parameter and return value are required by pagination control, but not needed in this case.
     private Node createPage(int pageIndex) {
@@ -184,43 +188,71 @@ public class CustomersTabController {
 
     }
 
-    /**
-     * Updates search settings from text fields to show new results.
-     */
     @FXML
     private void showCustomersButtonClicked() {
 
+        if (!isUpdating){
+            executor.submit(() -> {
 
-        rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
-        uriSearchQuery.update();
-        updateTable();
+                rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
+                uriSearchQuery.update();
 
+                currentResources.clear();
+                Page<CustomerEntity> firstPage = customerService.findAllMatching(uriSearchQuery, 0, rowsPerPage);
+                currentResources.setSize((int) firstPage.getTotalPages());
+
+                currentResources.set(0, firstPage.getResources().stream().map(CustomerTableRow::new).collect(Collectors.toList()));
+                Platform.runLater(() -> {
+                    pagination.setPageCount(-1); //workaround to force pageFactory call
+                    pagination.setPageCount((int) firstPage.getTotalPages());
+                });
+            });
+        }
     }
 
+
+    private boolean isUpdating = false;
+
+    Vector<List<CustomerTableRow>> currentResources = new Vector<>();
+
     @Autowired
-    ThreadPoolExecutor executor;// = (ThreadPoolExecutor ) Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    ThreadPoolExecutor executor;
 
 
     private void updateTable() {
-        executor.submit(() -> {
-            try{
-
-                Page<CustomerEntity> page = customerService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
-
-                pagination.setPageCount((int) page.getTotalPages());
-
-
-                customersTableView.getItems().setAll(page.getResources().stream().map(CustomerTableRow::new).collect(Collectors.toList()));
-
-            } catch (ResourceAccessException e){
-                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-                errorAlert.setHeaderText("Connection error");
-                errorAlert.setContentText(e.getMessage());
-                errorAlert.show();
+        if (!isUpdating) {
+            customersTableView.getItems().clear();
+            isUpdating = true;
+            int currentIndex = pagination.getCurrentPageIndex();
+            var page = currentResources.get(currentIndex);
+            if (page == null) {
+                currentResources.set(currentIndex, customerService
+                        .findAllMatching(uriSearchQuery, currentIndex, rowsPerPage)
+                        .getResources().stream().map(CustomerTableRow::new)
+                        .collect(Collectors.toList())
+                );
+                page = currentResources.get(currentIndex);
             }
-        });
+            var resourcesIt = page.iterator();
+            if (resourcesIt.hasNext()){
+                customersTableView.getItems().add(resourcesIt.next());
+                executor.submit(() -> {
+                    try {
+                        resourcesIt.forEachRemaining(entity -> Platform.runLater(() -> {
+                            customersTableView.getItems().add(entity);
+                        }));
+                    } catch (ResourceAccessException e) {
+                        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                        errorAlert.setHeaderText("Connection error");
+                        errorAlert.setContentText(e.getMessage());
+                        errorAlert.show();
+                    } finally {
+                        isUpdating = false;
+                    }
 
-
+                });
+            }
+        }
     }
 
 
@@ -229,7 +261,16 @@ public class CustomersTabController {
         return customersTableView.getSelectionModel().getSelectedItem();
     }
 
+    private boolean isInitialized = false;
 
+    public void initView() {
+        if (!isInitialized){
+            initCustomersTableView();
+            initQueryFields();
+            initPagination();
+            isInitialized = true;
+        }
+    }
 }
 
 

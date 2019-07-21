@@ -1,5 +1,6 @@
 package pl.polsl.repairmanagementdesktop.controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,6 +29,10 @@ import uk.co.blackpepper.bowman.Page;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Vector;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.stream.Collectors;
 
 @Scope("prototype")
 @Controller
@@ -71,6 +76,8 @@ public class EmployeesTabController {
     public EmployeesTabController(EmployeeService employeeService, LoaderFactory loaderFactory) {
         this.employeeService = employeeService;
         this.loaderFactory = loaderFactory;
+
+        currentResources.setSize(1);
     }
 
     private void initActivityTableView() {
@@ -149,23 +156,71 @@ public class EmployeesTabController {
         uriSearchQuery.update();
     }
 
-    private void updateTable() {
-        try{
-            Page<EmployeeEntity> page = employeeService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
-            pagination.setPageCount((int) page.getTotalPages());
-            employeesTableView.getItems().clear();
+    @FXML
+    private void showUsersButtonClicked() {
 
+        if (!isUpdating){
+            executor.submit(() -> {
 
-            for (EmployeeEntity employee: page.getResources()) {
-                employeesTableView.getItems().add(new EmployeeTableRow(employee));
-            }
-        } catch (ResourceAccessException e){
-            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-            errorAlert.setHeaderText("Connection error");
-            errorAlert.setContentText(e.getMessage());
-            errorAlert.show();
+                rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
+                uriSearchQuery.update();
+
+                currentResources.clear();
+                Page<EmployeeEntity> firstPage = employeeService.findAllMatching(uriSearchQuery, 0, rowsPerPage);
+                currentResources.setSize((int) firstPage.getTotalPages());
+
+                currentResources.set(0, firstPage.getResources().stream().map(EmployeeTableRow::new).collect(Collectors.toList()));
+                Platform.runLater(() -> {
+                    pagination.setPageCount(-1); //workaround to force pageFactory call
+                    pagination.setPageCount((int) firstPage.getTotalPages());
+                });
+            });
         }
+    }
 
+
+    private boolean isUpdating = false;
+
+    Vector<List<EmployeeTableRow>> currentResources = new Vector<>();
+
+    @Autowired
+    ThreadPoolExecutor executor;
+
+
+    private void updateTable() {
+        if (!isUpdating) {
+            employeesTableView.getItems().clear();
+            isUpdating = true;
+            int currentIndex = pagination.getCurrentPageIndex();
+            var page = currentResources.get(currentIndex);
+            if (page == null) {
+                currentResources.set(currentIndex, employeeService
+                        .findAllMatching(uriSearchQuery, currentIndex, rowsPerPage)
+                        .getResources().stream().map(EmployeeTableRow::new)
+                        .collect(Collectors.toList())
+                );
+                page = currentResources.get(currentIndex);
+            }
+            var resourcesIt = page.iterator();
+            if (resourcesIt.hasNext()){
+                employeesTableView.getItems().add(resourcesIt.next());
+                executor.submit(() -> {
+                    try {
+                        resourcesIt.forEachRemaining(entity -> Platform.runLater(() -> {
+                            employeesTableView.getItems().add(entity);
+                        }));
+                    } catch (ResourceAccessException e) {
+                        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                        errorAlert.setHeaderText("Connection error");
+                        errorAlert.setContentText(e.getMessage());
+                        errorAlert.show();
+                    } finally {
+                        isUpdating = false;
+                    }
+
+                });
+            }
+        }
     }
 
     public void updateUser(ActionEvent event) {
@@ -201,13 +256,6 @@ public class EmployeesTabController {
         catch (Exception e){
 
         }
-    }
-
-    @FXML
-    private void showUsersButtonClicked() {
-        rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
-        uriSearchQuery.update();
-        updateTable();
     }
 
 

@@ -1,5 +1,6 @@
 package pl.polsl.repairmanagementdesktop.controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,6 +32,8 @@ import uk.co.blackpepper.bowman.Page;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Vector;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
@@ -75,6 +78,9 @@ public class ItemsTabController {
 
         this.fxmlLoaderFactory = fxmlLoaderFactory;
         this.itemService = itemService;
+
+        currentResources.setSize(1);
+
     }
 
 
@@ -131,29 +137,19 @@ public class ItemsTabController {
          rowsPerPageTextField.setTextFormatter(TextFormatterFactory.numericTextFormatter());
     }
 
-    @FXML
-    public void initialize() {
-        initItemsTableView();
-        initQueryFields();
-        initPagination();
-
-    }
+//    @FXML
+//    public void initialize() {
+//        initItemsTableView();
+//        initQueryFields();
+//        initPagination();
+//
+//    }
 
     //The parameter and return value are required by pagination control, but not needed in this case.
     private Node createPage(int pageIndex) {
         updateTable();
 
         return new Pane();
-    }
-
-    /**
-     * Updates search settings from text fields to show new results.
-     */
-    @FXML
-    private void showItemsButtonClicked() {
-        rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
-        uriSearchQuery.update();
-        updateTable();
     }
 
     @FXML
@@ -174,29 +170,71 @@ public class ItemsTabController {
 
     }
 
+    @FXML
+    private void showItemsButtonClicked() {
+
+        if (!isUpdating){
+            executor.submit(() -> {
+
+                rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
+                uriSearchQuery.update();
+
+                currentResources.clear();
+                Page<ItemEntity> firstPage = itemService.findAllMatching(uriSearchQuery, 0, rowsPerPage);
+                currentResources.setSize((int) firstPage.getTotalPages());
+
+                currentResources.set(0, firstPage.getResources().stream().map(ItemTableRow::new).collect(Collectors.toList()));
+                Platform.runLater(() -> {
+                    pagination.setPageCount(-1); //workaround to force pageFactory call
+                    pagination.setPageCount((int) firstPage.getTotalPages());
+                });
+            });
+        }
+    }
+
+
+    private boolean isUpdating = false;
+
+    Vector<List<ItemTableRow>> currentResources = new Vector<>();
+
     @Autowired
     ThreadPoolExecutor executor;
 
 
     private void updateTable() {
-        executor.submit(() -> {
-            try{
-
-                Page<ItemEntity> page = itemService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
-
-                pagination.setPageCount((int) page.getTotalPages());
-
-
-                itemTableView.getItems().setAll(page.getResources().stream().map(ItemTableRow::new).collect(Collectors.toList()));
-
-            } catch (ResourceAccessException e){
-                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-                errorAlert.setHeaderText("Connection error");
-                errorAlert.setContentText(e.getMessage());
-                errorAlert.show();
+        if (!isUpdating) {
+            itemTableView.getItems().clear();
+            isUpdating = true;
+            int currentIndex = pagination.getCurrentPageIndex();
+            var page = currentResources.get(currentIndex);
+            if (page == null) {
+                currentResources.set(currentIndex, itemService
+                        .findAllMatching(uriSearchQuery, currentIndex, rowsPerPage)
+                        .getResources().stream().map(ItemTableRow::new)
+                        .collect(Collectors.toList())
+                );
+                page = currentResources.get(currentIndex);
             }
-        });
+            var resourcesIt = page.iterator();
+            if (resourcesIt.hasNext()){
+                itemTableView.getItems().add(resourcesIt.next());
+                executor.submit(() -> {
+                    try {
+                        resourcesIt.forEachRemaining(entity -> Platform.runLater(() -> {
+                            itemTableView.getItems().add(entity);
+                        }));
+                    } catch (ResourceAccessException e) {
+                        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                        errorAlert.setHeaderText("Connection error");
+                        errorAlert.setContentText(e.getMessage());
+                        errorAlert.show();
+                    } finally {
+                        isUpdating = false;
+                    }
 
+                });
+            }
+        }
     }
 
     @FXML
@@ -213,6 +251,18 @@ public class ItemsTabController {
         window.setResizable(false);
         window.show();
     }
+
+    private boolean isInitialized = false;
+
+    public void initView() {
+        if (!isInitialized){
+            initItemsTableView();
+            initQueryFields();
+            initPagination();
+            isInitialized = true;
+        }
+    }
+
     ItemTableRow getCurrentSelection(){
         return itemTableView.getSelectionModel().getSelectedItem();
     }

@@ -1,5 +1,6 @@
 package pl.polsl.repairmanagementdesktop.controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,7 +26,10 @@ import pl.polsl.repairmanagementdesktop.utils.search.*;
 import uk.co.blackpepper.bowman.Page;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Vector;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
@@ -82,11 +86,14 @@ public class ActivitiesTabController {
         this.activityService = activityService;
         this.employeeService = employeeService;
         this.loaderFactory = loaderFactory;
+
+        currentResources.setSize(1);
     }
 
     private void initActivityTableView() {
 
         activityTableView.getColumns().clear();
+
 
         TableColumn<ActivityTableRow, Integer> sequenceNumDateColumn = TableColumnFactory.createColumn("Seq. no", "sequenceNum");
         TableColumn<ActivityTableRow, String> idColumn = TableColumnFactory.createColumn("ID", "id");
@@ -112,7 +119,6 @@ public class ActivitiesTabController {
         for (var column : activityTableView.getColumns()) {
             column.setStyle("-fx-alignment: CENTER;");
         }
-
 
     }
 
@@ -146,18 +152,18 @@ public class ActivitiesTabController {
 
     private void initPagination() {
         rowsPerPageTextField.setText(DEFAULT_ROWS_PER_PAGE.toString());
-        pagination.setPageFactory(this::createPage);
         pagination.setMaxPageIndicatorCount(10);
         pagination.setPageCount(1);
+        pagination.setPageFactory(this::createPage);
         rowsPerPageTextField.setTextFormatter(TextFormatterFactory.numericTextFormatter());
     }
 
-    @FXML
-    public void initialize() {
-        initQueryFields();
-        initPagination();
-        initActivityTableView();
-    }
+//    @FXML
+//    public void initialize() {
+//        initQueryFields();
+//        initPagination();
+//        initActivityTableView();
+//    }
 
     //The parameter and return value are required by pagination control, but not needed in this case.
     private Node createPage(int pageIndex) {
@@ -241,8 +247,9 @@ public class ActivitiesTabController {
             window.setResizable(false);
             window.show();
         }
-        catch (IOException e)
-        {}
+        catch (IOException e){
+
+        }
     }
 
 
@@ -252,45 +259,70 @@ public class ActivitiesTabController {
     @FXML
     private void showActivityButtonClicked() {
 
-        rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
-        uriSearchQuery.update();
-        updateTable();
+        if (!isUpdating){
+            executor.submit(() -> {
+
+                rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
+                uriSearchQuery.update();
+
+                currentResources.clear();
+                Page<ActivityEntity> firstPage = activityService.findAllMatching(uriSearchQuery, 0, rowsPerPage);
+                currentResources.setSize((int) firstPage.getTotalPages());
+
+                currentResources.set(0, firstPage.getResources().stream().map(ActivityTableRow::new).collect(Collectors.toList()));
+                Platform.runLater(() -> {
+                    pagination.setPageCount(-1); //workaround to force pageFactory call
+                    pagination.setPageCount((int) firstPage.getTotalPages());
+                });
+            });
+        }
     }
 
+
+    private boolean isUpdating = false;
+
+    Vector<List<ActivityTableRow>> currentResources = new Vector<>();
 
     @Autowired
     ThreadPoolExecutor executor;
 
 
     private void updateTable() {
-        activityTableView.getItems().clear();
-
-        Page<ActivityEntity> page = activityService.findAllMatching(uriSearchQuery, pagination.getCurrentPageIndex(), rowsPerPage);
-
-        var resourcesIt = page.getResources().iterator();
-
-        activityTableView.getItems().add(new ActivityTableRow(resourcesIt.next()));
-
-        executor.submit(() -> {
-            try{
-                pagination.setPageCount((int) page.getTotalPages());
-
-                resourcesIt.forEachRemaining(entity -> activityTableView.getItems().add(new ActivityTableRow(entity)));
-
-            } catch (ResourceAccessException e){
-                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-                errorAlert.setHeaderText("Connection error");
-                errorAlert.setContentText(e.getMessage());
-                errorAlert.show();
+        if (!isUpdating) {
+            activityTableView.getItems().clear();
+            isUpdating = true;
+            int currentIndex = pagination.getCurrentPageIndex();
+            var page = currentResources.get(currentIndex);
+            if (page == null) {
+                currentResources.set(currentIndex, activityService
+                        .findAllMatching(uriSearchQuery, currentIndex, rowsPerPage)
+                        .getResources().stream().map(ActivityTableRow::new)
+                        .collect(Collectors.toList())
+                );
+                page = currentResources.get(currentIndex);
             }
-        });
+            var resourcesIt = page.iterator();
+            if (resourcesIt.hasNext()){
+                activityTableView.getItems().add(resourcesIt.next());
+                executor.submit(() -> {
+                    try {
+                        resourcesIt.forEachRemaining(entity -> Platform.runLater(() -> {
+                            activityTableView.getItems().add(entity);
+                        }));
+                    } catch (ResourceAccessException e) {
+                        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                        errorAlert.setHeaderText("Connection error");
+                        errorAlert.setContentText(e.getMessage());
+                        errorAlert.show();
+                    } finally {
+                        isUpdating = false;
+                    }
 
+                });
+            }
+        }
     }
 
-    @FXML
-    public void shutdown(){
-        executor.shutdownNow();
-    }
 
     @FXML
     private void clearRegisterDateButtonClicked(ActionEvent event) {
@@ -305,5 +337,16 @@ public class ActivitiesTabController {
 
     ActivityTableRow getCurrentSelection(){
         return activityTableView.getSelectionModel().getSelectedItem();
+    }
+
+    private boolean isInitialized = false;
+
+    public void initView() {
+        if (!isInitialized){
+            initActivityTableView();
+            initQueryFields();
+            initPagination();
+            isInitialized = true;
+        }
     }
 }

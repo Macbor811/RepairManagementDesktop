@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import java.net.URI;
 import java.nio.charset.CharsetEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Component
@@ -83,23 +85,35 @@ public class CurrentUser {
         }
     }
 
-    public void signOut(Stage window){
+    public void signOut(Stage mainWindow){
         id = null;
         username = null;
         password = null;
         role = null;
 
         try {
+            var currentWindows = Window
+                    .getWindows()
+                    .stream()
+                    .filter(Stage.class::isInstance)
+                    .map(Stage.class::cast)
+                    .collect(Collectors.toList());
+
+            for (var w : currentWindows){
+                if (w != mainWindow){
+                    w.close();
+                }
+            }
+
             FXMLLoader loader = fxmlLoaderFactory.load("/fxml/loginScreen.fxml");
             Parent loginScreen = loader.load();
 
-            //Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene nextScene = new Scene(loginScreen);
 
-            window.setScene(nextScene);
-            window.setResizable(true);
-            window.centerOnScreen();
-            window.show();
+            mainWindow.setScene(nextScene);
+            mainWindow.setResizable(true);
+            mainWindow.centerOnScreen();
+            mainWindow.show();
 
         } catch (IOException e) {
             e.printStackTrace();
