@@ -1,10 +1,11 @@
 package pl.polsl.repairmanagementdesktop.model.customer;
 
+import pl.polsl.repairmanagementdesktop.abstr.TableRow;
 import pl.polsl.repairmanagementdesktop.model.address.AddressEntity;
 
 import java.net.URI;
 
-public class CustomerTableRow {
+public class CustomerTableRow implements TableRow {
 
 
     private String id;
