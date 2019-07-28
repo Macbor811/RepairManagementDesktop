@@ -23,7 +23,7 @@ import java.util.Optional;
 
 
 @Service
-public class ItemService {
+public class ItemService implements pl.polsl.repairmanagementdesktop.abstr.Service<ItemEntity>{
 
     private final Client<ItemEntity> client;
 

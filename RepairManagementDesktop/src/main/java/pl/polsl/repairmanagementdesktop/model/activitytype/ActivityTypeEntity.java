@@ -2,6 +2,7 @@ package pl.polsl.repairmanagementdesktop.model.activitytype;
 
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import pl.polsl.repairmanagementdesktop.abstr.Entity;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityEntity;
 import uk.co.blackpepper.bowman.InlineAssociationDeserializer;
 import uk.co.blackpepper.bowman.annotation.RemoteResource;
@@ -13,7 +14,7 @@ import java.util.Objects;
 
 
 @RemoteResource("/activity-type")
-public class ActivityTypeEntity {
+public class ActivityTypeEntity implements Entity {
     private URI uri;
     private String type;
     private Collection<ActivityEntity> activities;

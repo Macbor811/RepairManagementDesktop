@@ -3,6 +3,7 @@ package pl.polsl.repairmanagementdesktop.model.employee;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import pl.polsl.repairmanagementdesktop.abstr.Entity;
 import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityEntity;
 import pl.polsl.repairmanagementdesktop.model.address.AddressEntity;
@@ -18,7 +19,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 @RemoteResource("/employee")
-public class EmployeeEntity {
+public class EmployeeEntity implements Entity {
 
     private URI uri;
 

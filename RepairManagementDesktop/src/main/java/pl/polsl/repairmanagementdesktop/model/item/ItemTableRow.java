@@ -1,10 +1,11 @@
 package pl.polsl.repairmanagementdesktop.model.item;
 
 
+import pl.polsl.repairmanagementdesktop.abstr.TableRow;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 import pl.polsl.repairmanagementdesktop.model.itemtype.ItemTypeEntity;
 
-public class ItemTableRow {
+public class ItemTableRow implements TableRow {
 
     private String id;
     private String name;

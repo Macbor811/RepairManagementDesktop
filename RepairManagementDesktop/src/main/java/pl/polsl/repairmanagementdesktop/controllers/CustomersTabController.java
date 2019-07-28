@@ -42,8 +42,7 @@ public class CustomersTabController extends TabController<CustomerEntity, Custom
     @FXML
     private TextField numberTextField;
 
-    @FXML
-    private TableView<CustomerTableRow> customersTableView;
+
 
     private final CustomerService customerService;
     private final LoaderFactory loaderFactory;
@@ -53,18 +52,12 @@ public class CustomersTabController extends TabController<CustomerEntity, Custom
         super(customerService, CustomerTableRow::new);
         this.customerService = customerService;
         this.loaderFactory = loaderFactory;
-
     }
 
-
-    @FXML
-    public void initialize(){
-        super.tableView = customersTableView;
-    }
 
     @Override
     protected void initTableView() {
-        customersTableView.getColumns().clear();
+        tableView.getColumns().clear();
 
         TableColumn<CustomerTableRow, String> idColumn = TableColumnFactory.createColumn("ID", "id");
         TableColumn<CustomerTableRow, String> nameColumn = TableColumnFactory.createColumn("First name", "firstName");
@@ -75,7 +68,7 @@ public class CustomersTabController extends TabController<CustomerEntity, Custom
         TableColumn<CustomerTableRow, String> postCodeColumn = TableColumnFactory.createColumn("Postal code", "postCode");
         TableColumn<CustomerTableRow, String> numberColumn = TableColumnFactory.createColumn("Number", "number");
 
-        customersTableView.getColumns().addAll(
+        tableView.getColumns().addAll(
                 idColumn,
                 nameColumn,
                 surnameColumn,
@@ -86,10 +79,9 @@ public class CustomersTabController extends TabController<CustomerEntity, Custom
                 numberColumn
         );
 
-        for (var column : customersTableView.getColumns()) {
+        for (var column : tableView.getColumns()) {
             column.setStyle("-fx-alignment: CENTER;");
         }
-        customersTableView.setColumnResizePolicy((param) -> true );
     }
 
     @Override
@@ -143,14 +135,9 @@ public class CustomersTabController extends TabController<CustomerEntity, Custom
 
     }
 
-
-
-
-
     CustomerTableRow getCurrentSelection(){
-        return customersTableView.getSelectionModel().getSelectedItem();
+        return tableView.getSelectionModel().getSelectedItem();
     }
-
 
 }
 

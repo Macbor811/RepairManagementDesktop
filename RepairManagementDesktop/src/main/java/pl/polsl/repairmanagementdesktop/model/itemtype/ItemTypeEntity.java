@@ -1,6 +1,7 @@
 package pl.polsl.repairmanagementdesktop.model.itemtype;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import pl.polsl.repairmanagementdesktop.abstr.Entity;
 import pl.polsl.repairmanagementdesktop.model.item.ItemEntity;
 import uk.co.blackpepper.bowman.InlineAssociationDeserializer;
 import uk.co.blackpepper.bowman.annotation.RemoteResource;
@@ -11,7 +12,7 @@ import java.util.Collection;
 
 
 @RemoteResource("/item-type")
-public class ItemTypeEntity{
+public class ItemTypeEntity implements Entity {
 
     private URI uri;
     private String type;

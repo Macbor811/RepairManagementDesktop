@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.key.InstantKeyDeserializer;
 import org.springframework.format.annotation.DateTimeFormat;
+import pl.polsl.repairmanagementdesktop.abstr.Entity;
 import pl.polsl.repairmanagementdesktop.model.activitytype.ActivityTypeEntity;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeEntity;
 import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
@@ -18,7 +19,7 @@ import java.time.Instant;
 import java.util.Objects;
 
 @RemoteResource("/activity")
-public class ActivityEntity  {
+public class ActivityEntity implements Entity {
     private URI uri;
 
     private Integer sequenceNum;

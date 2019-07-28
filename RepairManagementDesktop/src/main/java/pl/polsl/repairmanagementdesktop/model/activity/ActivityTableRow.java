@@ -1,5 +1,6 @@
 package pl.polsl.repairmanagementdesktop.model.activity;
 
+import pl.polsl.repairmanagementdesktop.abstr.TableRow;
 import pl.polsl.repairmanagementdesktop.model.activitytype.ActivityTypeEntity;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeEntity;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-public class ActivityTableRow {
+public class ActivityTableRow implements TableRow {
 
     private String id;
     private LocalDateTime registeredDate;

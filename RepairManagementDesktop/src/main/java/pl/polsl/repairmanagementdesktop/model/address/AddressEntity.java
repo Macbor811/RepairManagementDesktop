@@ -1,6 +1,7 @@
 package pl.polsl.repairmanagementdesktop.model.address;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import pl.polsl.repairmanagementdesktop.abstr.Entity;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeEntity;
 import uk.co.blackpepper.bowman.InlineAssociationDeserializer;
@@ -12,7 +13,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 @RemoteResource("/address")
-public class AddressEntity {
+public class AddressEntity implements Entity {
     private URI uri;
     private String postCode;
     private String city;

@@ -3,6 +3,7 @@ package pl.polsl.repairmanagementdesktop.model.employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
+import pl.polsl.repairmanagementdesktop.abstr.TableRow;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
 import uk.co.blackpepper.bowman.Client;
@@ -16,7 +17,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 
-public class EmployeeTableRow {
+public class EmployeeTableRow implements TableRow {
 
     private String id;
     private String firstName;

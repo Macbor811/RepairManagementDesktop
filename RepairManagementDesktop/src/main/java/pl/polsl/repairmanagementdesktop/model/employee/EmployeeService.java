@@ -11,7 +11,7 @@ import uk.co.blackpepper.bowman.Page;
 import java.net.URI;
 
 @Service
-public class EmployeeService {
+public class EmployeeService implements pl.polsl.repairmanagementdesktop.abstr.Service<EmployeeEntity>{
 
 
     private final Client<EmployeeEntity> client;

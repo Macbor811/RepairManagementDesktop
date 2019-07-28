@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.net.URI;
 
 @Service
-public class ActivityService {
+public class ActivityService implements pl.polsl.repairmanagementdesktop.abstr.Service<ActivityEntity> {
 
     private final Client<ActivityEntity> client;
 

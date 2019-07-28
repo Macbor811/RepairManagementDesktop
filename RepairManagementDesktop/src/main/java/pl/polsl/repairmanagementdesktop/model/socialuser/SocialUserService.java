@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.net.URI;
 
 @Service
-public class SocialUserService {
+public class SocialUserService implements pl.polsl.repairmanagementdesktop.abstr.Service<SocialUserEntity>{
 
     private final Client<SocialUserEntity> client;
 

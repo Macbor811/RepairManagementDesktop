@@ -55,16 +55,8 @@ public class ManagerMainScreenController {
     }
 
     @FXML
-    private void createActivityButtonClicked(ActionEvent event) {
-        try
-        {
+    private void createActivityButtonClicked(ActionEvent event) throws IOException {
         activitiesTabController.addActivity(event);
-        }
-        catch(IOException e)
-        {
-
-
-        }
     }
 
     @FXML
@@ -88,16 +80,8 @@ public class ManagerMainScreenController {
     }
 
     @FXML
-    private void addRequestButtonClicked(ActionEvent event) {
-        try{
+    private void addRequestButtonClicked(ActionEvent event) throws IOException{
         requestsTabController.addRequest(event);
-        }
-        catch(IOException e)
-        {
-
-
-        }
-
     }
 
     @FXML

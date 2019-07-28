@@ -60,7 +60,7 @@ public class AddItemScreenController {
 
     private SelectCustomerScreenController selectCustomerScreenController;
     private Scene selectCustomerScene;
-    private  CustomerTableRow ownerTableRow;
+    private CustomerTableRow ownerTableRow;
 
 
     @Autowired

@@ -1,5 +1,6 @@
 package pl.polsl.repairmanagementdesktop.model.socialuser;
 
+import pl.polsl.repairmanagementdesktop.abstr.Entity;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 import uk.co.blackpepper.bowman.annotation.LinkedResource;
 import uk.co.blackpepper.bowman.annotation.RemoteResource;
@@ -9,7 +10,7 @@ import java.net.URI;
 
 
 @RemoteResource("/social-user")
-public class SocialUserEntity {
+public class SocialUserEntity implements Entity {
 
     public String getEmail() {
         return email;

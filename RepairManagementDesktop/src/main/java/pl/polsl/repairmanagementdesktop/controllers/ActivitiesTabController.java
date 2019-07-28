@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.ResourceAccessException;
+import pl.polsl.repairmanagementdesktop.abstr.TabController;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityEntity;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityService;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityTableRow;
@@ -37,7 +38,7 @@ import java.util.stream.Collectors;
 
 @Scope("prototype")
 @Controller
-public class ActivitiesTabController {
+public class ActivitiesTabController extends TabController<ActivityEntity, ActivityTableRow>{
 
 
 
@@ -72,8 +73,6 @@ public class ActivitiesTabController {
 
     private final UriSearchQuery uriSearchQuery = new UriSearchQuery();
 
-    @FXML
-    private TableView<ActivityTableRow> activityTableView;
 
     private final ActivityService activityService;
 
@@ -83,16 +82,16 @@ public class ActivitiesTabController {
 
     @Autowired
     public ActivitiesTabController(ActivityService activityService, EmployeeService employeeService, LoaderFactory loaderFactory) {
+        super(activityService, ActivityTableRow::new);
         this.activityService = activityService;
         this.employeeService = employeeService;
         this.loaderFactory = loaderFactory;
-
-        currentResources.setSize(1);
     }
 
-    private void initActivityTableView() {
 
-        activityTableView.getColumns().clear();
+    @Override
+    protected void initTableView() {
+        tableView.getColumns().clear();
 
 
         TableColumn<ActivityTableRow, Integer> sequenceNumDateColumn = TableColumnFactory.createColumn("Seq. no", "sequenceNum");
@@ -104,7 +103,7 @@ public class ActivitiesTabController {
         TableColumn<ActivityTableRow, String> requestColumn = TableColumnFactory.createColumn("Result", "result");
         TableColumn<ActivityTableRow, String> workerColumn = TableColumnFactory.createColumn("Worker", "worker");
 
-        activityTableView.getColumns().addAll(
+        tableView.getColumns().addAll(
                 sequenceNumDateColumn,
                 idColumn,
                 registeredDateColumn,
@@ -116,13 +115,13 @@ public class ActivitiesTabController {
 
         );
 
-        for (var column : activityTableView.getColumns()) {
+        for (var column : tableView.getColumns()) {
             column.setStyle("-fx-alignment: CENTER;");
         }
-
     }
 
-    private void initQueryFields() {
+    @Override
+    protected void initQueryFields() {
 
         idTextField.setTextFormatter(TextFormatterFactory.numericTextFormatter());
 
@@ -142,35 +141,8 @@ public class ActivitiesTabController {
         );
     }
 
-    public void addParamBindings(ParamBinding ... bindings){
-        for (var binding : bindings){
-            uriSearchQuery.getBindings().add(binding);
-        }
-        uriSearchQuery.update();
-    }
 
 
-    private void initPagination() {
-        rowsPerPageTextField.setText(DEFAULT_ROWS_PER_PAGE.toString());
-        pagination.setMaxPageIndicatorCount(10);
-        pagination.setPageCount(1);
-        pagination.setPageFactory(this::createPage);
-        rowsPerPageTextField.setTextFormatter(TextFormatterFactory.numericTextFormatter());
-    }
-
-//    @FXML
-//    public void initialize() {
-//        initQueryFields();
-//        initPagination();
-//        initActivityTableView();
-//    }
-
-    //The parameter and return value are required by pagination control, but not needed in this case.
-    private Node createPage(int pageIndex) {
-        updateTable();
-
-        return new Pane();
-    }
 
     public void addActivity(ActionEvent event) throws IOException  {
         FXMLLoader loader = loaderFactory.load("/fxml/addActivityScreen.fxml");
@@ -187,7 +159,7 @@ public class ActivitiesTabController {
     }
 
     public void finalizeActivity(ActionEvent event){
-        ActivityTableRow selection = activityTableView.getSelectionModel().getSelectedItem();
+        ActivityTableRow selection = tableView.getSelectionModel().getSelectedItem();
 
         if (selection != null){
             try
@@ -253,75 +225,6 @@ public class ActivitiesTabController {
     }
 
 
-    /**
-     * Updates search settings from text fields to show new results.
-     */
-    @FXML
-    private void showActivityButtonClicked() {
-
-        if (!isUpdating){
-            executor.submit(() -> {
-
-                rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
-                uriSearchQuery.update();
-
-                currentResources.clear();
-                Page<ActivityEntity> firstPage = activityService.findAllMatching(uriSearchQuery, 0, rowsPerPage);
-                currentResources.setSize((int) firstPage.getTotalPages());
-
-                currentResources.set(0, firstPage.getResources().stream().map(ActivityTableRow::new).collect(Collectors.toList()));
-                Platform.runLater(() -> {
-                    pagination.setPageCount(-1); //workaround to force pageFactory call
-                    pagination.setPageCount((int) firstPage.getTotalPages());
-                });
-            });
-        }
-    }
-
-
-    private boolean isUpdating = false;
-
-    Vector<List<ActivityTableRow>> currentResources = new Vector<>();
-
-    @Autowired
-    ThreadPoolExecutor executor;
-
-
-    private void updateTable() {
-        if (!isUpdating) {
-            activityTableView.getItems().clear();
-            isUpdating = true;
-            int currentIndex = pagination.getCurrentPageIndex();
-            var page = currentResources.get(currentIndex);
-            if (page == null) {
-                currentResources.set(currentIndex, activityService
-                        .findAllMatching(uriSearchQuery, currentIndex, rowsPerPage)
-                        .getResources().stream().map(ActivityTableRow::new)
-                        .collect(Collectors.toList())
-                );
-                page = currentResources.get(currentIndex);
-            }
-            var resourcesIt = page.iterator();
-            if (resourcesIt.hasNext()){
-                activityTableView.getItems().add(resourcesIt.next());
-                executor.submit(() -> {
-                    try {
-                        resourcesIt.forEachRemaining(entity -> Platform.runLater(() -> {
-                            activityTableView.getItems().add(entity);
-                        }));
-                    } catch (ResourceAccessException e) {
-                        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-                        errorAlert.setHeaderText("Connection error");
-                        errorAlert.setContentText(e.getMessage());
-                        errorAlert.show();
-                    } finally {
-                        isUpdating = false;
-                    }
-
-                });
-            }
-        }
-    }
 
 
     @FXML
@@ -336,17 +239,8 @@ public class ActivitiesTabController {
 
 
     ActivityTableRow getCurrentSelection(){
-        return activityTableView.getSelectionModel().getSelectedItem();
+        return tableView.getSelectionModel().getSelectedItem();
     }
 
-    private boolean isInitialized = false;
 
-    public void initView() {
-        if (!isInitialized){
-            initActivityTableView();
-            initQueryFields();
-            initPagination();
-            isInitialized = true;
-        }
-    }
 }

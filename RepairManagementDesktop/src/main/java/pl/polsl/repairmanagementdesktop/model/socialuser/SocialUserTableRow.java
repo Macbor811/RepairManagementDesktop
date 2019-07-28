@@ -1,10 +1,11 @@
 package pl.polsl.repairmanagementdesktop.model.socialuser;
 
+import pl.polsl.repairmanagementdesktop.abstr.TableRow;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 
 import java.net.URI;
 
-public class SocialUserTableRow {
+public class SocialUserTableRow implements TableRow {
 
     public String getEmail() {
         return email;

@@ -3,10 +3,7 @@ package pl.polsl.repairmanagementdesktop.abstr;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Pagination;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.ResourceAccessException;
@@ -28,9 +25,9 @@ public abstract class TabController<E extends Entity, T extends TableRow> {
     protected final Service<E> service;
     protected final UriSearchQuery uriSearchQuery = new UriSearchQuery();
 
+    @FXML
     protected TableView<T> tableView;
-    
-    
+
     private Vector<List<T>> currentResources = new Vector<>();
 
     @Autowired
@@ -39,6 +36,9 @@ public abstract class TabController<E extends Entity, T extends TableRow> {
     protected Pagination pagination;
     @FXML
     protected TextField rowsPerPageTextField;
+
+    @FXML
+    protected ProgressIndicator progressIndicator;
 
     private Integer rowsPerPage = DEFAULT_ROWS_PER_PAGE;
     private boolean isUpdating = false;
@@ -49,15 +49,14 @@ public abstract class TabController<E extends Entity, T extends TableRow> {
         this.service = service;
         this.tableRowSupplier = tableRowSupplier;
         currentResources.setSize(1);
-        //this.tableView = tableView;
     }
 
     protected abstract void initTableView();
 
     protected abstract void initQueryFields();
 
-    public void addParamBindings(ParamBinding... bindings){
-        for (var binding : bindings){
+    public void addParamBindings(ParamBinding... bindings) {
+        for (var binding : bindings) {
             uriSearchQuery.getBindings().add(binding);
         }
         uriSearchQuery.update();
@@ -83,25 +82,26 @@ public abstract class TabController<E extends Entity, T extends TableRow> {
      * Updates search settings from text fields to show new results.
      */
     @FXML
-    protected void showButtonClicked(){
+    protected void showButtonClicked() {
 
-        if (!isUpdating){
-            //executor.submit(() -> {
-
+        if (!isUpdating) {
+            progressIndicator.setVisible(true);
+            executor.submit(() -> {
                 rowsPerPage = Integer.valueOf(rowsPerPageTextField.getText());
                 uriSearchQuery.update();
 
                 currentResources.clear();
                 Page<E> firstPage = service.findAllMatching(uriSearchQuery, 0, rowsPerPage);
                 currentResources.setSize(firstPage.getTotalPages() > 0 ? (int) firstPage.getTotalPages() : 1);
+
                 currentResources.set(0, firstPage.getResources().stream().map(tableRowSupplier).collect(Collectors.toList()));
-                //Platform.runLater(() -> {
-            shouldUpdate = false;
-            pagination.setPageCount((int) firstPage.getTotalPages());
-               // });
-            shouldUpdate = true;
-            updateTable();
-            //});
+                Platform.runLater(() -> {
+                    shouldUpdate = false;
+                    pagination.setPageCount((int) firstPage.getTotalPages());
+                    shouldUpdate = true;
+                    updateTable();
+                });
+            });
         }
     }
 
@@ -124,7 +124,7 @@ public abstract class TabController<E extends Entity, T extends TableRow> {
                 page = currentResources.get(currentIndex);
             }
             var resourcesIt = page.iterator();
-            if (resourcesIt.hasNext()){
+            if (resourcesIt.hasNext()) {
                 tableView.getItems().add(resourcesIt.next());
                 executor.submit(() -> {
                     try {
@@ -139,6 +139,7 @@ public abstract class TabController<E extends Entity, T extends TableRow> {
                     } finally {
                         isUpdating = false;
                         shouldUpdate = true;
+                        progressIndicator.setVisible(false);
                     }
 
                 });
@@ -147,7 +148,7 @@ public abstract class TabController<E extends Entity, T extends TableRow> {
     }
 
     public void initView() {
-        if (!isInitialized){
+        if (!isInitialized) {
             shouldUpdate = true;
             initTableView();
             initQueryFields();

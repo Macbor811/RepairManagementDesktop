@@ -1,5 +1,6 @@
 package pl.polsl.repairmanagementdesktop.model.request;
 
+import pl.polsl.repairmanagementdesktop.abstr.TableRow;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 import pl.polsl.repairmanagementdesktop.model.item.ItemEntity;
 import pl.polsl.repairmanagementdesktop.utils.StringUtils;
@@ -8,7 +9,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-public class RequestTableRow {
+public class RequestTableRow implements TableRow {
 
 
     private final String id;

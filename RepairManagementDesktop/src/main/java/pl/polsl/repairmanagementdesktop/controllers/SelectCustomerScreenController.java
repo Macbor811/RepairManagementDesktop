@@ -23,9 +23,13 @@ public class SelectCustomerScreenController {
 
     private CustomerTableRow currentSelection = null;
 
-
     @FXML
     private CustomersTabController customersTabController;
+
+    @FXML
+    public void initialize(){
+        customersTabController.initView();
+    }
 
     @FXML
     private void cancelButtonClicked(ActionEvent event){

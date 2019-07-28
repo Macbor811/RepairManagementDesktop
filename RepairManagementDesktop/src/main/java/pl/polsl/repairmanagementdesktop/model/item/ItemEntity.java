@@ -1,6 +1,7 @@
 package pl.polsl.repairmanagementdesktop.model.item;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import pl.polsl.repairmanagementdesktop.abstr.Entity;
 import pl.polsl.repairmanagementdesktop.model.itemtype.ItemTypeEntity;
 import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
@@ -13,7 +14,7 @@ import java.net.URI;
 import java.util.Collection;
 
 @RemoteResource("/item")
-public class ItemEntity {
+public class ItemEntity implements Entity {
     private URI uri;
 
     private String name;
