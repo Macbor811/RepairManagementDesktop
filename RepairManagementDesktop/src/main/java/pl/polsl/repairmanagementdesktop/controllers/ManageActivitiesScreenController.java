@@ -19,14 +19,14 @@ import pl.polsl.repairmanagementdesktop.model.activity.ActivityTableRow;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeService;
 import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;
 import pl.polsl.repairmanagementdesktop.utils.TableColumnFactory;
-import pl.polsl.repairmanagementdesktop.utils.TextFormatterFactory;
+import pl.polsl.repairmanagementdesktop.utils.TextFieldUtils;
 import pl.polsl.repairmanagementdesktop.utils.search.*;
 import uk.co.blackpepper.bowman.Page;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-
+//TODO: rework for code reuse
 @Scope("prototype")
 @Controller
 public class ManageActivitiesScreenController {
@@ -118,7 +118,7 @@ public class ManageActivitiesScreenController {
 
     private void initQueryFields() {
 
-        idTextField.setTextFormatter(TextFormatterFactory.numericTextFormatter());
+        idTextField.setTextFormatter(TextFieldUtils.numericTextFormatter());
 
         uriSearchQuery.getBindings().addAll(
                 Arrays.asList(
@@ -147,7 +147,7 @@ public class ManageActivitiesScreenController {
         pagination.setPageFactory(this::createPage);
         pagination.setMaxPageIndicatorCount(10);
         pagination.setPageCount(1);
-        rowsPerPageTextField.setTextFormatter(TextFormatterFactory.numericTextFormatter());
+        rowsPerPageTextField.setTextFormatter(TextFieldUtils.numericTextFormatter());
     }
 
     @FXML
@@ -220,7 +220,7 @@ public class ManageActivitiesScreenController {
         Scene nextScene = new Scene(updateActivityScreen);
         UpdateActivityScreenController addActivityScreenController = loader.getController();
         addActivityScreenController.setRequest(requestId);
-        addActivityScreenController.setActivity(activityService.findById(getCurrentSelection().getId()));
+        addActivityScreenController.setActivity(activityService.findById(getCurrentSelection().getId().toString()));
         Stage window = new Stage();
 
         window.setScene(nextScene);

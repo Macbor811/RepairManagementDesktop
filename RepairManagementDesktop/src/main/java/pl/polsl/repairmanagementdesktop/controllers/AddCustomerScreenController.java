@@ -16,6 +16,8 @@ import pl.polsl.repairmanagementdesktop.model.address.AddressEntity;
 import pl.polsl.repairmanagementdesktop.model.address.AddressService;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerService;
+import pl.polsl.repairmanagementdesktop.utils.LimitedLengthTextField;
+import pl.polsl.repairmanagementdesktop.utils.TextFieldUtils;
 
 import java.net.URI;
 import java.util.Arrays;
@@ -66,7 +68,13 @@ public class AddCustomerScreenController {
                 streetTextField,
                 numberTextField
         );
-
+        TextFieldUtils.setMaxLength(firstNameTextField, 50);
+        TextFieldUtils.setMaxLength(lastNameTextField, 50);
+        TextFieldUtils.setMaxLength(phoneNumTextField, 9);
+        TextFieldUtils.setMaxLength(postCodeTextField, 6);
+        TextFieldUtils.setMaxLength(cityTextField, 50);
+        TextFieldUtils.setMaxLength(streetTextField, 50);
+        TextFieldUtils.setMaxLength(numberTextField, 7);
     }
 
 
@@ -98,19 +106,15 @@ public class AddCustomerScreenController {
             );
 
 
-                customerService.save(customer);
+            customerService.save(customer);
 
-                final Node source = (Node) event.getSource();
-                final Stage stage = (Stage) source.getScene().getWindow();
+            final Node source = (Node) event.getSource();
+            final Stage stage = (Stage) source.getScene().getWindow();
 
-                stage.close();
-
-
+            stage.close();
         } else {
             messageLabel.setText("All fields must be filled.");
         }
-
-
     }
     
 }

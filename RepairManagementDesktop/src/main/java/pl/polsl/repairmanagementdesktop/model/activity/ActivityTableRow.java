@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 
 public class ActivityTableRow implements TableRow {
 
-    private String id;
+    private Integer id;
     private LocalDateTime registeredDate;
     private String status;
     private LocalDateTime finalizedDate;
@@ -28,26 +28,13 @@ public class ActivityTableRow implements TableRow {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
 
     private ActivityTableRow(){}
-    public static ActivityTableRow sizeSetter(){
-        var row = new ActivityTableRow();
-        row.id = "123";
-        row.result = "aaaaaaaaaaaaa";
-        row.status = row.result;
-        row.registeredDate = Instant.now().atZone(ZoneId.systemDefault()).toLocalDateTime();
-        row.finalizedDate = row.registeredDate;
-        row.sequenceNum = 11;
-        var employee = new EmployeeEntity();
-        employee.setFirstName("aaaaaaaaaa");
-        employee.setLastName("aaaaaaaaaa");
-        return row;
-    }
 
 
     public ActivityTableRow(ActivityEntity entity) {
         String uriString = entity.getUri().toString();
 
         //processes URI string to get resource index(ex. api/customer/3)
-        this.id = uriString.substring(uriString.lastIndexOf("/") + 1);
+        this.id = Integer.parseInt(uriString.substring(uriString.lastIndexOf("/") + 1));
 
         var requestId = entity.getRequest().getUri().toString().substring(uriString.lastIndexOf("/") + 1);
 
@@ -59,15 +46,15 @@ public class ActivityTableRow implements TableRow {
         this.result = entity.getResult();
         this.worker = entity.getWorker();
     }
-    public String getId() { return id;}
+    public Integer getId() { return id;}
 
     public String getRegisteredDate() { return registeredDate != null ? DATE_FORMATTER.format(registeredDate) : null;}
     public String getStatus() { return status;}
     public String getFinalizedDate() {  return finalizedDate != null ? DATE_FORMATTER.format(finalizedDate) : null;}
     public Integer getSequenceNum(){return sequenceNum;}
-    public String getDescription() { return StringUtils.trim(description, 20);}
+    public String getDescription() { return description; }
     public String getResult() {
-        return StringUtils.trim(result, 20);
+        return result;
     }
     public String getWorker(){return worker.getFirstName() + " " + worker.getLastName();}
 

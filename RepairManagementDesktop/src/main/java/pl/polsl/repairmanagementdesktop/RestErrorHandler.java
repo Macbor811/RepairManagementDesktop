@@ -2,6 +2,7 @@ package pl.polsl.repairmanagementdesktop;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.scene.control.Alert;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -36,22 +37,25 @@ public class RestErrorHandler extends DefaultResponseErrorHandler {
     public void handleError(ClientHttpResponse response) throws IOException {
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
         errorAlert.setHeaderText("Error");
-        var json = inputStreamToString(response.getBody());
-        ObjectMapper objectMapper = new ObjectMapper();
-        ValidationErrorWrapper errors = objectMapper.readValue(json, ValidationErrorWrapper.class);
+        var body = inputStreamToString(response.getBody());
+        if (response.getStatusCode() == HttpStatus.BAD_REQUEST){
+            ObjectMapper objectMapper = new ObjectMapper();
+            ValidationErrorWrapper errors = objectMapper.readValue(body, ValidationErrorWrapper.class);
 
-        StringBuilder builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
 
-        for(var error: errors.getErrors()){
-            builder.append("Invalid property \"" + error.getProperty() + "\" with value: \"" + error.getInvalidValue() + "\"\n");
-            builder.append("Reason: " + error.getMessage() + "\n\n");
+            for(var error: errors.getErrors()){
+                builder.append("Invalid property \"" + error.getProperty() + "\" with value: \"" + error.getInvalidValue() + "\"\n");
+                builder.append("Reason: " + error.getMessage() + "\n\n");
+            }
+
+            errorAlert.setContentText(builder.toString());
+        } else if (response.getStatusCode() == HttpStatus.NOT_FOUND){
+            errorAlert.setContentText("Can't connect to the server.");
+        } else {
+            errorAlert.setContentText(body);
         }
-
-        errorAlert.setContentText(builder.toString());
         errorAlert.showAndWait();
-
-
-
 
     }
 }

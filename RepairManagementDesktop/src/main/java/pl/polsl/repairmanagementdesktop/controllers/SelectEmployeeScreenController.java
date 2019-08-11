@@ -23,6 +23,7 @@ public class SelectEmployeeScreenController {
 
     @FXML
     public void initialize(){
+        employeesTabController.initView();
         employeesTabController.addParamBindings(new ConstantParamBinding("role", "WRK"));
     }
 
@@ -54,5 +55,5 @@ public class SelectEmployeeScreenController {
 
 
 
-    public EmployeeTableRow getCurrentSelection() {        return currentSelection;    }
+    public EmployeeTableRow getCurrentSelection() { return currentSelection; }
 }

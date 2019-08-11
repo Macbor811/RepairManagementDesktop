@@ -8,10 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -48,7 +45,7 @@ public class AddRequestScreenController {
         @FXML
         private Label currentItemSelectionLabel;
         @FXML
-        private TextField descriptionTextField;
+        private TextArea descriptionTextField;
 
 
         private final LoaderFactory fxmlLoaderFactory;

@@ -24,6 +24,7 @@ import pl.polsl.repairmanagementdesktop.model.item.ItemService;
 import pl.polsl.repairmanagementdesktop.model.itemtype.ItemTypeEntity;
 import pl.polsl.repairmanagementdesktop.model.itemtype.ItemTypeService;
 import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;
+import pl.polsl.repairmanagementdesktop.utils.TextFieldUtils;
 import uk.co.blackpepper.bowman.ClientFactory;
 
 import java.io.IOException;
@@ -74,6 +75,16 @@ public class AddEmployeeScreenController {
     public void initialize() {
         roleChoiceBox.setItems(FXCollections.observableArrayList("ADM", "MAN", "WRK"));
         roleChoiceBox.getSelectionModel().select("WRK");
+
+        TextFieldUtils.setMaxLength(firstNameTextField, 50);
+        TextFieldUtils.setMaxLength(lastNameTextField, 50);
+        TextFieldUtils.setMaxLength(phoneNumTextField, 9);
+        TextFieldUtils.setMaxLength(usernameTextField, 50);
+        TextFieldUtils.setMaxLength(passwordField, 50);
+        TextFieldUtils.setMaxLength(postCodeTextField, 6);
+        TextFieldUtils.setMaxLength(cityTextField, 50);
+        TextFieldUtils.setMaxLength(streetTextField, 50);
+        TextFieldUtils.setMaxLength(numberTextField, 7);
     }
 
     @FXML

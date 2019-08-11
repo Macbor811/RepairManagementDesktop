@@ -1,39 +1,27 @@
 package pl.polsl.repairmanagementdesktop.controllers;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.client.ResourceAccessException;
 import pl.polsl.repairmanagementdesktop.abstr.TabController;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityEntity;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityService;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityTableRow;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeService;
-import pl.polsl.repairmanagementdesktop.model.request.RequestTableRow;
 import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;
 import pl.polsl.repairmanagementdesktop.utils.TableColumnFactory;
-import pl.polsl.repairmanagementdesktop.utils.TextFormatterFactory;
+import pl.polsl.repairmanagementdesktop.utils.TextFieldUtils;
 import pl.polsl.repairmanagementdesktop.utils.search.*;
-import uk.co.blackpepper.bowman.Page;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Vector;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.stream.Collectors;
 
 
 @Scope("prototype")
@@ -94,23 +82,28 @@ public class ActivitiesTabController extends TabController<ActivityEntity, Activ
         tableView.getColumns().clear();
 
 
-        TableColumn<ActivityTableRow, Integer> sequenceNumDateColumn = TableColumnFactory.createColumn("Seq. no", "sequenceNum");
-        TableColumn<ActivityTableRow, String> idColumn = TableColumnFactory.createColumn("ID", "id");
+        TableColumn<ActivityTableRow, Integer> sequenceNumColumn = TableColumnFactory.createColumn("Seq. no", "sequenceNum");
+        TableColumn<ActivityTableRow, Integer> idColumn = TableColumnFactory.createColumn("ID", "id");
         TableColumn<ActivityTableRow, String> registeredDateColumn = TableColumnFactory.createColumn("Registered Date", "registeredDate");
+        registeredDateColumn.setPrefWidth(115);
         TableColumn<ActivityTableRow, String> statusColumn = TableColumnFactory.createColumn("Status", "status");
         TableColumn<ActivityTableRow, String> finalizedDateColumn = TableColumnFactory.createColumn("Finalized Date", "finalizedDate");
+        finalizedDateColumn.setPrefWidth(115);
         TableColumn<ActivityTableRow, String> descriptionColumn = TableColumnFactory.createColumn("Description", "description");
-        TableColumn<ActivityTableRow, String> requestColumn = TableColumnFactory.createColumn("Result", "result");
+        descriptionColumn.setPrefWidth(130);
+        TableColumn<ActivityTableRow, String> resultColumn = TableColumnFactory.createColumn("Result", "result");
+        resultColumn.setPrefWidth(130);
         TableColumn<ActivityTableRow, String> workerColumn = TableColumnFactory.createColumn("Worker", "worker");
+        workerColumn.setPrefWidth(130);
 
         tableView.getColumns().addAll(
-                sequenceNumDateColumn,
+                sequenceNumColumn,
                 idColumn,
                 registeredDateColumn,
                 statusColumn,
                 finalizedDateColumn,
                 descriptionColumn,
-                requestColumn,
+                resultColumn,
                 workerColumn
 
         );
@@ -123,7 +116,7 @@ public class ActivitiesTabController extends TabController<ActivityEntity, Activ
     @Override
     protected void initQueryFields() {
 
-        idTextField.setTextFormatter(TextFormatterFactory.numericTextFormatter());
+        idTextField.setTextFormatter(TextFieldUtils.numericTextFormatter());
 
         uriSearchQuery.getBindings().addAll(
                 Arrays.asList(
@@ -191,7 +184,7 @@ public class ActivitiesTabController extends TabController<ActivityEntity, Activ
             Parent updateActivityScreen = loader.load();
             Scene nextScene = new Scene(updateActivityScreen);
             UpdateActivityScreenController addActivityScreenController = loader.getController();
-            addActivityScreenController.setActivity(activityService.findById(getCurrentSelection().getId()));
+            addActivityScreenController.setActivity(activityService.findById(getCurrentSelection().getId().toString()));
             Stage window = new Stage();
 
             window.setScene(nextScene);
@@ -209,7 +202,7 @@ public class ActivitiesTabController extends TabController<ActivityEntity, Activ
 
             Parent detailsScreen = loader.load();
             DetailsScreenController dsc = loader.getController();
-            ActivityEntity ae = activityService.findById(getCurrentSelection().getId());
+            ActivityEntity ae = activityService.findById(getCurrentSelection().getId().toString());
             dsc.setText(ae.getDescription(),ae.getResult());
             Scene nextScene = new Scene(detailsScreen);
 
@@ -237,10 +230,6 @@ public class ActivitiesTabController extends TabController<ActivityEntity, Activ
         finalizedDatePicker.setValue(null);
     }
 
-
-    ActivityTableRow getCurrentSelection(){
-        return tableView.getSelectionModel().getSelectedItem();
-    }
 
 
 }

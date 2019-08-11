@@ -25,6 +25,11 @@ public class SelectItemScreenController {
     private ItemsTabController itemsTabController;
 
     @FXML
+    public void initialize(){
+        itemsTabController.initView();
+    }
+
+    @FXML
     private void cancelButtonClicked(ActionEvent event){
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();

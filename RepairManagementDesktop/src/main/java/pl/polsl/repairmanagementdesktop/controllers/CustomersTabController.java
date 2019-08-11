@@ -60,11 +60,16 @@ public class CustomersTabController extends TabController<CustomerEntity, Custom
         tableView.getColumns().clear();
 
         TableColumn<CustomerTableRow, String> idColumn = TableColumnFactory.createColumn("ID", "id");
+        idColumn.setPrefWidth(40);
         TableColumn<CustomerTableRow, String> nameColumn = TableColumnFactory.createColumn("First name", "firstName");
+        nameColumn.setPrefWidth(100);
         TableColumn<CustomerTableRow, String> surnameColumn = TableColumnFactory.createColumn("Last name", "lastName");
+        surnameColumn.setPrefWidth(100);
         TableColumn<CustomerTableRow, String> phoneColumn = TableColumnFactory.createColumn("Phone", "phoneNumber");
         TableColumn<CustomerTableRow, String> streetColumn = TableColumnFactory.createColumn("Street", "street");
+        streetColumn.setPrefWidth(100);
         TableColumn<CustomerTableRow, String> cityColumn = TableColumnFactory.createColumn("City", "city");
+        cityColumn.setPrefWidth(100);
         TableColumn<CustomerTableRow, String> postCodeColumn = TableColumnFactory.createColumn("Postal code", "postCode");
         TableColumn<CustomerTableRow, String> numberColumn = TableColumnFactory.createColumn("Number", "number");
 
@@ -87,7 +92,7 @@ public class CustomersTabController extends TabController<CustomerEntity, Custom
     @Override
     protected void initQueryFields() {
 
-        idTextField.setTextFormatter(TextFormatterFactory.numericTextFormatter());
+        idTextField.setTextFormatter(TextFieldUtils.numericTextFormatter());
 
         uriSearchQuery.getBindings().addAll(
                 Arrays.asList(
@@ -133,10 +138,6 @@ public class CustomersTabController extends TabController<CustomerEntity, Custom
             window.show();
         } catch (IOException e){}
 
-    }
-
-    CustomerTableRow getCurrentSelection(){
-        return tableView.getSelectionModel().getSelectedItem();
     }
 
 }

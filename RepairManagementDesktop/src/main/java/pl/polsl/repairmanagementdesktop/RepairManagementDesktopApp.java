@@ -49,9 +49,7 @@ public class RepairManagementDesktopApp extends Application {
         rootNode = fxmlLoader.load();
 
         primaryStage.setTitle("Repair Management System");
-//        primaryStage.setOnCloseRequest(windowEvent -> {
-//                 executor.shutdownNow();
-//        });
+
         Scene scene = new Scene(rootNode);
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);

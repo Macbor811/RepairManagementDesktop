@@ -7,7 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.ResourceAccessException;
-import pl.polsl.repairmanagementdesktop.utils.TextFormatterFactory;
+import pl.polsl.repairmanagementdesktop.utils.TextFieldUtils;
 import pl.polsl.repairmanagementdesktop.utils.search.ParamBinding;
 import pl.polsl.repairmanagementdesktop.utils.search.UriSearchQuery;
 import uk.co.blackpepper.bowman.Page;
@@ -32,6 +32,7 @@ public abstract class TabController<E extends Entity, T extends TableRow> {
 
     @Autowired
     ThreadPoolExecutor executor;
+
     @FXML
     protected Pagination pagination;
     @FXML
@@ -67,13 +68,12 @@ public abstract class TabController<E extends Entity, T extends TableRow> {
         pagination.setMaxPageIndicatorCount(10);
         pagination.setPageCount(1);
         pagination.setPageFactory(this::createPage);
-        rowsPerPageTextField.setTextFormatter(TextFormatterFactory.numericTextFormatter());
+        rowsPerPageTextField.setTextFormatter(TextFieldUtils.numericTextFormatter());
     }
 
     //The parameter and return value are required by pagination control, but not needed in this case.
     private Node createPage(int pageIndex) {
         updateTable();
-
         return new Pane();
     }
 
@@ -124,25 +124,25 @@ public abstract class TabController<E extends Entity, T extends TableRow> {
                 page = currentResources.get(currentIndex);
             }
             var resourcesIt = page.iterator();
-            if (resourcesIt.hasNext()) {
-                tableView.getItems().add(resourcesIt.next());
-                executor.submit(() -> {
-                    try {
+            try {
+                if (resourcesIt.hasNext()) {
+                    tableView.getItems().add(resourcesIt.next());
+                    executor.submit(() -> {
                         resourcesIt.forEachRemaining(entity -> Platform.runLater(() -> {
                             tableView.getItems().add(entity);
                         }));
-                    } catch (ResourceAccessException e) {
-                        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-                        errorAlert.setHeaderText("Connection error");
-                        errorAlert.setContentText(e.getMessage());
-                        errorAlert.show();
-                    } finally {
-                        isUpdating = false;
-                        shouldUpdate = true;
-                        progressIndicator.setVisible(false);
-                    }
 
-                });
+                    });
+                }
+            } catch (ResourceAccessException e) {
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setHeaderText("Connection error");
+                errorAlert.setContentText(e.getMessage());
+                errorAlert.show();
+            } finally {
+                isUpdating = false;
+                shouldUpdate = true;
+                progressIndicator.setVisible(false);
             }
         }
     }
@@ -150,10 +150,15 @@ public abstract class TabController<E extends Entity, T extends TableRow> {
     public void initView() {
         if (!isInitialized) {
             shouldUpdate = true;
-            initTableView();
             initQueryFields();
+            uriSearchQuery.update();
+            initTableView();
             initPagination();
             isInitialized = true;
         }
+    }
+
+    public T getCurrentSelection() {
+        return tableView.getSelectionModel().getSelectedItem();
     }
 }

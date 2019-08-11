@@ -25,6 +25,7 @@ import pl.polsl.repairmanagementdesktop.model.item.ItemEntity;
 import pl.polsl.repairmanagementdesktop.model.item.ItemService;
 import pl.polsl.repairmanagementdesktop.model.itemtype.ItemTypeEntity;
 import pl.polsl.repairmanagementdesktop.model.itemtype.ItemTypeService;
+import pl.polsl.repairmanagementdesktop.utils.TextFieldUtils;
 
 import java.io.IOException;
 import java.net.URI;
@@ -54,8 +55,6 @@ public class AddItemScreenController {
     private final ItemService itemService;
     private final CustomerService customerService;
 
-    @FXML
-    private TextField descriptionTextField;
 
 
     private SelectCustomerScreenController selectCustomerScreenController;
@@ -105,7 +104,10 @@ public class AddItemScreenController {
 
     @FXML
     public void initialize(){
+
         initItemTypeListView();
+        TextFieldUtils.setMaxLength(itemNameTextField, 255);
+        TextFieldUtils.setMaxLength(itemTypeTextField, 50);
     }
 
 
@@ -133,16 +135,25 @@ public class AddItemScreenController {
 
     @FXML
     private void addItemButtonClicked(ActionEvent event) {
-        ItemTypeEntity type = itemTypeService.findById((String) itemTypeListView.getSelectionModel().getSelectedItem());
-        CustomerEntity owner = customerService.findById(ownerTableRow.getId());
 
-        ItemEntity item = new ItemEntity(itemNameTextField.getText(), type, owner);
+        var selectedType = (String) itemTypeListView.getSelectionModel().getSelectedItem();
+        var ownerId = ownerTableRow.getId();
+        var itemNameText = itemNameTextField.getText();
 
-        itemService.save(item);
+        if (selectedType != null && ownerTableRow != null && ownerId != null  && itemNameText!= null && !itemNameText.isEmpty()){
+            ItemTypeEntity type = itemTypeService.findById(ownerId);
+            CustomerEntity owner = customerService.findById(selectedType);
+
+            ItemEntity item = new ItemEntity(itemNameText, type, owner);
+
+            itemService.save(item);
 
 
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.close();
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.close();
+        }
+
+
 
     }
 
@@ -152,6 +163,7 @@ public class AddItemScreenController {
         window.close();
     }
 
+    //TODO: fix
     @FXML
     private void addItemTypeButtonClicked(ActionEvent event) {
         var type = new ItemTypeEntity();

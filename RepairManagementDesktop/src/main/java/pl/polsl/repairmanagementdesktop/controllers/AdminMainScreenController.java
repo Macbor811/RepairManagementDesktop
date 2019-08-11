@@ -39,6 +39,7 @@ public class AdminMainScreenController {
 
     @FXML
     public void initialize(){
+        employeesTabController.initView();
         fileMenu.getItems().clear();
         var logoutItem = new MenuItem("Sign out");
         fileMenu.getItems().add(logoutItem);

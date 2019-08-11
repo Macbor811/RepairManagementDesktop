@@ -60,14 +60,9 @@ public class RequestService implements pl.polsl.repairmanagementdesktop.abstr.Se
     public void finalize(String id, String result, String status){
         RestTemplate template = new RestTemplate();
 
-        template.getInterceptors().add( new ClientHttpRequestInterceptor() {
-
-            public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
-                    throws IOException {
-                request.getHeaders().setBasicAuth(currentUser.getUsername(), currentUser.getPassword());
-                //request.getHeaders().add(createHeaders(currentUser.getUsername(), currentUser.getPassword()));
-                return execution.execute(request, body);
-            }
+        template.getInterceptors().add((request, body, execution) -> {
+            request.getHeaders().setBasicAuth(currentUser.getUsername(), currentUser.getPassword());
+            return execution.execute(request, body);
         });
 
         var data = new FinalizationData();
@@ -77,8 +72,7 @@ public class RequestService implements pl.polsl.repairmanagementdesktop.abstr.Se
         String baseUriStr = client.getBaseUri().toString();
 
         template.put(
-                UriComponentsBuilder.fromUri(
-                client.getBaseUri())
+                UriComponentsBuilder.fromUri(client.getBaseUri())
                 .path("/{id}/finalize")
                 .buildAndExpand(id).toUri(),
                 data

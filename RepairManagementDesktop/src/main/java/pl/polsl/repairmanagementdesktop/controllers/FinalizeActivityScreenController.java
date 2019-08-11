@@ -42,9 +42,9 @@ public class FinalizeActivityScreenController {
 
     @FXML
     private void finalizeButtonClicked(ActionEvent event) {
-        var activity = service.findById(activityTableRow.getId());
+        var activity = service.findById(activityTableRow.getId().toString());
 
-        service.finalize(activityTableRow.getId(), resultTextArea.getText(), (String) statusChoiceBox.getSelectionModel().getSelectedItem());
+        service.finalize(activityTableRow.getId().toString(), resultTextArea.getText(), (String) statusChoiceBox.getSelectionModel().getSelectedItem());
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.close();
