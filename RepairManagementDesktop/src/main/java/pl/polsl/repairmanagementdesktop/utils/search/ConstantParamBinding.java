@@ -12,6 +12,6 @@ public class ConstantParamBinding implements ParamBinding{
 
     @Override
     public String bind() {
-        return "&" + queryParam + "=" + value;
+        return "&" + queryParam + "=" + (value != null ? value : "");
     }
 }

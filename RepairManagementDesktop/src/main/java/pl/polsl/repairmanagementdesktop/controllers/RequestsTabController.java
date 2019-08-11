@@ -3,6 +3,7 @@ package pl.polsl.repairmanagementdesktop.controllers;
         import javafx.event.ActionEvent;
         import javafx.fxml.FXML;
         import javafx.fxml.FXMLLoader;
+        import javafx.scene.Node;
         import javafx.scene.Parent;
         import javafx.scene.Scene;
         import javafx.scene.control.*;
@@ -11,6 +12,7 @@ package pl.polsl.repairmanagementdesktop.controllers;
         import org.springframework.context.annotation.Scope;
         import org.springframework.stereotype.Controller;
         import pl.polsl.repairmanagementdesktop.abstr.TabController;
+        import pl.polsl.repairmanagementdesktop.model.customer.CustomerTableRow;
         import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
         import pl.polsl.repairmanagementdesktop.model.request.RequestService;
         import pl.polsl.repairmanagementdesktop.model.request.RequestTableRow;
@@ -28,6 +30,12 @@ package pl.polsl.repairmanagementdesktop.controllers;
 public class RequestsTabController extends TabController<RequestEntity, RequestTableRow> {
 
 
+    @FXML
+    private Label selectedCustomerLabel;
+    @FXML
+    private Label selectedItemLabel;
+    @FXML
+    private TextField resultTextField;
     @FXML
     private Label selectedStatusesLabel;
 
@@ -83,12 +91,12 @@ public class RequestsTabController extends TabController<RequestEntity, RequestT
         tableView.getColumns().addAll(
                 idColumn,
                 registeredDateColumn,
+                descriptionColumn,
                 statusColumn,
                 finalizedDateColumn,
-                descriptionColumn,
+                resultColumn,
                 clientColumn,
-                itemColumn,
-                resultColumn
+                itemColumn
         );
 
         for (var column : tableView.getColumns()) {
@@ -117,13 +125,15 @@ public class RequestsTabController extends TabController<RequestEntity, RequestT
                         new DatePickerParamBinding(registeredDatePicker, "registerDate"),
                         new DatePickerParamBinding(finalizedDatePicker, "endDate"),
                         new TextFieldParamBinding(descriptionTextField, "description"),
-                        new TextFieldParamBinding(clientTextField, "client"),
-                        new TextFieldParamBinding(itemTextField, "item.name"),
+                        new TextFieldParamBinding(resultTextField, "result"),
                         new ConstantParamBinding("sort", "registerDate,desc"),
+                        new SupplierBasedParamBinding("item.owner.id", () -> customerId),
                         new CheckMenuParamBinding(statusMenuButton, "status")
                 )
         );
         statusMenuButton.setOnHidden(e -> onStatusesUpdate());
+
+
     }
 
 
@@ -258,5 +268,48 @@ public class RequestsTabController extends TabController<RequestEntity, RequestT
             }
         }
         selectedStatusesLabel.setText(joiner.toString());
+    }
+
+    private CustomerTableRow queryCustomer;
+    private String customerId = "";
+
+    @FXML
+    private void selectCustomerButtonClicked(ActionEvent actionEvent) throws IOException{
+
+        FXMLLoader loader = loaderFactory.load("/fxml/selectCustomerScreen.fxml");
+        Parent selectCustomerScreen = loader.load();
+
+        SelectCustomerScreenController selectCustomerScreenController = loader.getController();
+
+        var selectCustomerScene = new Scene(selectCustomerScreen);
+
+        Stage window = new Stage();
+
+        window.setScene(selectCustomerScene);
+        window.setResizable(false);
+        window.showAndWait(); //wait for results from SelectCustomerScreen
+
+        queryCustomer = selectCustomerScreenController.getCurrentSelection();
+        if (queryCustomer != null){
+            selectedCustomerHyperlink.setVisible(true);
+            selectedCustomerHyperlink.setText(queryCustomer.getFirstName() + " " + queryCustomer.getLastName());
+            customerId = queryCustomer.getId();
+        }
+    }
+
+    @FXML
+    private void selectItemButtonClicked(ActionEvent actionEvent) {
+
+
+    }
+
+    @FXML
+    private Hyperlink selectedCustomerHyperlink;
+
+    @FXML
+    private void clearSelectedCustomer(ActionEvent actionEvent) {
+        selectedCustomerHyperlink.setVisible(false);
+        selectedCustomerHyperlink.setText("");
+        customerId = "";
     }
 }
