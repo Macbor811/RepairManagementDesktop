@@ -23,7 +23,7 @@
                     <TableColumn fx:id="customerIdColumn1" prefWidth="61.0" text="ID" />
                     <TableColumn fx:id="customerFNameColumn1" prefWidth="87.0" text="Name" />
                     <TableColumn fx:id="customerLNameColumn1" prefWidth="102.0" text="Type" />
-                    <TableColumn fx:id="customerLNameColumn11" prefWidth="140.0" text="Client" />
+                    <TableColumn fx:id="customerLNameColumn11" prefWidth="140.0" text="Customer" />
                 </columns>
             </TableView>
             <ToolBar prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -66,14 +66,21 @@
                                     <TextField fx:id="nameTextField" promptText="Name" GridPane.rowIndex="1" />
                                     <TextField fx:id="typeTextField" promptText="Type" GridPane.rowIndex="2" />
                                     <TextField fx:id="idTextField" promptText="ID" />
-                                    <TextField fx:id="clientFirstNameTextField" promptText="Client's first name" GridPane.rowIndex="3" />
+                                    <TextField fx:id="customerTextField" prefHeight="25.0" prefWidth="145.0" promptText="Customer" GridPane.rowIndex="3">
+                           <GridPane.margin>
+                              <Insets right="45.0" />
+                           </GridPane.margin></TextField>
                         <Label text="Rows per page:" GridPane.rowIndex="5" />
                         <TextField fx:id="rowsPerPageTextField" prefHeight="25.0" prefWidth="110.0" GridPane.rowIndex="5">
                            <GridPane.margin>
                               <Insets left="85.0" right="80.0" />
                            </GridPane.margin>
                         </TextField>
-                        <TextField fx:id="clientLastNameTextField" promptText="Client's last name" GridPane.rowIndex="4" />
+                        <Button maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#clearCustomerFieldButtonClicked" prefHeight="15.0" prefWidth="43.0" text="Clear" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.rowIndex="3" GridPane.vgrow="NEVER">
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Button>
                                 </children>
                             </GridPane>
                         </children>

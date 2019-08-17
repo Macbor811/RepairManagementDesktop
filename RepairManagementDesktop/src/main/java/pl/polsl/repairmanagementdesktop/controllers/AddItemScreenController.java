@@ -1,5 +1,6 @@
 package pl.polsl.repairmanagementdesktop.controllers;
 
+import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -152,8 +153,6 @@ public class AddItemScreenController {
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.close();
         }
-
-
 
     }
 

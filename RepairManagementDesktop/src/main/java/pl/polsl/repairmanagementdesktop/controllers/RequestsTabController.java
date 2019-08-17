@@ -8,6 +8,8 @@ package pl.polsl.repairmanagementdesktop.controllers;
         import javafx.scene.Scene;
         import javafx.scene.control.*;
         import javafx.stage.Stage;
+        import org.controlsfx.control.textfield.AutoCompletionBinding;
+        import org.controlsfx.control.textfield.TextFields;
         import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.context.annotation.Scope;
         import org.springframework.stereotype.Controller;
@@ -105,6 +107,19 @@ public class RequestsTabController extends TabController<RequestEntity, RequestT
 
     }
 
+    class SuggestionRequest implements AutoCompletionBinding.ISuggestionRequest{
+
+        @Override
+        public boolean isCancelled() {
+            return false;
+        }
+
+        @Override
+        public String getUserText() {
+            return null;
+        }
+    }
+
 
     //TODO: complex fields search
     @Override
@@ -132,6 +147,7 @@ public class RequestsTabController extends TabController<RequestEntity, RequestT
                 )
         );
         statusMenuButton.setOnHidden(e -> onStatusesUpdate());
+
 
 
     }
@@ -258,7 +274,6 @@ public class RequestsTabController extends TabController<RequestEntity, RequestT
     }
 
     public void onStatusesUpdate() {
-
         var joiner = new StringJoiner( ", ");
         joiner.setEmptyValue("");
         for (var item : statusMenuButton.getItems().filtered(it -> it instanceof CheckMenuItem)){

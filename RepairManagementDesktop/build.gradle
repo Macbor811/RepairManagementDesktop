@@ -25,6 +25,7 @@ dependencies{
 
 dependencies {
     implementation files('libs/bowman-client.jar')
+    implementation 'org.controlsfx:controlsfx:8.40.15'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-hateoas'
     implementation "org.springframework.security.oauth:spring-security-oauth2:2.0.6.RELEASE"

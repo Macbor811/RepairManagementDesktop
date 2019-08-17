@@ -1,5 +1,6 @@
 package pl.polsl.repairmanagementdesktop.controllers;
 
+import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,17 +8,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.controlsfx.control.textfield.TextFields;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import pl.polsl.repairmanagementdesktop.abstr.TabController;
+import pl.polsl.repairmanagementdesktop.model.customer.CustomerService;
 import pl.polsl.repairmanagementdesktop.model.item.ItemEntity;
 import pl.polsl.repairmanagementdesktop.model.item.ItemService;
 import pl.polsl.repairmanagementdesktop.model.item.ItemTableRow;
 import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;
 import pl.polsl.repairmanagementdesktop.utils.TableColumnFactory;
 import pl.polsl.repairmanagementdesktop.utils.TextFieldUtils;
+import pl.polsl.repairmanagementdesktop.utils.search.SupplierBasedParamBinding;
 import pl.polsl.repairmanagementdesktop.utils.search.TextFieldParamBinding;
 
 import java.io.IOException;
@@ -38,18 +42,19 @@ public class ItemsTabController extends TabController<ItemEntity, ItemTableRow> 
     @FXML
     private TextField typeTextField;
     @FXML
-    private TextField clientFirstNameTextField;
-    @FXML
-    private TextField clientLastNameTextField;
+    private TextField customerTextField;
+
 
 
     private final ItemService itemService;
+    private final CustomerService customerService;
 
     @Autowired
-    public ItemsTabController(ItemService itemService,LoaderFactory fxmlLoaderFactory) {
+    public ItemsTabController(ItemService itemService, LoaderFactory fxmlLoaderFactory, CustomerService customerService) {
         super(itemService, ItemTableRow::new);
         this.fxmlLoaderFactory = fxmlLoaderFactory;
         this.itemService = itemService;
+        this.customerService = customerService;
     }
 
 
@@ -79,6 +84,15 @@ public class ItemsTabController extends TabController<ItemEntity, ItemTableRow> 
 
     }
 
+    private String customerId = "";
+
+    @FXML
+    private void clearCustomerFieldButtonClicked(ActionEvent actionEvent) {
+        customerTextField.clear();
+        customerTextField.setEditable(true);
+        customerId = "";
+    }
+
 
     @Override
     protected void initQueryFields() {
@@ -90,11 +104,17 @@ public class ItemsTabController extends TabController<ItemEntity, ItemTableRow> 
                         new TextFieldParamBinding(idTextField, "id"),
                         new TextFieldParamBinding(nameTextField, "name"),
                         new TextFieldParamBinding(typeTextField, "type.type"),
-                        new TextFieldParamBinding(clientFirstNameTextField, "owner.firstName"),
-                        new TextFieldParamBinding(clientLastNameTextField, "owner.lastName")
+                        new SupplierBasedParamBinding("owner.id", () -> customerId)
                 )
         );
+
+        var autoCompletion = new AutoCompletionTextFieldBinding<>(customerTextField, t -> customerService.findByFullName(t.getUserText()));
+        autoCompletion.setOnAutoCompleted(t -> {
+            customerId = t.getCompletion().substring(t.getCompletion().lastIndexOf(" ") + 1);
+            customerTextField.setEditable(false);
+        });
     }
+
 
 
 
@@ -130,6 +150,7 @@ public class ItemsTabController extends TabController<ItemEntity, ItemTableRow> 
         window.setResizable(false);
         window.show();
     }
+
 
 
 }
