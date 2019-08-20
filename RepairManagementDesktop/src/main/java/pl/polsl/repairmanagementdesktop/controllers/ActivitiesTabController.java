@@ -1,5 +1,6 @@
 package pl.polsl.repairmanagementdesktop.controllers;
 
+import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,44 +23,29 @@ import pl.polsl.repairmanagementdesktop.utils.search.*;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.StringJoiner;
 
 
 @Scope("prototype")
 @Controller
 public class ActivitiesTabController extends TabController<ActivityEntity, ActivityTableRow>{
 
-
-
-    private static final Integer DEFAULT_ROWS_PER_PAGE = 20;
-
     @FXML
-    private Pagination pagination;
-
+    private MenuButton statusMenuButton;
     @FXML
-    private TextField rowsPerPageTextField;
-
-    private Integer rowsPerPage = DEFAULT_ROWS_PER_PAGE;
-
+    private TextField resultTextField;
+    @FXML
+    private Label selectedStatusesLabel;
     @FXML
     private TextField idTextField;
     @FXML
     private DatePicker registeredDatePicker;
     @FXML
-    private TextField statusTextField;
-    @FXML
     private DatePicker finalizedDatePicker;
     @FXML
     private TextField descriptionTextField;
     @FXML
-    private TextField clientTextField;
-    @FXML
-    private TextField itemTextField;
-    @FXML
-    private TextField requestTextField;
-    @FXML
     private TextField workerTextField;
-
-    private final UriSearchQuery uriSearchQuery = new UriSearchQuery();
 
 
     private final ActivityService activityService;
@@ -113,25 +99,47 @@ public class ActivitiesTabController extends TabController<ActivityEntity, Activ
         }
     }
 
+    private String workerId = "";
+
+    @FXML
+    private void clearWorkerButtonClicked(ActionEvent actionEvent) {
+        workerTextField.clear();
+        workerTextField.setEditable(true);
+        workerId = "";
+    }
+
     @Override
     protected void initQueryFields() {
 
         idTextField.setTextFormatter(TextFieldUtils.numericTextFormatter());
 
+        statusMenuButton.getItems().addAll(
+                new CheckMenuItem("OPN"),
+                new CheckMenuItem("PRO"),
+                new CheckMenuItem("FIN"),
+                new CheckMenuItem("CAN")
+        );
+        statusMenuButton.setOnHidden(e -> onStatusesUpdate());
+
         uriSearchQuery.getBindings().addAll(
                 Arrays.asList(
                         new TextFieldParamBinding(idTextField, "id"),
                         new DatePickerParamBinding(registeredDatePicker, "registerDate"),
-                        new TextFieldParamBinding(statusTextField, "status"),
                         new DatePickerParamBinding(finalizedDatePicker, "endDate"),
                         new TextFieldParamBinding(descriptionTextField, "description"),
-                        new TextFieldParamBinding(clientTextField, "client"),
-                        new TextFieldParamBinding(itemTextField, "item"),
-                        new TextFieldParamBinding(requestTextField, "request"),
+                        new TextFieldParamBinding(resultTextField, "result"),
                         new ConstantParamBinding("sort", "sequenceNum,asc"),
-                        new TextFieldParamBinding(workerTextField, "worker")
+                        new SupplierBasedParamBinding("worker.id", () -> workerId),
+                        new CheckMenuParamBinding(statusMenuButton, "status")
                 )
         );
+
+        var customerAutoCompletion = new AutoCompletionTextFieldBinding<>(workerTextField, t -> employeeService.findByFullName(t.getUserText(), "wrk"));
+        customerAutoCompletion.setOnAutoCompleted(t -> {
+            workerId = t.getCompletion().substring(t.getCompletion().lastIndexOf("; ") + 1);
+            workerTextField.setEditable(false);
+        });
+
     }
 
 
@@ -231,5 +239,15 @@ public class ActivitiesTabController extends TabController<ActivityEntity, Activ
     }
 
 
-
+    public void onStatusesUpdate() {
+        var joiner = new StringJoiner( ", ");
+        joiner.setEmptyValue("");
+        for (var item : statusMenuButton.getItems().filtered(it -> it instanceof CheckMenuItem)){
+            var checkItem = (CheckMenuItem) item;
+            if (checkItem.isSelected()){
+                joiner.add(checkItem.getText());
+            }
+        }
+        selectedStatusesLabel.setText(joiner.toString());
+    }
 }

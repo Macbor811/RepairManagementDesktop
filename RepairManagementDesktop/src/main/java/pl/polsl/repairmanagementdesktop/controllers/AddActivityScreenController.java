@@ -8,10 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -41,6 +38,8 @@ import java.util.stream.Collectors;
 public class AddActivityScreenController {
 
 	@FXML
+	private TextArea descriptionTextArea;
+    @FXML
 	private Button selectWorkerButton;
 	@FXML
 	private Button selectRequestButton;
@@ -54,8 +53,6 @@ public class AddActivityScreenController {
 	private Label currentRequestSelectionLabel;
 	@FXML
 	private Label messageLabel;
-	@FXML
-	private TextField descriptionTextField;
 	@FXML
 	private TextField sequenceNumberTextField;
 
@@ -184,7 +181,7 @@ public class AddActivityScreenController {
 		RequestEntity request = requestService.findById(requestTableRow.getId());
 		ActivityTypeEntity type = activityTypeService.findByType((String) activityTypeListView.getSelectionModel().getSelectedItem());
 
-		ActivityEntity activity = new ActivityEntity(Integer.parseInt(sequenceNumberTextField.getText()),descriptionTextField.getText(),"","Open"
+		ActivityEntity activity = new ActivityEntity(Integer.parseInt(sequenceNumberTextField.getText()),descriptionTextArea.getText(),"","Open"
 				,request.getRegisterDate(),request.getEndDate(),type,request,employee);
 
 		//request.getActivities().add(activity);

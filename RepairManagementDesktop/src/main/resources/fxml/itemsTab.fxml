@@ -68,7 +68,7 @@
                                     <TextField fx:id="idTextField" promptText="ID" />
                                     <TextField fx:id="customerTextField" prefHeight="25.0" prefWidth="145.0" promptText="Customer" GridPane.rowIndex="3">
                            <GridPane.margin>
-                              <Insets right="45.0" />
+                              <Insets right="48.0" />
                            </GridPane.margin></TextField>
                         <Label text="Rows per page:" GridPane.rowIndex="5" />
                         <TextField fx:id="rowsPerPageTextField" prefHeight="25.0" prefWidth="110.0" GridPane.rowIndex="5">

@@ -63,11 +63,13 @@ public abstract class TabController<E extends Entity, T extends TableRow> {
         uriSearchQuery.update();
     }
 
+    //TODO: fix pages number
     private void initPagination() {
         rowsPerPageTextField.setText(DEFAULT_ROWS_PER_PAGE.toString());
         pagination.setMaxPageIndicatorCount(10);
         pagination.setPageCount(1);
         pagination.setPageFactory(this::createPage);
+        //showButtonClicked();
         rowsPerPageTextField.setTextFormatter(TextFieldUtils.numericTextFormatter());
     }
 

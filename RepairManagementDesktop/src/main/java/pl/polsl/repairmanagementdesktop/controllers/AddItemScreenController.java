@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -30,6 +31,8 @@ import pl.polsl.repairmanagementdesktop.utils.TextFieldUtils;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Scope("prototype")
@@ -134,6 +137,8 @@ public class AddItemScreenController {
 
     }
 
+
+    //TODO: fix ID error when adding
     @FXML
     private void addItemButtonClicked(ActionEvent event) {
 
@@ -142,8 +147,8 @@ public class AddItemScreenController {
         var itemNameText = itemNameTextField.getText();
 
         if (selectedType != null && ownerTableRow != null && ownerId != null  && itemNameText!= null && !itemNameText.isEmpty()){
-            ItemTypeEntity type = itemTypeService.findById(ownerId);
-            CustomerEntity owner = customerService.findById(selectedType);
+            ItemTypeEntity type = itemTypeService.findById(selectedType);
+            CustomerEntity owner = customerService.findById(ownerId);
 
             ItemEntity item = new ItemEntity(itemNameText, type, owner);
 
@@ -162,13 +167,20 @@ public class AddItemScreenController {
         window.close();
     }
 
-    //TODO: fix
     @FXML
     private void addItemTypeButtonClicked(ActionEvent event) {
         var type = new ItemTypeEntity();
-        type.setType(itemTypeTextField.getText());
+        var text = itemTypeTextField.getText();
+        if (Pattern.compile("\\s").matcher(text).find()){
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText("Error");
+            errorAlert.setContentText("Type name can not contain any whitespaces.");
+            errorAlert.show();
+        } else {
+            type.setType(text);
+            itemTypeService.save(type);
+            initItemTypeListView();
+        }
 
-        itemTypeService.save(type);
-        initItemTypeListView();
     }
 }

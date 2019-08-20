@@ -1,20 +1,19 @@
 package pl.polsl.repairmanagementdesktop.controllers;
 
+        import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
         import javafx.event.ActionEvent;
         import javafx.fxml.FXML;
         import javafx.fxml.FXMLLoader;
-        import javafx.scene.Node;
         import javafx.scene.Parent;
         import javafx.scene.Scene;
         import javafx.scene.control.*;
         import javafx.stage.Stage;
-        import org.controlsfx.control.textfield.AutoCompletionBinding;
-        import org.controlsfx.control.textfield.TextFields;
         import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.context.annotation.Scope;
         import org.springframework.stereotype.Controller;
         import pl.polsl.repairmanagementdesktop.abstr.TabController;
-        import pl.polsl.repairmanagementdesktop.model.customer.CustomerTableRow;
+        import pl.polsl.repairmanagementdesktop.model.customer.CustomerService;
+        import pl.polsl.repairmanagementdesktop.model.item.ItemService;
         import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
         import pl.polsl.repairmanagementdesktop.model.request.RequestService;
         import pl.polsl.repairmanagementdesktop.model.request.RequestTableRow;
@@ -51,7 +50,7 @@ public class RequestsTabController extends TabController<RequestEntity, RequestT
     @FXML
     private TextField descriptionTextField;
     @FXML
-    private TextField clientTextField;
+    private TextField customerTextField;
     @FXML
     private TextField itemTextField;
     @FXML
@@ -63,12 +62,16 @@ public class RequestsTabController extends TabController<RequestEntity, RequestT
 
     private final RequestService requestService;
     private final LoaderFactory loaderFactory;
+    private final CustomerService customerService;
+    private final ItemService itemService;
 
     @Autowired
-    public RequestsTabController(RequestService requestService, LoaderFactory loaderFactory) {
+    public RequestsTabController(RequestService requestService, LoaderFactory loaderFactory, CustomerService customerService, ItemService itemService) {
         super(requestService, RequestTableRow::new);
         this.requestService = requestService;
         this.loaderFactory = loaderFactory;
+        this.customerService = customerService;
+        this.itemService = itemService;
     }
 
     @Override
@@ -107,21 +110,24 @@ public class RequestsTabController extends TabController<RequestEntity, RequestT
 
     }
 
-    class SuggestionRequest implements AutoCompletionBinding.ISuggestionRequest{
-
-        @Override
-        public boolean isCancelled() {
-            return false;
-        }
-
-        @Override
-        public String getUserText() {
-            return null;
-        }
+    @FXML
+    private void clearItemTextField(ActionEvent actionEvent) {
+        itemTextField.clear();
+        itemTextField.setEditable(true);
+        itemId = "";
     }
 
+    private String customerId = "";
 
-    //TODO: complex fields search
+    @FXML
+    private void clearCustomerTextField(ActionEvent actionEvent) {
+        customerTextField.clear();
+        customerTextField.setEditable(true);
+        customerId = "";
+    }
+
+    private String itemId = "";
+
     @Override
     protected void initQueryFields() {
 
@@ -133,6 +139,7 @@ public class RequestsTabController extends TabController<RequestEntity, RequestT
                 new CheckMenuItem("FIN"),
                 new CheckMenuItem("CAN")
         );
+        statusMenuButton.setOnHidden(e -> onStatusesUpdate());
 
         uriSearchQuery.getBindings().addAll(
                 Arrays.asList(
@@ -142,13 +149,23 @@ public class RequestsTabController extends TabController<RequestEntity, RequestT
                         new TextFieldParamBinding(descriptionTextField, "description"),
                         new TextFieldParamBinding(resultTextField, "result"),
                         new ConstantParamBinding("sort", "registerDate,desc"),
+                        new SupplierBasedParamBinding("item.id", () -> itemId),
                         new SupplierBasedParamBinding("item.owner.id", () -> customerId),
                         new CheckMenuParamBinding(statusMenuButton, "status")
                 )
         );
-        statusMenuButton.setOnHidden(e -> onStatusesUpdate());
 
+        var customerAutoCompletion = new AutoCompletionTextFieldBinding<>(customerTextField, t -> customerService.findByFullName(t.getUserText()));
+        customerAutoCompletion.setOnAutoCompleted(t -> {
+            customerId = t.getCompletion().substring(t.getCompletion().lastIndexOf("; ") + 1);
+            customerTextField.setEditable(false);
+        });
 
+        var itemAutoCompletion = new AutoCompletionTextFieldBinding<>(itemTextField, t -> itemService.findByFullName(t.getUserText()));
+        itemAutoCompletion.setOnAutoCompleted(t -> {
+            itemId = t.getCompletion().substring(t.getCompletion().lastIndexOf("; ") + 1);
+            itemTextField.setEditable(false);
+        });
 
     }
 
@@ -244,18 +261,18 @@ public class RequestsTabController extends TabController<RequestEntity, RequestT
         if (selection!= null){
 
 
-            FXMLLoader loader = loaderFactory.load("/fxml/manageActivitiesScreen.fxml");
+            FXMLLoader loader = loaderFactory.load("/fxml/manageActivitiesScreen2.fxml");
             Parent manageActivitiesScreen = loader.load();
 
             ManageActivitiesScreenController manageActivitiesScreenController = loader.getController();
 
             manageActivitiesScreenController.setRequestId(selection.getId());
-            manageActivitiesScreenController.addParamBindings(new ConstantParamBinding("request.id", selection.getId()));
 
             Scene nextScene = new Scene(manageActivitiesScreen);
 
             Stage window = new Stage();
 
+            window.setTitle("Request " + selection.getId()+ ", " + selection.getItem());
             window.setScene(nextScene);
             window.setResizable(false);
             window.show();
@@ -285,46 +302,5 @@ public class RequestsTabController extends TabController<RequestEntity, RequestT
         selectedStatusesLabel.setText(joiner.toString());
     }
 
-    private CustomerTableRow queryCustomer;
-    private String customerId = "";
 
-    @FXML
-    private void selectCustomerButtonClicked(ActionEvent actionEvent) throws IOException{
-
-        FXMLLoader loader = loaderFactory.load("/fxml/selectCustomerScreen.fxml");
-        Parent selectCustomerScreen = loader.load();
-
-        SelectCustomerScreenController selectCustomerScreenController = loader.getController();
-
-        var selectCustomerScene = new Scene(selectCustomerScreen);
-
-        Stage window = new Stage();
-
-        window.setScene(selectCustomerScene);
-        window.setResizable(false);
-        window.showAndWait(); //wait for results from SelectCustomerScreen
-
-        queryCustomer = selectCustomerScreenController.getCurrentSelection();
-        if (queryCustomer != null){
-            selectedCustomerHyperlink.setVisible(true);
-            selectedCustomerHyperlink.setText(queryCustomer.getFirstName() + " " + queryCustomer.getLastName());
-            customerId = queryCustomer.getId();
-        }
-    }
-
-    @FXML
-    private void selectItemButtonClicked(ActionEvent actionEvent) {
-
-
-    }
-
-    @FXML
-    private Hyperlink selectedCustomerHyperlink;
-
-    @FXML
-    private void clearSelectedCustomer(ActionEvent actionEvent) {
-        selectedCustomerHyperlink.setVisible(false);
-        selectedCustomerHyperlink.setText("");
-        customerId = "";
-    }
 }

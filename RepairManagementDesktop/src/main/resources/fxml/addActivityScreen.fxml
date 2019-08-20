@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -11,14 +12,14 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="609.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.AddActivityScreenController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="609.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.AddActivityScreenController">
    <children>
       <Label layoutX="35.0" layoutY="40.0" text="Add Activity">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <GridPane alignment="CENTER" layoutX="85.0" layoutY="91.0" prefHeight="404.0" prefWidth="319.0">
+      <GridPane alignment="CENTER" layoutX="90.0" layoutY="61.0" prefHeight="150.0" prefWidth="324.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="211.0" minWidth="10.0" prefWidth="96.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="307.0" minWidth="10.0" prefWidth="223.0" />
@@ -28,9 +29,6 @@
             <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="93.0" minHeight="10.0" prefHeight="93.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="93.0" minHeight="10.0" prefHeight="93.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="53.0" minHeight="10.0" prefHeight="53.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" text="Worker:" textAlignment="CENTER" GridPane.halignment="RIGHT" />
@@ -40,7 +38,7 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Button>
-            <Label fx:id="currentWorkerSelectionLabel" text="PLACEHOLDER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Label fx:id="currentWorkerSelectionLabel" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -55,33 +53,21 @@
                </GridPane.margin>
             </Button>
             <Label text="Current selection:" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-            <Label fx:id="currentRequestSelectionLabel" text="PLACEHOLDER" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Label fx:id="currentRequestSelectionLabel" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Description:" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
-            <TextField fx:id="descriptionTextField" prefHeight="72.0" prefWidth="223.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
-               <GridPane.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </GridPane.margin></TextField>
-            <TextField fx:id="sequenceNumberTextField" prefHeight="83.0" prefWidth="223.0" promptText="1" GridPane.columnIndex="1" GridPane.rowIndex="6">
-               <GridPane.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </GridPane.margin></TextField>
-            <Label text="Seq number:" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
-            <ListView fx:id="activityTypeListView" prefHeight="61.0" prefWidth="223.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
-               <GridPane.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </GridPane.margin></ListView>
-            <Label prefHeight="17.0" prefWidth="31.0" text="Type:" textAlignment="CENTER" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin></Label>
          </children>
       </GridPane>
       <Button fx:id="cancelActivityButton" layoutX="35.0" layoutY="563.0" mnemonicParsing="false" onAction="#cancelButtonClicked" text="Cancel" />
       <Button fx:id="addActivityButton" layoutX="389.0" layoutY="563.0" mnemonicParsing="false" onAction="#addActivityButtonClicked" text="Add" />
       <Label fx:id="messageLabel" layoutX="226.0" layoutY="565.0" />
+      <ListView fx:id="activityTypeListView" layoutX="48.0" layoutY="241.0" prefHeight="86.0" prefWidth="157.0" />
+      <Label layoutX="59.0" layoutY="219.0" prefHeight="17.0" prefWidth="31.0" text="Type:" textAlignment="CENTER" />
+      <Label layoutX="55.0" layoutY="339.0" text="Description:" />
+      <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="210.0" layoutY="276.0" prefHeight="17.0" prefWidth="112.0" text="Seq. number:" />
+      <TextField fx:id="sequenceNumberTextField" layoutX="336.0" layoutY="272.0" prefHeight="25.0" prefWidth="31.0" promptText="1" />
+      <TextArea fx:id="descriptionTextArea" layoutX="48.0" layoutY="359.0" prefHeight="192.0" prefWidth="373.0" wrapText="true" />
    </children>
 </Pane>
