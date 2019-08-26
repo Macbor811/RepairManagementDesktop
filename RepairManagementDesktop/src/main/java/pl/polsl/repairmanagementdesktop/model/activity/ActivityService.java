@@ -1,10 +1,7 @@
 package pl.polsl.repairmanagementdesktop.model.activity;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.client.ClientHttpRequestExecution;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -15,19 +12,25 @@ import uk.co.blackpepper.bowman.Client;
 import uk.co.blackpepper.bowman.ClientFactory;
 import uk.co.blackpepper.bowman.Page;
 
-import java.io.IOException;
 import java.net.URI;
 
 @Service
 public class ActivityService implements pl.polsl.repairmanagementdesktop.abstr.Service<ActivityEntity> {
 
     private final Client<ActivityEntity> client;
+    private final Client<ActivityEntity> noHandlerClient;
+    private final RestTemplate template = new RestTemplate();
+    private final CurrentUser currentUser;
 
     @Autowired
-    public ActivityService(ClientFactory factory){
-
-        client = factory.create(ActivityEntity.class);
-
+    public ActivityService(ClientFactory factory, @Qualifier("noHandler") ClientFactory noHandlerFactory, CurrentUser currentUser){
+        this.client = factory.create(ActivityEntity.class);
+        this.currentUser = currentUser;
+        this.noHandlerClient = noHandlerFactory.create(ActivityEntity.class);
+        this.template.getInterceptors().add((request, body, execution) -> {
+            request.getHeaders().setBasicAuth(this.currentUser.getUsername(), this.currentUser.getPassword());
+            return execution.execute(request, body);
+        });
     }
 
     public void save(ActivityEntity activity){
@@ -42,43 +45,35 @@ public class ActivityService implements pl.polsl.repairmanagementdesktop.abstr.S
 
     public Page<ActivityEntity> findAll(int page, int size){
 
-        return client.getPage(page, size);
+        return noHandlerClient.getPage(page, size);
     }
 
     public Page<ActivityEntity> findAllMatching(SearchQuery query, int page, int size){
-        URI uri = UriComponentsBuilder.fromUri(client.getBaseUri()).query(query.getQueryString()).build().toUri();
-        return client.getPage(uri, page, size);
+        URI uri = UriComponentsBuilder.fromUri(noHandlerClient.getBaseUri()).query(query.getQueryString()).build().toUri();
+        return noHandlerClient.getPage(uri, page, size);
     }
 
-    @Autowired
-    private CurrentUser currentUser;
 
-    public void finalize(String id, String result, String status){
-        RestTemplate template = new RestTemplate();
 
-        template.getInterceptors().add( new ClientHttpRequestInterceptor() {
-
-            public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
-                    throws IOException {
-                request.getHeaders().setBasicAuth(currentUser.getUsername(), currentUser.getPassword());
-                //request.getHeaders().add(createHeaders(currentUser.getUsername(), currentUser.getPassword()));
-                return execution.execute(request, body);
-            }
-        });
-
-        var data = new FinalizationData();
-        data.setResult(result);
-        data.setStatus(status);
-
-        String baseUriStr = client.getBaseUri().toString();
-
+    public void update(Integer id, ActivityUpdateDto dto){
         template.put(
                 UriComponentsBuilder.fromUri(
                         client.getBaseUri())
-                        .path("/{id}/finalize")
+                        .path("/{id}/update")
                         .buildAndExpand(id).toUri(),
-                data
+                dto
         );
 
+    }
+
+    public void reorder(String id, Integer delta) {
+        template.put(
+                UriComponentsBuilder.fromUri(
+                        client.getBaseUri())
+                        .path("/{id}/reorder")
+                        .queryParam("delta", delta)
+                        .buildAndExpand(id).toUri(),
+                null
+        );
     }
 }

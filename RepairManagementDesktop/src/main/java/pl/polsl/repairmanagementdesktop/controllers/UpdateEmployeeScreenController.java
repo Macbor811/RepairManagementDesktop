@@ -21,6 +21,7 @@ import java.util.List;
 @Controller
 public class UpdateEmployeeScreenController {
 
+    public DatePicker deactivationDatePicker;
     @FXML
     private TextField firstNameTextField;
     @FXML

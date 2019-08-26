@@ -28,18 +28,10 @@ import java.util.stream.Collectors;
 
 @Scope("prototype")
 @Controller
-public class UpdateActivityScreenController {
+public class UpdateActivityWorkerScreenController {
 
-
-    @FXML
-    private Button selectWorkerButton;
-    @FXML
-    private Label currentWorkerSelectionLabel;
-    @FXML
-    private ListView<String> activityTypeListView;
     @FXML
     private TextArea descriptionTextArea;
-
 
     private final ActivityTypeService activityTypeService;
 
@@ -57,7 +49,7 @@ public class UpdateActivityScreenController {
     private EmployeeTableRow employeeTableRow;
 
     @Autowired
-    public UpdateActivityScreenController(LoaderFactory fxmlLoaderFactory, ActivityTypeService activityTypeService, ActivityService service) {
+    public UpdateActivityWorkerScreenController(LoaderFactory fxmlLoaderFactory, ActivityTypeService activityTypeService, ActivityService service) {
         this.activityTypeService = activityTypeService;
         this.service = service;
 
@@ -79,34 +71,16 @@ public class UpdateActivityScreenController {
 
     }
 
-    private void initActivityTypeListView(){
-        //extract ID from URI
-        ObservableList<String> activityTypes = FXCollections
-                .observableList(
-                        activityTypeService
-                                .findAll(0, Integer.MAX_VALUE)
-                                .getResources()
-                                .stream()
-                                .map(ActivityTypeEntity::getType)
-                                .collect(Collectors.toList())
-                );
-
-
-        activityTypeListView.setItems(activityTypes);
-    }
-
     private void handleStatusChange(Event event){
         final var status = statusChoiceBox.getSelectionModel().getSelectedItem();
         switch (status){
             case OPEN:{
                 setSelectedWorker(null);
-                selectWorkerButton.setDisable(true);
                 resultTextArea.setDisable(true);
                 break;
             }
             case IN_PROGRESS:{
                 setSelectedWorker(data.getWorkerEntity() != null ? new EmployeeTableRow(data.getWorkerEntity()) : null);
-                selectWorkerButton.setDisable(false);
                 resultTextArea.setDisable(true);
                 break;
             }
@@ -114,7 +88,6 @@ public class UpdateActivityScreenController {
             case CANCELLED: {
                 setSelectedWorker(data.getWorkerEntity() != null ? new EmployeeTableRow(data.getWorkerEntity()) : null);
                 resultTextArea.setDisable(false);
-                selectWorkerButton.setDisable(true);
                 break;
             }
         }
@@ -138,12 +111,9 @@ public class UpdateActivityScreenController {
             case OPEN:{
                 setCheckBoxItems(
                         ActivityStatus.OPEN,
-                        ActivityStatus.IN_PROGRESS,
-                        ActivityStatus.FINISHED,
-                        ActivityStatus.CANCELLED
+                        ActivityStatus.IN_PROGRESS
                 );
                 resultTextArea.setDisable(true);
-                selectWorkerButton.setDisable(true);
                 break;
             }
             case IN_PROGRESS:{
@@ -157,21 +127,12 @@ public class UpdateActivityScreenController {
             }
             case FINISHED:
             case CANCELLED: {
-                descriptionTextArea.setDisable(true);
                 setCheckBoxItems(status);
-                selectWorkerButton.setDisable(true);
                 break;
             }
         }
+        descriptionTextArea.setDisable(true);
         statusChoiceBox.getSelectionModel().select(status);
-        initActivityTypeListView();
-        var items = activityTypeListView.getItems();
-        for (int i=0; i < items.size(); i++){
-            if (items.get(i).equals(data.getType())){
-                activityTypeListView.getSelectionModel().select(i);
-                break;
-            }
-        }
 
         resultTextArea.setText(data.getResult());
         descriptionTextArea.setText(data.getDescription());
@@ -201,7 +162,7 @@ public class UpdateActivityScreenController {
                 resultTextArea.getText(),
                 statusChoiceBox.getSelectionModel().getSelectedItem().toString(),
                 workerId,
-                activityTypeListView.getSelectionModel().getSelectedItem()
+                data.getType()
         );
 
 
@@ -213,25 +174,7 @@ public class UpdateActivityScreenController {
     private void setSelectedWorker(EmployeeTableRow worker){
         employeeTableRow = worker;
         workerId = worker!=null ? worker.getId() : null;
-        if (worker != null){
-            currentWorkerSelectionLabel.setText(employeeTableRow.getFirstName() + " " +employeeTableRow.getLastName());
-        } else {
-            currentWorkerSelectionLabel.setText("");
-        }
     }
 
-    public void selectWorkerButtonClicked(ActionEvent event) {
-        Scene scene = ((Node) event.getSource()).getScene();
-        Stage thisWindow = (Stage) scene.getWindow();
-        Stage window = new Stage();
-        window.setScene(selectEmployeeScene);
-        window.setResizable(false);
-        thisWindow.hide();
-        window.showAndWait(); //wait for results from SelectEmployeeScreen
-        thisWindow.show();
 
-       setSelectedWorker(selectEmployeeScreenController.getCurrentSelection());
-
-
-    }
 }

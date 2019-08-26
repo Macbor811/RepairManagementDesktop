@@ -73,10 +73,12 @@ public abstract class TabController<E extends Entity, T extends TableRow> {
         rowsPerPageTextField.setTextFormatter(TextFieldUtils.numericTextFormatter());
     }
 
+    private final Pane dummyPane = new Pane();
+
     //The parameter and return value are required by pagination control, but not needed in this case.
     private Node createPage(int pageIndex) {
         updateTable();
-        return new Pane();
+        return dummyPane;
     }
 
 
@@ -112,7 +114,6 @@ public abstract class TabController<E extends Entity, T extends TableRow> {
     protected void updateTable() {
         if (!isUpdating && shouldUpdate) {
             shouldUpdate = false;
-            System.out.println("Updating table");
             tableView.getItems().clear();
             isUpdating = true;
             int currentIndex = pagination.getCurrentPageIndex();
@@ -162,5 +163,11 @@ public abstract class TabController<E extends Entity, T extends TableRow> {
 
     public T getCurrentSelection() {
         return tableView.getSelectionModel().getSelectedItem();
+    }
+
+
+    public void bindDisableToSelection(Node ... nodes){
+        for (var node : nodes)
+            node.disableProperty().bind(tableView.getSelectionModel().selectedItemProperty().isNull());
     }
 }

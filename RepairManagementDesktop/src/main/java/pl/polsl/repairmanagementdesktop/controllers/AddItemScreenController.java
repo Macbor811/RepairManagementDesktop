@@ -138,16 +138,16 @@ public class AddItemScreenController {
     }
 
 
-    //TODO: fix ID error when adding
     @FXML
     private void addItemButtonClicked(ActionEvent event) {
 
         var selectedType = (String) itemTypeListView.getSelectionModel().getSelectedItem();
-        var ownerId = ownerTableRow.getId();
+
         var itemNameText = itemNameTextField.getText();
 
-        if (selectedType != null && ownerTableRow != null && ownerId != null  && itemNameText!= null && !itemNameText.isEmpty()){
+        if (selectedType != null && ownerTableRow != null && itemNameText!= null && !itemNameText.isEmpty()){
             ItemTypeEntity type = itemTypeService.findById(selectedType);
+            var ownerId = ownerTableRow.getId();
             CustomerEntity owner = customerService.findById(ownerId);
 
             ItemEntity item = new ItemEntity(itemNameText, type, owner);
@@ -157,6 +157,8 @@ public class AddItemScreenController {
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.close();
+        } else {
+            messageLabel.setText("All data must be set.");
         }
 
     }

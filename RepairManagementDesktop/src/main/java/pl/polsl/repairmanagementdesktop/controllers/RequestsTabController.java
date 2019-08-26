@@ -1,6 +1,6 @@
 package pl.polsl.repairmanagementdesktop.controllers;
 
-        import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
+import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
         import javafx.event.ActionEvent;
         import javafx.fxml.FXML;
         import javafx.fxml.FXMLLoader;
@@ -16,7 +16,8 @@ package pl.polsl.repairmanagementdesktop.controllers;
         import pl.polsl.repairmanagementdesktop.model.item.ItemService;
         import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
         import pl.polsl.repairmanagementdesktop.model.request.RequestService;
-        import pl.polsl.repairmanagementdesktop.model.request.RequestTableRow;
+import pl.polsl.repairmanagementdesktop.model.request.RequestStatus;
+import pl.polsl.repairmanagementdesktop.model.request.RequestTableRow;
         import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;
         import pl.polsl.repairmanagementdesktop.utils.TableColumnFactory;
         import pl.polsl.repairmanagementdesktop.utils.TextFieldUtils;
@@ -25,11 +26,13 @@ package pl.polsl.repairmanagementdesktop.controllers;
         import java.io.IOException;
         import java.util.Arrays;
         import java.util.StringJoiner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+//TODO: bind requests to manager?
 @Scope("prototype")
 @Controller
 public class RequestsTabController extends TabController<RequestEntity, RequestTableRow> {
-
 
     @FXML
     private Label selectedCustomerLabel;
@@ -134,11 +137,9 @@ public class RequestsTabController extends TabController<RequestEntity, RequestT
         idTextField.setTextFormatter(TextFieldUtils.numericTextFormatter());
 
         statusMenuButton.getItems().addAll(
-                new CheckMenuItem("OPN"),
-                new CheckMenuItem("PRO"),
-                new CheckMenuItem("FIN"),
-                new CheckMenuItem("CAN")
+                Stream.of(RequestStatus.values()).map(status -> new CheckMenuItem(status.toString())).collect(Collectors.toList())
         );
+
         statusMenuButton.setOnHidden(e -> onStatusesUpdate());
 
         uriSearchQuery.getBindings().addAll(
@@ -192,7 +193,7 @@ public class RequestsTabController extends TabController<RequestEntity, RequestT
             Parent updateRequestScreen = loader.load();
             Scene nextScene = new Scene(updateRequestScreen);
             UpdateRequestScreenController addRequestScreenController = loader.getController();
-            addRequestScreenController.setRequest(requestService.findById(getCurrentSelection().getId()));
+            addRequestScreenController.setRequestData(getCurrentSelection());
             Stage window = new Stage();
 
             window.setScene(nextScene);
@@ -200,57 +201,6 @@ public class RequestsTabController extends TabController<RequestEntity, RequestT
             window.show();
         }catch (IOException e){}
 
-    }
-
-
-    public void finalizeRequest(ActionEvent event){
-
-        RequestTableRow selection = tableView.getSelectionModel().getSelectedItem();
-
-        if (selection != null){
-            try
-            {
-                FXMLLoader loader = loaderFactory.load("/fxml/finalizeRequestScreen.fxml");
-
-                Parent detailsScreen = loader.load();
-                FinalizeRequestScreenController dsc = loader.getController();
-
-                dsc.setRequestTableRow(selection);
-
-                Scene nextScene = new Scene(detailsScreen);
-
-                Stage window = new Stage();
-
-                window.setScene(nextScene);
-                window.setResizable(false);
-                window.show();
-            }
-            catch (IOException e)
-            {}
-        }
-
-    }
-
-
-    public void showRequestDetails(ActionEvent event) {
-        try
-        {
-            FXMLLoader loader = loaderFactory.load("/fxml/detailsScreen.fxml");
-
-            Parent detailsScreen = loader.load();
-            DetailsScreenController dsc = loader.getController();
-            RequestEntity re = requestService.findById(getCurrentSelection().getId());
-            dsc.setText(re.getDescription(),re.getResult());
-            Scene nextScene = new Scene(detailsScreen);
-
-            Stage window = new Stage();
-
-            window.setScene(nextScene);
-            window.setResizable(false);
-            window.show();
-        }
-        catch (IOException e)
-        {}
     }
 
 
@@ -266,7 +216,7 @@ public class RequestsTabController extends TabController<RequestEntity, RequestT
 
             ManageActivitiesScreenController manageActivitiesScreenController = loader.getController();
 
-            manageActivitiesScreenController.setRequestId(selection.getId());
+            manageActivitiesScreenController.setRequestId(selection.getId().toString());
 
             Scene nextScene = new Scene(manageActivitiesScreen);
 

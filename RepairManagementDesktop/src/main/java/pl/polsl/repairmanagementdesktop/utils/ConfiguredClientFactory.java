@@ -15,6 +15,7 @@ import org.apache.http.ssl.SSLContexts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
@@ -54,23 +55,18 @@ public class ConfiguredClientFactory {
     }
 
     public static ClientHttpRequestInterceptor basicAuthInterceptor(String username, String password){
-        return new ClientHttpRequestInterceptor() {
-
-            public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
-                    throws IOException {
-                request.getHeaders().setBasicAuth(username, password);
-                //request.getHeaders().add(createHeaders(currentUser.getUsername(), currentUser.getPassword()));
-                return execution.execute(request, body);
-            }
+        return (request, body, execution) -> {
+            request.getHeaders().setBasicAuth(username, password);
+            return execution.execute(request, body);
         };
     }
 
 
     @Bean
+    @Primary
     public ClientFactory configuredClient(@Value("${server.address}") String server, RestErrorHandler handler) {
         ClientFactory factory = Configuration.builder()
                 .setRestTemplateConfigurer(restTemplate -> {
-                    //restTemplate.setRequestFactory(sslRequestFactory());
                     restTemplate.setErrorHandler(handler);
 
                     restTemplate.getInterceptors().add((request, body, execution) -> {
@@ -85,5 +81,20 @@ public class ConfiguredClientFactory {
         return factory;
     }
 
+    @Bean("noHandler")
+    public ClientFactory configuredClientNoHandler(@Value("${server.address}") String server, RestErrorHandler handler) {
+        ClientFactory factory = Configuration.builder()
+                .setRestTemplateConfigurer(restTemplate -> {
+                    restTemplate.getInterceptors().add((request, body, execution) -> {
+                        request.getHeaders().add("Authorization", currentUser.getBasicAuth());
+                        return execution.execute(request, body);
+                    });
+
+                })
+                .setBaseUri(server + "/api")
+                .build()
+                .buildClientFactory();
+        return factory;
+    }
 
 }

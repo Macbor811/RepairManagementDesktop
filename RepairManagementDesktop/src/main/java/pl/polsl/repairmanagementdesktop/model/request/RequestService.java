@@ -22,12 +22,19 @@ import java.net.URI;
 public class RequestService implements pl.polsl.repairmanagementdesktop.abstr.Service<RequestEntity>{
 
     private final Client<RequestEntity> client;
+    private final RestTemplate template;
+    private final CurrentUser currentUser;
 
     @Autowired
-    public RequestService(ClientFactory factory){
+    public RequestService(ClientFactory factory, CurrentUser user){
 
         client = factory.create(RequestEntity.class);
-
+        this.currentUser = user;
+        template = new RestTemplate();
+        template.getInterceptors().add((request, body, execution) -> {
+            request.getHeaders().setBasicAuth(currentUser.getUsername(), currentUser.getPassword());
+            return execution.execute(request, body);
+        });
     }
 
     public void save(RequestEntity entity){
@@ -54,16 +61,8 @@ public class RequestService implements pl.polsl.repairmanagementdesktop.abstr.Se
     }
 
 
-    @Autowired
-    private CurrentUser currentUser;
 
     public void finalize(String id, String result, String status){
-        RestTemplate template = new RestTemplate();
-
-        template.getInterceptors().add((request, body, execution) -> {
-            request.getHeaders().setBasicAuth(currentUser.getUsername(), currentUser.getPassword());
-            return execution.execute(request, body);
-        });
 
         var data = new FinalizationData();
         data.setResult(result);
@@ -76,6 +75,17 @@ public class RequestService implements pl.polsl.repairmanagementdesktop.abstr.Se
                 .path("/{id}/finalize")
                 .buildAndExpand(id).toUri(),
                 data
+        );
+
+    }
+
+    public void update(Integer id, RequestUpdateDto dto){
+        template.put(
+                UriComponentsBuilder.fromUri(
+                        client.getBaseUri())
+                        .path("/{id}/update")
+                        .buildAndExpand(id).toUri(),
+                dto
         );
 
     }

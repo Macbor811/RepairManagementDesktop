@@ -23,6 +23,7 @@ public class ActivityTableRow implements TableRow {
     private String description;
     private Integer sequenceNum;
     private String result;
+    private String type;
     private EmployeeEntity worker;
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
@@ -45,6 +46,7 @@ public class ActivityTableRow implements TableRow {
         this.sequenceNum = entity.getSequenceNum();
         this.result = entity.getResult();
         this.worker = entity.getWorker();
+        this.type = entity.getActivityType().getType();
     }
     public Integer getId() { return id;}
 
@@ -56,6 +58,26 @@ public class ActivityTableRow implements TableRow {
     public String getResult() {
         return result;
     }
-    public String getWorker(){return worker.getFirstName() + " " + worker.getLastName();}
+    public String getWorker(){return  worker != null ? worker.getFirstName() + " " + worker.getLastName() : null;}
 
+    public EmployeeEntity getWorkerEntity(){
+        return worker;
+    }
+
+    public String getWorkerId(){
+        if (worker != null){
+            var id = worker.getUri().toString();
+            return id.substring(id.lastIndexOf("/") + 1);
+        } else {
+            return null;
+        }
+    }
+    public String getType() {
+        return type;
+    }
+
+
+    public void reorder(Integer delta){
+        this.sequenceNum += delta;
+    }
 }

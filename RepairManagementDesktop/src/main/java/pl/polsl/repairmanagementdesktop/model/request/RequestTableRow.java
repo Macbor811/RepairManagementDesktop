@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 public class RequestTableRow implements TableRow {
 
 
-    private final String id;
+    private final Integer id;
     private final LocalDateTime registeredDate;
     private final String status;
     private final LocalDateTime finalizedDate;
@@ -28,7 +28,7 @@ public class RequestTableRow implements TableRow {
         String uriString = entity.getUri().toString();
 
         //processes URI string to get resource index(ex. api/customer/3)
-        this.id = uriString.substring(uriString.lastIndexOf("/") + 1);
+        this.id = Integer.parseInt(uriString.substring(uriString.lastIndexOf("/") + 1));
 
 
         this.registeredDate = entity.getRegisterDate() != null ? entity.getRegisterDate().atZone(ZoneId.systemDefault()).toLocalDateTime() : null;
@@ -40,7 +40,7 @@ public class RequestTableRow implements TableRow {
         this.item = entity.getItem();
 
     }
-    public String getId() { return id;}
+    public Integer getId() { return id;}
     public String getRegisteredDate() { return registeredDate != null ? DATE_FORMATTER.format(registeredDate) : null;}
     public String getStatus() { return status;}
     public String getFinalizedDate() {  return finalizedDate != null ? DATE_FORMATTER.format(finalizedDate) : null;}

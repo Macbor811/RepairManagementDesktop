@@ -33,7 +33,8 @@ public class ItemsTabController extends TabController<ItemEntity, ItemTableRow> 
 
 
     private final LoaderFactory fxmlLoaderFactory;
-
+    @FXML
+    private Button updateButton;
 
     @FXML
     private TextField idTextField;
@@ -61,6 +62,7 @@ public class ItemsTabController extends TabController<ItemEntity, ItemTableRow> 
 
     @Override
     protected void initTableView() {
+        bindDisableToSelection(updateButton);
         tableView.getColumns().clear();
 
         TableColumn<ItemTableRow, String> idColumn = TableColumnFactory.createColumn("ID", "id");

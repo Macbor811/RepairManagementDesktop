@@ -10,13 +10,17 @@ import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import pl.polsl.repairmanagementdesktop.CurrentUser;
 import pl.polsl.repairmanagementdesktop.abstr.TabController;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeEntity;
+import pl.polsl.repairmanagementdesktop.model.employee.EmployeeRole;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeService;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeTableRow;
+import pl.polsl.repairmanagementdesktop.model.request.RequestStatus;
 import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;
 import pl.polsl.repairmanagementdesktop.utils.TableColumnFactory;
 import pl.polsl.repairmanagementdesktop.utils.TextFieldUtils;
+import pl.polsl.repairmanagementdesktop.utils.search.CheckMenuParamBinding;
 import pl.polsl.repairmanagementdesktop.utils.search.DatePickerParamBinding;
 import pl.polsl.repairmanagementdesktop.utils.search.TextFieldParamBinding;
 import pl.polsl.repairmanagementdesktop.utils.search.UriSearchQuery;
@@ -24,18 +28,19 @@ import pl.polsl.repairmanagementdesktop.utils.search.UriSearchQuery;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Scope("prototype")
 @Controller
 public class EmployeesTabController extends TabController<EmployeeEntity, EmployeeTableRow> {
 
-    private static final Integer DEFAULT_ROWS_PER_PAGE = 20;
-
     @FXML
-    private Pagination pagination;
-
+    private MenuButton roleMenuButton;
     @FXML
-    private Integer rowsPerPage = DEFAULT_ROWS_PER_PAGE;
+    private Label selectedRolesLabel;
+
     @FXML
     private TextField rowsPerPageTextField;
 
@@ -46,16 +51,11 @@ public class EmployeesTabController extends TabController<EmployeeEntity, Employ
     @FXML
     private TextField lastNameTextField;
     @FXML
-    private TextField roleTextField;
-    @FXML
     private TextField usernameTextField;
     @FXML
     private TextField phoneNumberTextField;
     @FXML
     private DatePicker deactivationDateDatePicker;
-
-
-    private final UriSearchQuery uriSearchQuery = new UriSearchQuery();
 
 
     private final EmployeeService employeeService;
@@ -99,6 +99,10 @@ public class EmployeesTabController extends TabController<EmployeeEntity, Employ
     @Override
     protected void initQueryFields() {
 
+        roleMenuButton.getItems().addAll(
+                Stream.of(EmployeeRole.values()).map(status -> new CheckMenuItem(status.toString())).collect(Collectors.toList())
+        );
+        roleMenuButton.setOnHidden(e -> onRolesUpdate());
         idTextField.setTextFormatter(TextFieldUtils.numericTextFormatter());
         rowsPerPageTextField.setTextFormatter(TextFieldUtils.numericTextFormatter());
 
@@ -108,29 +112,32 @@ public class EmployeesTabController extends TabController<EmployeeEntity, Employ
                         new TextFieldParamBinding(firstNameTextField, "firstName"),
                         new TextFieldParamBinding(lastNameTextField, "lastName"),
                         new TextFieldParamBinding(usernameTextField, "username"),
-                        new TextFieldParamBinding(roleTextField, "role"),
                         new TextFieldParamBinding(phoneNumberTextField, "phoneNumber"),
-                        new DatePickerParamBinding(deactivationDateDatePicker, "deactivationDate")
+                        new DatePickerParamBinding(deactivationDateDatePicker, "deactivationDate"),
+                        new CheckMenuParamBinding(roleMenuButton, "role")
                 )
         );
     }
 
+    @Autowired
+    CurrentUser user;
 
+    public boolean updateUser(ActionEvent event) throws IOException{
 
-    public void updateUser(ActionEvent event) {
-        try{
-            FXMLLoader loader = loaderFactory.load("/fxml/updateEmployeeScreen.fxml");
+            FXMLLoader loader = loaderFactory.load("/fxml/updateUserDataScreen.fxml");
 
             Parent updateEmployeeScreen = loader.load();
             Scene nextScene = new Scene(updateEmployeeScreen);
-            UpdateEmployeeScreenController updateRequestScreenController = loader.getController();
-            updateRequestScreenController.setEmployee(employeeService.findById(getCurrentSelection().getId()));
+            UpdateUserDataScreenController updateRequestScreenController = loader.getController();
+            var employee = employeeService.findById(getCurrentSelection().getId());
+            updateRequestScreenController.setEmployee(employee);
             Stage window = new Stage();
 
             window.setScene(nextScene);
             window.setResizable(false);
-            window.show();
-        }catch (IOException e){}
+            window.showAndWait();
+
+        return employee.getUsername().equals(user.getUsername());
     }
 
     public void addUser(ActionEvent event) {
@@ -156,5 +163,17 @@ public class EmployeesTabController extends TabController<EmployeeEntity, Employ
     @FXML
     private void clearDeactivationDateButtonClicked(ActionEvent event) {
         deactivationDateDatePicker.setValue(null);
+    }
+
+    private void onRolesUpdate() {
+        var joiner = new StringJoiner( ", ");
+        joiner.setEmptyValue("");
+        for (var item : roleMenuButton.getItems().filtered(it -> it instanceof CheckMenuItem)){
+            var checkItem = (CheckMenuItem) item;
+            if (checkItem.isSelected()){
+                joiner.add(checkItem.getText());
+            }
+        }
+        selectedRolesLabel.setText(joiner.toString());
     }
 }

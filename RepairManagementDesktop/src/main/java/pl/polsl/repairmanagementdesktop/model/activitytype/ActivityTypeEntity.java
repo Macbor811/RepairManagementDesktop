@@ -50,4 +50,14 @@ public class ActivityTypeEntity implements Entity {
     }
 
 
+    public Integer getId() {
+        String uriString = getUri().toString();
+        return Integer.parseInt(uriString.substring(uriString.lastIndexOf("/") + 1));
+
+    }
+
+    @Override
+    public String toString() {
+        return getType();
+    }
 }

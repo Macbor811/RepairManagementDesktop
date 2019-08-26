@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
@@ -19,10 +18,10 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <GridPane alignment="CENTER" layoutX="90.0" layoutY="61.0" prefHeight="150.0" prefWidth="324.0">
+      <GridPane alignment="CENTER" layoutX="22.0" layoutY="119.0" prefHeight="150.0" prefWidth="221.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="211.0" minWidth="10.0" prefWidth="96.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="307.0" minWidth="10.0" prefWidth="223.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="307.0" minWidth="10.0" prefWidth="125.0" />
          </columnConstraints>
          <rowConstraints>
             <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -46,13 +45,6 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Request:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-            <Button fx:id="selectRequestButton" mnemonicParsing="false" onAction="#selectRequestButtonClicked" text="Select" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </Button>
-            <Label text="Current selection:" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
             <Label fx:id="currentRequestSelectionLabel" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="10.0" />
@@ -63,11 +55,9 @@
       <Button fx:id="cancelActivityButton" layoutX="35.0" layoutY="563.0" mnemonicParsing="false" onAction="#cancelButtonClicked" text="Cancel" />
       <Button fx:id="addActivityButton" layoutX="389.0" layoutY="563.0" mnemonicParsing="false" onAction="#addActivityButtonClicked" text="Add" />
       <Label fx:id="messageLabel" layoutX="226.0" layoutY="565.0" />
-      <ListView fx:id="activityTypeListView" layoutX="48.0" layoutY="241.0" prefHeight="86.0" prefWidth="157.0" />
-      <Label layoutX="59.0" layoutY="219.0" prefHeight="17.0" prefWidth="31.0" text="Type:" textAlignment="CENTER" />
-      <Label layoutX="55.0" layoutY="339.0" text="Description:" />
-      <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="210.0" layoutY="276.0" prefHeight="17.0" prefWidth="112.0" text="Seq. number:" />
-      <TextField fx:id="sequenceNumberTextField" layoutX="336.0" layoutY="272.0" prefHeight="25.0" prefWidth="31.0" promptText="1" />
-      <TextArea fx:id="descriptionTextArea" layoutX="48.0" layoutY="359.0" prefHeight="192.0" prefWidth="373.0" wrapText="true" />
+      <ListView fx:id="activityTypeListView" layoutX="256.0" layoutY="137.0" prefHeight="128.0" prefWidth="169.0" />
+      <Label layoutX="256.0" layoutY="119.0" prefHeight="17.0" prefWidth="31.0" text="Type:" textAlignment="CENTER" />
+      <Label layoutX="29.0" layoutY="305.0" text="Description:" />
+      <TextArea fx:id="descriptionTextArea" layoutX="25.0" layoutY="325.0" prefHeight="226.0" prefWidth="415.0" wrapText="true" />
    </children>
 </Pane>

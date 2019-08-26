@@ -1,11 +1,14 @@
 package pl.polsl.repairmanagementdesktop.controllers;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -22,6 +25,13 @@ public class ManageActivitiesScreenController {
 
 
     @FXML
+    private Button updateButton;
+    @FXML
+    private Button upButton;
+    @FXML
+    private Button downButton;
+
+    @FXML
     private ActivitiesTabController activitiesTabController;
 
     private final LoaderFactory loaderFactory;
@@ -36,6 +46,15 @@ public class ManageActivitiesScreenController {
     @FXML
     public void initialize(){
         activitiesTabController.initView();
+        var table = activitiesTabController.getTableView();
+        ReadOnlyIntegerProperty selectedIndex = table.getSelectionModel().selectedIndexProperty();
+
+        upButton.disableProperty().bind(selectedIndex.lessThanOrEqualTo(0));
+        downButton.disableProperty().bind(Bindings.createBooleanBinding(() -> {
+            int index = selectedIndex.get();
+            return index < 0 || index+1 >= table.getItems().size();
+        }, selectedIndex, table.getItems()));
+        updateButton.disableProperty().bind(table.getSelectionModel().selectedItemProperty().isNull());
     }
 
     @FXML
@@ -44,8 +63,6 @@ public class ManageActivitiesScreenController {
         window.close();
     }
 
-
-    //TODO: fix fxml
     @FXML
     private void addActivity(ActionEvent event) throws IOException  {
         FXMLLoader loader = loaderFactory.load("/fxml/addActivityScreen.fxml");
@@ -61,21 +78,19 @@ public class ManageActivitiesScreenController {
         window.show();
     }
 
-
-    //TODO: update/rework
     @FXML
-    private void finalizeActivity(ActionEvent event){
+    private void updateActivity(ActionEvent event){
         ActivityTableRow selection = activitiesTabController.getCurrentSelection();
 
         if (selection != null){
             try
             {
-                FXMLLoader loader = loaderFactory.load("/fxml/finalizeActivityScreen.fxml");
+                FXMLLoader loader = loaderFactory.load("/fxml/updateActivityScreen.fxml");
 
                 Parent detailsScreen = loader.load();
-                FinalizeActivityScreenController dsc = loader.getController();
+                UpdateActivityScreenController dsc = loader.getController();
 
-                dsc.setActivityTableRow(selection);
+                dsc.setActivityData(selection);
 
                 Scene nextScene = new Scene(detailsScreen);
 
@@ -90,25 +105,6 @@ public class ManageActivitiesScreenController {
         }
     }
 
-    public void updateActivity(ActionEvent event) {
-        try{
-        FXMLLoader loader = loaderFactory.load("/fxml/updateActivityScreen.fxml");
-
-        Parent updateActivityScreen = loader.load();
-        Scene nextScene = new Scene(updateActivityScreen);
-        UpdateActivityScreenController addActivityScreenController = loader.getController();
-        addActivityScreenController.setRequest(requestId);
-        addActivityScreenController.setActivity(activityService.findById(activitiesTabController.getCurrentSelection().getId().toString()));
-        Stage window = new Stage();
-
-        window.setScene(nextScene);
-        window.setResizable(false);
-        window.show();
-    }catch (IOException e){}
-
-    }
-
-
 
     public void setRequestId(String requestId) {
         this.requestId = requestId;
@@ -116,5 +112,13 @@ public class ManageActivitiesScreenController {
     }
 
 
+    @FXML
+    private void moveActivityUp(ActionEvent event) {
+        activitiesTabController.moveSelected(1);
+    }
 
+    @FXML
+    private void moveActivityDown(ActionEvent event) {
+        activitiesTabController.moveSelected(-1);
+    }
 }

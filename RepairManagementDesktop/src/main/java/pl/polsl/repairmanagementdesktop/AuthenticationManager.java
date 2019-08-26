@@ -1,5 +1,6 @@
 package pl.polsl.repairmanagementdesktop;
 
+import javafx.scene.control.Alert;
 import org.apache.juli.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,11 +12,13 @@ import org.springframework.security.oauth2.client.token.DefaultAccessTokenReques
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeEntity;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeService;
 import pl.polsl.repairmanagementdesktop.utils.ConfiguredClientFactory;
 
+import javax.annotation.Resource;
 import java.util.stream.Stream;
 
 @Component
@@ -88,6 +91,8 @@ public class AuthenticationManager {
             }
             } catch (HttpClientErrorException e){
                 throw new LoginException("Wrong username or password.");
+            } catch (ResourceAccessException e){
+                throw new LoginException("Can't connect to the server.");
             }
 
 

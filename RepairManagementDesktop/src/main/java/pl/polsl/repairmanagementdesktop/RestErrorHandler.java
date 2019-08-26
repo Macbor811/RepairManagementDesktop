@@ -51,11 +51,14 @@ public class RestErrorHandler extends DefaultResponseErrorHandler {
 
             errorAlert.setContentText(builder.toString());
         } else if (response.getStatusCode() == HttpStatus.NOT_FOUND){
+            if (body.length() == 0){
+                return;
+            }
             errorAlert.setContentText("Can't connect to the server.");
         } else {
             errorAlert.setContentText(body);
         }
-        errorAlert.showAndWait();
+        errorAlert.show();
 
     }
 }

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="232.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.UpdateUserDataScreenController">
+   <children>
+      <Label layoutX="35.0" layoutY="40.0" text="Update user data">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <GridPane alignment="CENTER" layoutX="71.0" prefHeight="160.0" prefWidth="319.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="211.0" minWidth="10.0" prefWidth="96.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="307.0" minWidth="10.0" prefWidth="223.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Label layoutX="25.0" layoutY="95.0" text="Role:" visible="false" GridPane.halignment="RIGHT" />
+            <Label layoutX="80.0" layoutY="94.0" text="Username:" visible="false" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+            <Label layoutX="10.0" layoutY="121.0" text="Password:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+            <TextField fx:id="usernameTextField" layoutX="116.0" layoutY="90.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </TextField>
+            <ChoiceBox fx:id="roleChoiceBox" prefHeight="25.0" prefWidth="88.0" visible="false" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </ChoiceBox>
+            <PasswordField fx:id="passwordField" promptText="Enter new value if update needed" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </PasswordField>
+            <Label text="Deactivation date:" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+            <DatePicker fx:id="deactivationDatePicker" prefHeight="25.0" prefWidth="115.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </DatePicker>
+         </children>
+      </GridPane>
+      <Button fx:id="updateEmployeeButton" layoutX="390.0" layoutY="186.0" mnemonicParsing="false" onAction="#updateEmployeeButtonClicked" text="Update" />
+      <Button fx:id="cancelEmployeeButton" layoutX="29.0" layoutY="186.0" mnemonicParsing="false" onAction="#cancelButtonClicked" text="Cancel" />
+      <Label fx:id="messageLabel" layoutX="216.0" layoutY="555.0" />
+   </children>
+</Pane>

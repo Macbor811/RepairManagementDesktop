@@ -26,6 +26,8 @@ public class CustomersTabController extends TabController<CustomerEntity, Custom
 
 
     @FXML
+    private Button updateButton;
+    @FXML
     private TextField idTextField;
     @FXML
     private TextField firstNameTextField;
@@ -57,6 +59,7 @@ public class CustomersTabController extends TabController<CustomerEntity, Custom
 
     @Override
     protected void initTableView() {
+        bindDisableToSelection(updateButton);
         tableView.getColumns().clear();
 
         TableColumn<CustomerTableRow, String> idColumn = TableColumnFactory.createColumn("ID", "id");

@@ -34,7 +34,7 @@
             <items>
                 <Button fx:id="showActivityButton" mnemonicParsing="false" onAction="#showActivityButtonClicked" text="Show" />
             <Button fx:id="add" mnemonicParsing="false" onAction="#addActivity" text="Add" />
-            <Button fx:id="finalizeButton" mnemonicParsing="false" onAction="#finalizeActivity" text="Change status" />
+            <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateActivity" text="Change status" />
 
             </items>
         </ToolBar>

@@ -11,10 +11,15 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import pl.polsl.repairmanagementdesktop.CurrentUser;
 
+import java.io.IOException;
+
+
 @Scope("prototype")
 @Controller
 public class AdminMainScreenController {
 
+    @FXML
+    private  Button updateUserButton;
     @FXML
     private Button addUserButton;
     @FXML
@@ -26,8 +31,10 @@ public class AdminMainScreenController {
     }
 
     @FXML
-    private void updateUserButtonClicked(ActionEvent event){
-        employeesTabController.updateUser(event);
+    private void updateUserButtonClicked(ActionEvent event) throws IOException {
+        if(employeesTabController.updateUser(event)){
+            currentUser.signOut((Stage) addUserButton.getScene().getWindow());
+        }
     }
 
 
@@ -40,6 +47,9 @@ public class AdminMainScreenController {
     @FXML
     public void initialize(){
         employeesTabController.initView();
+
+        employeesTabController.bindDisableToSelection(updateUserButton);
+
         fileMenu.getItems().clear();
         var logoutItem = new MenuItem("Sign out");
         fileMenu.getItems().add(logoutItem);

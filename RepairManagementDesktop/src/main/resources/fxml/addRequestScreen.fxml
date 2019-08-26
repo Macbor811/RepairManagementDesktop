@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.AddRequestScreenController">
    <children>
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="609.0" prefWidth="460.0">
@@ -23,7 +22,7 @@
             </Label>
             <Button fx:id="addRequestButton" layoutX="389.0" layoutY="563.0" mnemonicParsing="false" onAction="#addRequestButtonClicked" text="Add" />
             <Button fx:id="cancelButton" layoutX="34.0" layoutY="563.0" mnemonicParsing="false" onAction="#cancelButtonClicked" text="Cancel" />
-            <Label fx:id="messageLabel" layoutX="216.0" layoutY="555.0" />
+            <Label fx:id="messageLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="94.0" layoutY="567.0" prefHeight="17.0" prefWidth="274.0" />
             <GridPane alignment="CENTER" layoutX="44.0" layoutY="97.0" prefHeight="84.0" prefWidth="319.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="211.0" minWidth="10.0" prefWidth="96.0" />

@@ -3,10 +3,12 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="531.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.ManageActivitiesScreenController">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="531.0" prefWidth="1082.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.polsl.repairmanagementdesktop.controllers.ManageActivitiesScreenController">
     <children>
         <fx:include fx:id="activitiesTab" source="activitiesTab.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Button layoutX="67.0" layoutY="2.0" mnemonicParsing="false" onAction="#addActivity" text="Add" AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="8.0" />
-      <Button fx:id="finalizeButton" layoutX="121.0" layoutY="8.0" mnemonicParsing="false" onAction="#finalizeActivity" text="Change status" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="8.0" />
+      <Button fx:id="updateButton" layoutX="121.0" layoutY="8.0" mnemonicParsing="false" onAction="#updateActivity" text="Update" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="8.0" />
+      <Button fx:id="upButton" layoutX="860.0" layoutY="8.0" mnemonicParsing="false" onAction="#moveActivityUp" text="Up" AnchorPane.rightAnchor="118.0" AnchorPane.topAnchor="8.0" />
+      <Button fx:id="downButton" layoutX="913.0" layoutY="8.0" mnemonicParsing="false" onAction="#moveActivityDown" text="Down" AnchorPane.rightAnchor="65.0" AnchorPane.topAnchor="8.0" />
     </children>
 </AnchorPane>

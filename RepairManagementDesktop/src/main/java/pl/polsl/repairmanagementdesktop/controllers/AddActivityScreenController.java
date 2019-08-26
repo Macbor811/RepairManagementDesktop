@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityEntity;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityService;
+import pl.polsl.repairmanagementdesktop.model.activity.ActivityStatus;
 import pl.polsl.repairmanagementdesktop.model.activitytype.ActivityTypeEntity;
 import pl.polsl.repairmanagementdesktop.model.activitytype.ActivityTypeService;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerEntity;
@@ -42,19 +43,14 @@ public class AddActivityScreenController {
     @FXML
 	private Button selectWorkerButton;
 	@FXML
-	private Button selectRequestButton;
-	@FXML
 	private Button addActivityButton;
 	@FXML
 	private Button cancelActivityButton;
 	@FXML
 	private Label currentWorkerSelectionLabel;
-	@FXML
-	private Label currentRequestSelectionLabel;
+
 	@FXML
 	private Label messageLabel;
-	@FXML
-	private TextField sequenceNumberTextField;
 
 	@FXML
 	private ListView activityTypeListView;
@@ -79,7 +75,7 @@ public class AddActivityScreenController {
 		this.fxmlLoaderFactory = fxmlLoaderFactory;
 		this.requestService = requestService;
 		this.employeeService = employeeService;
-		this.activityTypeService=activityTypeService;
+		this.activityTypeService = activityTypeService;
 		this.activityService = activityService;
 
 		//prepare customer selection screen
@@ -110,15 +106,14 @@ public class AddActivityScreenController {
 	}
 
 	private void initActivityTypeListView(){
+		//extract ID from URI
 		ObservableList<String> activityTypes = FXCollections
 				.observableList(
 						activityTypeService
 								.findAll(0, Integer.MAX_VALUE)
 								.getResources()
 								.stream()
-								.map(entity -> {
-									return entity.getType(); //extract ID from URI
-								})
+								.map(ActivityTypeEntity::getType)
 								.collect(Collectors.toList())
 				);
 
@@ -132,27 +127,6 @@ public class AddActivityScreenController {
 	}
 
 
-	@FXML
-	private void selectRequestButtonClicked(ActionEvent event) throws IOException {
-
-		Scene scene = ((Node) event.getSource()).getScene();
-		Stage thisWindow = (Stage) scene.getWindow();
-
-		Stage window = new Stage();
-
-
-		window.setScene(selectRequestScene);
-		window.setResizable(false);
-		thisWindow.hide();
-		window.showAndWait(); //wait for results from SelectCustomerScreen
-		thisWindow.show();
-
-		requestTableRow = selectRequestScreenController.getCurrentSelection();
-		if (requestTableRow != null) {
-			currentRequestSelectionLabel.setText(requestTableRow.getId());
-		}
-
-	}
 	@FXML
 	private void selectWorkerButtonClicked(ActionEvent event) throws IOException {
 
@@ -177,14 +151,19 @@ public class AddActivityScreenController {
 
 	@FXML
 	private void addActivityButtonClicked(ActionEvent event) {
-		EmployeeEntity employee = employeeService.findById(employeeTableRow.getId());
-		RequestEntity request = requestService.findById(requestTableRow.getId());
+		EmployeeEntity employee = employeeTableRow != null ? employeeService.findById(employeeTableRow.getId()) : null;
+		RequestEntity request = requestService.findById(requestTableRow.getId().toString());
 		ActivityTypeEntity type = activityTypeService.findByType((String) activityTypeListView.getSelectionModel().getSelectedItem());
 
-		ActivityEntity activity = new ActivityEntity(Integer.parseInt(sequenceNumberTextField.getText()),descriptionTextArea.getText(),"","Open"
-				,request.getRegisterDate(),request.getEndDate(),type,request,employee);
+		ActivityEntity activity = new ActivityEntity(null,
+				descriptionTextArea.getText(),
+				"",
+				employee != null ? ActivityStatus.IN_PROGRESS.toString() : ActivityStatus.OPEN.toString(),
+				request.getRegisterDate(),
+				request.getEndDate(),
+				type,request,employee
+		);
 
-		//request.getActivities().add(activity);
 		activityService.save(activity);
 
 
@@ -202,9 +181,6 @@ public class AddActivityScreenController {
 
 	public void setRequest(String requestId) {
 		this.requestTableRow =new RequestTableRow( requestService.findById(requestId));
-		if (requestTableRow != null) {
-			currentRequestSelectionLabel.setText(requestTableRow.getId());
-		}
 	}
 
 }

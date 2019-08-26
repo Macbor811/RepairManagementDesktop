@@ -89,6 +89,7 @@ public class CurrentUser {
         id = null;
         username = null;
         password = null;
+        basicAuth = null;
         role = null;
 
         try {

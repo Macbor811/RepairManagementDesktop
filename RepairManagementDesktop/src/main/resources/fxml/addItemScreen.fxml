@@ -75,7 +75,7 @@
       </GridPane>
       <Button layoutX="35.0" layoutY="563.0" mnemonicParsing="false" onAction="#cancelButtonClicked" text="Cancel" />
       <Button layoutX="389.0" layoutY="563.0" mnemonicParsing="false" onAction="#addItemButtonClicked" text="Add" />
-      <Label fx:id="messageLabel" layoutX="226.0" layoutY="565.0" />
+      <Label fx:id="messageLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="92.0" layoutY="567.0" prefHeight="17.0" prefWidth="276.0" />
 
    </children>
 </Pane>

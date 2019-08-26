@@ -1,6 +1,7 @@
 package pl.polsl.repairmanagementdesktop.model.employee;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -20,13 +21,14 @@ public class EmployeeService implements pl.polsl.repairmanagementdesktop.abstr.S
 
 
     private final Client<EmployeeEntity> client;
+    private final Client<EmployeeEntity> clientNoHandler;
     private final RestTemplate template;
     private final CurrentUser currentUser;
 
     @Autowired
-    public EmployeeService(ClientFactory factory, CurrentUser user){
-
+    public EmployeeService(ClientFactory factory, @Qualifier("noHandler") ClientFactory noHandlerFactory, CurrentUser user){
         client = factory.create(EmployeeEntity.class);
+        clientNoHandler = noHandlerFactory.create(EmployeeEntity.class);
         template = new RestTemplate();
         this.currentUser = user;
         template.getInterceptors().add((request, body, execution) -> {
@@ -45,14 +47,12 @@ public class EmployeeService implements pl.polsl.repairmanagementdesktop.abstr.S
     }
 
     public Page<EmployeeEntity> findAll(int page, int size){
-
-
-        return client.getPage(page, size);
+        return clientNoHandler.getPage(page, size);
     }
 
     public Page<EmployeeEntity> findAllMatching(SearchQuery query, int page, int size){
         URI uri = UriComponentsBuilder.fromUri(client.getBaseUri()).query(query.getQueryString()).build().toUri();
-        return client.getPage(uri, page, size);
+        return clientNoHandler.getPage(uri, page, size);
     }
 
     public List<String> findByFullName(String fullName, String role) {
@@ -67,5 +67,16 @@ public class EmployeeService implements pl.polsl.repairmanagementdesktop.abstr.S
                 String[].class
         );
         return Arrays.asList(strings);
+    }
+
+    public void update(URI uri, EmployeeUserDataDto data) {
+        template.put(
+                UriComponentsBuilder
+                        .fromUri(uri)
+                        .path("/update-user")
+                        .build()
+                        .toUri(),
+                data
+        );
     }
 }

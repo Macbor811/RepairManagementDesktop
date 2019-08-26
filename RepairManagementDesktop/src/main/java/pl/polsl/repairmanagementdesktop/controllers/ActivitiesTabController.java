@@ -1,6 +1,7 @@
 package pl.polsl.repairmanagementdesktop.controllers;
 
 import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +15,10 @@ import org.springframework.stereotype.Controller;
 import pl.polsl.repairmanagementdesktop.abstr.TabController;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityEntity;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityService;
+import pl.polsl.repairmanagementdesktop.model.activity.ActivityStatus;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityTableRow;
+import pl.polsl.repairmanagementdesktop.model.activitytype.ActivityTypeEntity;
+import pl.polsl.repairmanagementdesktop.model.activitytype.ActivityTypeService;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeService;
 import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;
 import pl.polsl.repairmanagementdesktop.utils.TableColumnFactory;
@@ -23,13 +27,19 @@ import pl.polsl.repairmanagementdesktop.utils.search.*;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.StringJoiner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Scope("prototype")
 @Controller
 public class ActivitiesTabController extends TabController<ActivityEntity, ActivityTableRow>{
 
+    @FXML
+    private Button clearWorkerButton;
     @FXML
     private MenuButton statusMenuButton;
     @FXML
@@ -46,30 +56,33 @@ public class ActivitiesTabController extends TabController<ActivityEntity, Activ
     private TextField descriptionTextField;
     @FXML
     private TextField workerTextField;
+    @FXML
+    private ComboBox<ActivityTypeEntity> typeComboBox;
 
 
     private final ActivityService activityService;
+    private final ActivityTypeService activityTypeService;
 
     private final EmployeeService employeeService;
 
     private final LoaderFactory loaderFactory;
 
     @Autowired
-    public ActivitiesTabController(ActivityService activityService, EmployeeService employeeService, LoaderFactory loaderFactory) {
+    public ActivitiesTabController(ActivityService activityService, ActivityTypeService activityTypeService, EmployeeService employeeService, LoaderFactory loaderFactory) {
         super(activityService, ActivityTableRow::new);
         this.activityService = activityService;
+        this.activityTypeService = activityTypeService;
         this.employeeService = employeeService;
         this.loaderFactory = loaderFactory;
     }
 
-
-    @Override
-    protected void initTableView() {
-        tableView.getColumns().clear();
+    private Boolean workerMode = false;
 
 
+    private  void commonColumns(){
         TableColumn<ActivityTableRow, Integer> sequenceNumColumn = TableColumnFactory.createColumn("Seq. no", "sequenceNum");
         TableColumn<ActivityTableRow, Integer> idColumn = TableColumnFactory.createColumn("ID", "id");
+        TableColumn<ActivityTableRow, String> typeColumn = TableColumnFactory.createColumn("Type", "type");
         TableColumn<ActivityTableRow, String> registeredDateColumn = TableColumnFactory.createColumn("Registered Date", "registeredDate");
         registeredDateColumn.setPrefWidth(115);
         TableColumn<ActivityTableRow, String> statusColumn = TableColumnFactory.createColumn("Status", "status");
@@ -79,20 +92,28 @@ public class ActivitiesTabController extends TabController<ActivityEntity, Activ
         descriptionColumn.setPrefWidth(130);
         TableColumn<ActivityTableRow, String> resultColumn = TableColumnFactory.createColumn("Result", "result");
         resultColumn.setPrefWidth(130);
-        TableColumn<ActivityTableRow, String> workerColumn = TableColumnFactory.createColumn("Worker", "worker");
-        workerColumn.setPrefWidth(130);
-
         tableView.getColumns().addAll(
                 sequenceNumColumn,
                 idColumn,
+                typeColumn,
                 registeredDateColumn,
                 statusColumn,
                 finalizedDateColumn,
                 descriptionColumn,
-                resultColumn,
-                workerColumn
-
+                resultColumn
         );
+    }
+
+    @Override
+    protected void initTableView() {
+        tableView.getColumns().clear();
+
+        commonColumns();
+        if (!workerMode) {
+            TableColumn<ActivityTableRow, String> workerColumn = TableColumnFactory.createColumn("Worker", "worker");
+            workerColumn.setPrefWidth(130);
+            tableView.getColumns().add(workerColumn);
+        }
 
         for (var column : tableView.getColumns()) {
             column.setStyle("-fx-alignment: CENTER;");
@@ -108,19 +129,10 @@ public class ActivitiesTabController extends TabController<ActivityEntity, Activ
         workerId = "";
     }
 
-    @Override
-    protected void initQueryFields() {
+    private String typeId = "";
 
-        idTextField.setTextFormatter(TextFieldUtils.numericTextFormatter());
 
-        statusMenuButton.getItems().addAll(
-                new CheckMenuItem("OPN"),
-                new CheckMenuItem("PRO"),
-                new CheckMenuItem("FIN"),
-                new CheckMenuItem("CAN")
-        );
-        statusMenuButton.setOnHidden(e -> onStatusesUpdate());
-
+    private void commonBindings(){
         uriSearchQuery.getBindings().addAll(
                 Arrays.asList(
                         new TextFieldParamBinding(idTextField, "id"),
@@ -129,23 +141,64 @@ public class ActivitiesTabController extends TabController<ActivityEntity, Activ
                         new TextFieldParamBinding(descriptionTextField, "description"),
                         new TextFieldParamBinding(resultTextField, "result"),
                         new ConstantParamBinding("sort", "sequenceNum,asc"),
-                        new SupplierBasedParamBinding("worker.id", () -> workerId),
-                        new CheckMenuParamBinding(statusMenuButton, "status")
+                        new CheckMenuParamBinding(statusMenuButton, "status"),
+                        new SupplierBasedParamBinding("activityType.id", () -> typeId)
                 )
         );
+    }
 
-        var customerAutoCompletion = new AutoCompletionTextFieldBinding<>(workerTextField, t -> employeeService.findByFullName(t.getUserText(), "wrk"));
-        customerAutoCompletion.setOnAutoCompleted(t -> {
-            workerId = t.getCompletion().substring(t.getCompletion().lastIndexOf("; ") + 1);
-            workerTextField.setEditable(false);
+    @Override
+    protected void initQueryFields() {
+
+        idTextField.setTextFormatter(TextFieldUtils.numericTextFormatter());
+        final var dummy = new ActivityTypeEntity();
+        typeComboBox.getItems().add(dummy);
+        typeComboBox.getItems().addAll(FXCollections
+                .observableList(
+                        activityTypeService
+                                .findAll(0, Integer.MAX_VALUE)
+                                .getResources()
+                ));
+
+        typeComboBox.setOnAction(e -> {
+            var selection = typeComboBox.getSelectionModel().getSelectedItem();
+            if (selection!= null && selection != dummy) {
+                if (selection.getUri() == null){
+                    typeComboBox.getSelectionModel().clearSelection();
+                    typeId = "";
+                }
+                var uriString = selection.getUri().toString();
+                typeId =  uriString.substring(uriString.lastIndexOf("/") + 1);
+            } else {
+                typeId =  "";
+            }
         });
+
+        statusMenuButton.getItems().addAll(
+                Stream.of(ActivityStatus.values()).map(status -> new CheckMenuItem(status.toString())).collect(Collectors.toList())
+        );
+        statusMenuButton.setOnHidden(e -> onStatusesUpdate());
+
+        commonBindings();
+        if (!workerMode){
+            uriSearchQuery.getBindings().add(
+                    new SupplierBasedParamBinding("worker.id", () -> workerId)
+            );
+            var workerAutoCompletion = new AutoCompletionTextFieldBinding<>(workerTextField, t -> employeeService.findByFullName(t.getUserText(), "wrk"));
+            workerAutoCompletion.setOnAutoCompleted(t -> {
+                workerId = t.getCompletion().substring(t.getCompletion().lastIndexOf("; ") + 1);
+                workerTextField.setEditable(false);
+            });
+        } else {
+            workerTextField.setVisible(false);
+            clearWorkerButton.setVisible(false);
+        }
 
     }
 
 
-
-
-    public void addActivity(ActionEvent event) throws IOException  {
+    @FXML
+    private void addActivity(ActionEvent event) throws IOException  {
         FXMLLoader loader = loaderFactory.load("/fxml/addActivityScreen.fxml");
 
         Parent addActivityScreen = loader.load();
@@ -159,18 +212,17 @@ public class ActivitiesTabController extends TabController<ActivityEntity, Activ
         window.show();
     }
 
-    public void finalizeActivity(ActionEvent event){
+    public void updateActivity(ActionEvent event){
         ActivityTableRow selection = tableView.getSelectionModel().getSelectedItem();
-
         if (selection != null){
             try
             {
-                FXMLLoader loader = loaderFactory.load("/fxml/finalizeActivityScreen.fxml");
+                FXMLLoader loader = loaderFactory.load("/fxml/updateActivityScreen.fxml");
 
                 Parent detailsScreen = loader.load();
-                FinalizeActivityScreenController dsc = loader.getController();
+                UpdateActivityScreenController dsc = loader.getController();
 
-                dsc.setActivityTableRow(selection);
+                dsc.setActivityData(selection);
 
                 Scene nextScene = new Scene(detailsScreen);
 
@@ -184,48 +236,6 @@ public class ActivitiesTabController extends TabController<ActivityEntity, Activ
             {}
         }
     }
-
-    public void updateActivity(ActionEvent event) {
-        try{
-            FXMLLoader loader = loaderFactory.load("/fxml/updateActivityScreen.fxml");
-
-            Parent updateActivityScreen = loader.load();
-            Scene nextScene = new Scene(updateActivityScreen);
-            UpdateActivityScreenController addActivityScreenController = loader.getController();
-            addActivityScreenController.setActivity(activityService.findById(getCurrentSelection().getId().toString()));
-            Stage window = new Stage();
-
-            window.setScene(nextScene);
-            window.setResizable(false);
-            window.show();
-        }catch (IOException e){}
-
-    }
-
-    public void showActivityDetails(ActionEvent event) {
-
-        try
-        {
-            FXMLLoader loader = loaderFactory.load("/fxml/detailsScreen.fxml");
-
-            Parent detailsScreen = loader.load();
-            DetailsScreenController dsc = loader.getController();
-            ActivityEntity ae = activityService.findById(getCurrentSelection().getId().toString());
-            dsc.setText(ae.getDescription(),ae.getResult());
-            Scene nextScene = new Scene(detailsScreen);
-
-            Stage window = new Stage();
-
-            window.setScene(nextScene);
-            window.setResizable(false);
-            window.show();
-        }
-        catch (IOException e){
-
-        }
-    }
-
-
 
 
     @FXML
@@ -249,5 +259,28 @@ public class ActivitiesTabController extends TabController<ActivityEntity, Activ
             }
         }
         selectedStatusesLabel.setText(joiner.toString());
+    }
+
+    public TableView<ActivityTableRow> getTableView(){
+        return tableView;
+    }
+
+    public void moveSelected(Integer increment){
+        int index = tableView.getSelectionModel().getSelectedIndex();
+        var moved = tableView.getSelectionModel().getSelectedItem();
+        var other = tableView.getItems().get(index - increment);
+        moved.reorder(-increment);
+        other.reorder(increment);
+        // swap items
+        tableView.getItems().add(index-increment, tableView.getItems().remove(index));
+        // select item at new position
+        tableView.getSelectionModel().clearAndSelect(index-increment);
+        activityService.reorder(moved.getId().toString(), -increment);
+        activityService.reorder(other.getId().toString(), increment);
+    }
+
+
+    public void setWorkerMode(Boolean workerMode) {
+        this.workerMode = workerMode;
     }
 }
