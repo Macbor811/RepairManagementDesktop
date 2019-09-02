@@ -9,11 +9,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import pl.polsl.repairmanagementdesktop.CurrentUser;
+import pl.polsl.repairmanagementdesktop.utils.auth.CurrentUser;
 
 import java.io.IOException;
 

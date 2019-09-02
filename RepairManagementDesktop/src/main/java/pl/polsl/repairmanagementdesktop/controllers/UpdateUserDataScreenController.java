@@ -5,12 +5,10 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.stage.Window;
-import org.controlsfx.control.textfield.TextFields;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import pl.polsl.repairmanagementdesktop.CurrentUser;
+import pl.polsl.repairmanagementdesktop.utils.auth.CurrentUser;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeEntity;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeRole;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeService;
@@ -83,17 +81,15 @@ public class UpdateUserDataScreenController{
     private void updateEmployeeButtonClicked(ActionEvent event) {
         var data = new EmployeeUserDataDto(
                 deactivationDatePicker.getValue() != null ? deactivationDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant() : null,
-                usernameTextField.getText(),
-                passwordField.getText(),
-                roleChoiceBox.getSelectionModel().getSelectedItem().toString()
+                passwordField.getText()
         );
         employeeService.update(employee.getUri(), data);
 
-//        if (currentUser.getUsername().equals(employee.getUsername())){
-//            currentUser.signOut(mainWindow);
-//        } else {
+        if (employee.getUsername().equals(currentUser.getUsername())){
+            currentUser.signOut(mainWindow);
+        } else{
             cancelButtonClicked(event);
-       // }
+        }
     }
 
 

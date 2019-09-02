@@ -1,4 +1,4 @@
-package pl.polsl.repairmanagementdesktop;
+package pl.polsl.repairmanagementdesktop.utils.auth;
 
 public class UserData{
 

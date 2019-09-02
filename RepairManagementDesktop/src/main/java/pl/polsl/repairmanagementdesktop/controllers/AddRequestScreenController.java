@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import pl.polsl.repairmanagementdesktop.CurrentUser;
+import pl.polsl.repairmanagementdesktop.utils.auth.CurrentUser;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeEntity;
 import pl.polsl.repairmanagementdesktop.model.employee.EmployeeService;
 import pl.polsl.repairmanagementdesktop.model.item.ItemEntity;

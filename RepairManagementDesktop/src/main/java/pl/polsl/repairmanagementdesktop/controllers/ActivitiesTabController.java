@@ -147,11 +147,11 @@ public class ActivitiesTabController extends TabController<ActivityEntity, Activ
         );
     }
 
-    @Override
-    protected void initQueryFields() {
+    private final ActivityTypeEntity dummy = new ActivityTypeEntity();
 
-        idTextField.setTextFormatter(TextFieldUtils.numericTextFormatter());
-        final var dummy = new ActivityTypeEntity();
+
+    private void initTypeComboBox(){
+        typeComboBox.getItems().clear();
         typeComboBox.getItems().add(dummy);
         typeComboBox.getItems().addAll(FXCollections
                 .observableList(
@@ -159,6 +159,13 @@ public class ActivitiesTabController extends TabController<ActivityEntity, Activ
                                 .findAll(0, Integer.MAX_VALUE)
                                 .getResources()
                 ));
+    }
+
+    @Override
+    protected void initQueryFields() {
+
+        idTextField.setTextFormatter(TextFieldUtils.numericTextFormatter());
+        initTypeComboBox();
 
         typeComboBox.setOnAction(e -> {
             var selection = typeComboBox.getSelectionModel().getSelectedItem();
@@ -197,19 +204,19 @@ public class ActivitiesTabController extends TabController<ActivityEntity, Activ
     }
 
 
-    @FXML
-    private void addActivity(ActionEvent event) throws IOException  {
+    public void addActivity(String requestId) throws IOException  {
         FXMLLoader loader = loaderFactory.load("/fxml/addActivityScreen.fxml");
 
         Parent addActivityScreen = loader.load();
-
         Scene nextScene = new Scene(addActivityScreen);
-
+        AddActivityScreenController addActivityScreenController = loader.getController();
+        addActivityScreenController.setRequest(requestId);
         Stage window = new Stage();
 
         window.setScene(nextScene);
         window.setResizable(false);
-        window.show();
+        window.showAndWait();
+        initTypeComboBox();
     }
 
     public void updateActivity(ActionEvent event){

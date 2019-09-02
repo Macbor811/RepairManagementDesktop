@@ -1,24 +1,13 @@
-package pl.polsl.repairmanagementdesktop;
+package pl.polsl.repairmanagementdesktop.utils.auth;
 
-import javafx.scene.control.Alert;
-import org.apache.juli.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
-import org.springframework.security.oauth2.client.OAuth2RestTemplate;
-import org.springframework.security.oauth2.client.token.DefaultAccessTokenRequest;
-import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
-import pl.polsl.repairmanagementdesktop.model.employee.EmployeeEntity;
-import pl.polsl.repairmanagementdesktop.model.employee.EmployeeService;
 import pl.polsl.repairmanagementdesktop.utils.ConfiguredClientFactory;
 
-import javax.annotation.Resource;
 import java.util.stream.Stream;
 
 @Component

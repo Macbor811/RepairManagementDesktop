@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import pl.polsl.repairmanagementdesktop.CurrentUser;
+import pl.polsl.repairmanagementdesktop.utils.auth.CurrentUser;
 import pl.polsl.repairmanagementdesktop.utils.search.SearchQuery;
 import uk.co.blackpepper.bowman.Client;
 import uk.co.blackpepper.bowman.ClientFactory;
@@ -13,7 +13,6 @@ import uk.co.blackpepper.bowman.Page;
 
 import java.net.URI;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 @Service

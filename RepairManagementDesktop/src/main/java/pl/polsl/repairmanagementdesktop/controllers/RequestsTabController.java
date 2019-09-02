@@ -11,7 +11,8 @@ import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
         import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.context.annotation.Scope;
         import org.springframework.stereotype.Controller;
-        import pl.polsl.repairmanagementdesktop.abstr.TabController;
+import pl.polsl.repairmanagementdesktop.utils.auth.CurrentUser;
+import pl.polsl.repairmanagementdesktop.abstr.TabController;
         import pl.polsl.repairmanagementdesktop.model.customer.CustomerService;
         import pl.polsl.repairmanagementdesktop.model.item.ItemService;
         import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
@@ -59,6 +60,8 @@ public class RequestsTabController extends TabController<RequestEntity, RequestT
     @FXML
     private MenuButton statusMenuButton;
 
+    @FXML
+    private final CurrentUser currentUser;
 
     SelectRequestScreenController selectRequestScreenController;
 
@@ -69,8 +72,9 @@ public class RequestsTabController extends TabController<RequestEntity, RequestT
     private final ItemService itemService;
 
     @Autowired
-    public RequestsTabController(RequestService requestService, LoaderFactory loaderFactory, CustomerService customerService, ItemService itemService) {
+    public RequestsTabController(CurrentUser currentUser, RequestService requestService, LoaderFactory loaderFactory, CustomerService customerService, ItemService itemService) {
         super(requestService, RequestTableRow::new);
+        this.currentUser = currentUser;
         this.requestService = requestService;
         this.loaderFactory = loaderFactory;
         this.customerService = customerService;
@@ -152,7 +156,8 @@ public class RequestsTabController extends TabController<RequestEntity, RequestT
                         new ConstantParamBinding("sort", "registerDate,desc"),
                         new SupplierBasedParamBinding("item.id", () -> itemId),
                         new SupplierBasedParamBinding("item.owner.id", () -> customerId),
-                        new CheckMenuParamBinding(statusMenuButton, "status")
+                        new CheckMenuParamBinding(statusMenuButton, "status")//,
+                        //new ConstantParamBinding("manager.id", currentUser.getId().toString())
                 )
         );
 

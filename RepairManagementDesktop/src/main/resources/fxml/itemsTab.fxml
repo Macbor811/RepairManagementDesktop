@@ -30,7 +30,7 @@
                 <items>
                     <Button fx:id="showCustomersButton1" mnemonicParsing="false" onAction="#showButtonClicked" text="Show" />
                     <Button fx:id="addItemButton" mnemonicParsing="false" onAction="#addItemButtonClicked" text="Add" />
-                    <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateItemsButtonClicked" text="Update" />
+                    <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateItemsButtonClicked" text="Update" visible="false" />
                 </items>
             </ToolBar>
             <Pagination fx:id="pagination" maxPageIndicatorCount="2" prefHeight="51.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />

@@ -65,17 +65,7 @@ public class ManageActivitiesScreenController {
 
     @FXML
     private void addActivity(ActionEvent event) throws IOException  {
-        FXMLLoader loader = loaderFactory.load("/fxml/addActivityScreen.fxml");
-
-        Parent addActivityScreen = loader.load();
-        Scene nextScene = new Scene(addActivityScreen);
-        AddActivityScreenController addActivityScreenController = loader.getController();
-        addActivityScreenController.setRequest(requestId);
-        Stage window = new Stage();
-
-        window.setScene(nextScene);
-        window.setResizable(false);
-        window.show();
+        activitiesTabController.addActivity(requestId);
     }
 
     @FXML

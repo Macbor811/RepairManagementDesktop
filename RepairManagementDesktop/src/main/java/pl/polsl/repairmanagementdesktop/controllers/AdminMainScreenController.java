@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import pl.polsl.repairmanagementdesktop.CurrentUser;
+import pl.polsl.repairmanagementdesktop.utils.auth.CurrentUser;
 
 import java.io.IOException;
 
@@ -32,9 +32,10 @@ public class AdminMainScreenController {
 
     @FXML
     private void updateUserButtonClicked(ActionEvent event) throws IOException {
-        if(employeesTabController.updateUser(event)){
-            currentUser.signOut((Stage) addUserButton.getScene().getWindow());
-        }
+        employeesTabController.updateUser(event);
+//        if(employeesTabController.updateUser(event)){
+//            currentUser.signOut((Stage) addUserButton.getScene().getWindow());
+//        }
     }
 
 

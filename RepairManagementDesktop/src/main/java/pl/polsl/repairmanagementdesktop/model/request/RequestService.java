@@ -1,21 +1,15 @@
 package pl.polsl.repairmanagementdesktop.model.request;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.client.ClientHttpRequestExecution;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import pl.polsl.repairmanagementdesktop.CurrentUser;
-import pl.polsl.repairmanagementdesktop.FinalizationData;
+import pl.polsl.repairmanagementdesktop.utils.auth.CurrentUser;
 import pl.polsl.repairmanagementdesktop.utils.search.SearchQuery;
 import uk.co.blackpepper.bowman.Client;
 import uk.co.blackpepper.bowman.ClientFactory;
 import uk.co.blackpepper.bowman.Page;
 
-import java.io.IOException;
 import java.net.URI;
 
 @Service

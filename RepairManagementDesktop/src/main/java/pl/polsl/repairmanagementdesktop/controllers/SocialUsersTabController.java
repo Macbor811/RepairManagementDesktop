@@ -52,8 +52,8 @@ public class SocialUsersTabController extends TabController<SocialUserEntity, So
         tableView.getColumns().clear();
 
         TableColumn<SocialUserTableRow, String> idColumn = TableColumnFactory.createColumn("ID", "id");
-        TableColumn<SocialUserTableRow, String> emailColumn = TableColumnFactory.createColumn("First name", "email");
-        TableColumn<SocialUserTableRow, String> providerColumn = TableColumnFactory.createColumn("Last name", "provider");
+        TableColumn<SocialUserTableRow, String> emailColumn = TableColumnFactory.createColumn("Email", "email");
+        TableColumn<SocialUserTableRow, String> providerColumn = TableColumnFactory.createColumn("Provider", "provider");
 
 
         tableView.getColumns().addAll(

@@ -2,7 +2,6 @@ package pl.polsl.repairmanagementdesktop.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -11,11 +10,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.client.HttpClientErrorException;
-import pl.polsl.repairmanagementdesktop.AuthenticationManager;
+import pl.polsl.repairmanagementdesktop.utils.auth.AuthenticationManager;
 
 import javafx.event.ActionEvent;
-import pl.polsl.repairmanagementdesktop.utils.ConfiguredClientFactory;
 import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;
 
 import java.io.IOException;

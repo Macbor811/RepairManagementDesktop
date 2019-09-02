@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import pl.polsl.repairmanagementdesktop.CustomerSelectedEvent;
 import pl.polsl.repairmanagementdesktop.model.customer.CustomerTableRow;
 
 @Scope("prototype")

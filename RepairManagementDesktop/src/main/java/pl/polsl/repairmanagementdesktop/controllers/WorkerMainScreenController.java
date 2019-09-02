@@ -10,7 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import pl.polsl.repairmanagementdesktop.CurrentUser;
+import pl.polsl.repairmanagementdesktop.utils.auth.CurrentUser;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityService;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityTableRow;
 import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;

@@ -1,4 +1,4 @@
-package pl.polsl.repairmanagementdesktop;
+package pl.polsl.repairmanagementdesktop.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.scene.control.Alert;

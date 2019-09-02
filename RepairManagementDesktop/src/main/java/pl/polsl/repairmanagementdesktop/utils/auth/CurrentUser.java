@@ -1,26 +1,20 @@
-package pl.polsl.repairmanagementdesktop;
+package pl.polsl.repairmanagementdesktop.utils.auth;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
-import pl.polsl.repairmanagementdesktop.model.employee.EmployeeEntity;
 import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;
 
 import java.io.IOException;
-import java.net.URI;
 import java.nio.charset.CharsetEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 public class CurrentUser {

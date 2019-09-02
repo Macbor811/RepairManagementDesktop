@@ -30,6 +30,7 @@ import pl.polsl.repairmanagementdesktop.model.request.RequestEntity;
 import pl.polsl.repairmanagementdesktop.model.request.RequestService;
 import pl.polsl.repairmanagementdesktop.model.request.RequestTableRow;
 import pl.polsl.repairmanagementdesktop.utils.LoaderFactory;
+import pl.polsl.repairmanagementdesktop.utils.TextFieldUtils;
 
 import java.io.IOException;
 import java.util.stream.Collectors;
@@ -48,6 +49,8 @@ public class AddActivityScreenController {
 	private Button cancelActivityButton;
 	@FXML
 	private Label currentWorkerSelectionLabel;
+	@FXML
+	private TextField addActivityTypeTextField;
 
 	@FXML
 	private Label messageLabel;
@@ -124,6 +127,7 @@ public class AddActivityScreenController {
 	@FXML
 	public void initialize(){
 		initActivityTypeListView();
+		TextFieldUtils.setMaxLength(addActivityTypeTextField, 50);
 	}
 
 
@@ -183,4 +187,15 @@ public class AddActivityScreenController {
 		this.requestTableRow =new RequestTableRow( requestService.findById(requestId));
 	}
 
+	public void addActivityTypeButtonClicked(ActionEvent event) {
+		var text = addActivityTypeTextField.getText();
+		if (text != null && !text.isEmpty()){
+			var entity = new ActivityTypeEntity();
+			entity.setType(text);
+			activityTypeService.save(entity);
+			activityTypeListView.getItems().clear();
+			initActivityTypeListView();
+		}
+
+	}
 }

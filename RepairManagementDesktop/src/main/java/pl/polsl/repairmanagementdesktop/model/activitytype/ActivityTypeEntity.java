@@ -2,6 +2,7 @@ package pl.polsl.repairmanagementdesktop.model.activitytype;
 
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import pl.polsl.repairmanagementdesktop.abstr.Entity;
 import pl.polsl.repairmanagementdesktop.model.activity.ActivityEntity;
 import uk.co.blackpepper.bowman.InlineAssociationDeserializer;
@@ -49,10 +50,15 @@ public class ActivityTypeEntity implements Entity {
         this.activities = activities;
     }
 
-
+    @JsonIgnore
     public Integer getId() {
-        String uriString = getUri().toString();
-        return Integer.parseInt(uriString.substring(uriString.lastIndexOf("/") + 1));
+        if (getUri() != null){
+            String uriString = getUri().toString();
+            return Integer.parseInt(uriString.substring(uriString.lastIndexOf("/") + 1));
+        } else {
+            return null;
+        }
+
 
     }
 

@@ -1,4 +1,4 @@
-package pl.polsl.repairmanagementdesktop;
+package pl.polsl.repairmanagementdesktop.model.request;
 
 public class FinalizationData {
     public String getResult() {
