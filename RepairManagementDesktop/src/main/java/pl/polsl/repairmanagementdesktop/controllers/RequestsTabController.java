@@ -156,8 +156,8 @@ public class RequestsTabController extends TabController<RequestEntity, RequestT
                         new ConstantParamBinding("sort", "registerDate,desc"),
                         new SupplierBasedParamBinding("item.id", () -> itemId),
                         new SupplierBasedParamBinding("item.owner.id", () -> customerId),
-                        new CheckMenuParamBinding(statusMenuButton, "status")//,
-                        //new ConstantParamBinding("manager.id", currentUser.getId().toString())
+                        new CheckMenuParamBinding(statusMenuButton, "status"),
+                        new ConstantParamBinding("manager.id", currentUser.getId().toString())
                 )
         );
 
